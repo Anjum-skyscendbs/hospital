@@ -8,47 +8,46 @@
             <form string="Patient">
 
                 <sheet>
-                    <h3>Patient Information</h3>
+                    <h2>Patient Registration</h2>
                     <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
                     <widget name="web_ribbon" title="Active" bg_color="bg-success" attrs="{'invisible': [('active', '=', False)]}"/>
-                    <group>
+
                         <group>
                             <field name="patient_name"/>
+                            <field name="patient_id"/>
                             <field name="age"/>
-                            <field name="active"/>
+                            <field name="active" invisible="true"/>
                             <field name="weight"/>
                             <field name="height"/>
-                        </group>
-                        <group>
-                            <field name="email"/>
+                            <field name="email" required="True"/>
                             <field name="phone_number" widget="phone"/>
                             <field name="address"/>
                             <field name="is_admitted"/>
-                            <field name="birthdate"/>
-                        </group>
-                    </group>
-                    <group>
-                        <field name="gender" widget="radio"/>
-                        <field name="is_admitted"/>
-                        <field name="Marital_status"/>
-                    </group>
-                    <notebook>
-                        <page string="Additional Information">
+                            <field name="birthdate" />
+                            <field name="gender" widget="radio"/>
+                            <field name="Marital_status"/>
                             <field name="notes"/>
                             <field name="diagnosis_notes"/>
-                            <field name="last_checkup_date"/>
+                            <field name="last_checkup_date" />
                             <field name="description"/>
-                            <field name="medical_history"/>
+                            <field name="medical_history" widget="html"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Additional Information">
+
                         </page>
+
                         <page string="Other Details">
-                            <field name="sign_in"/>
+                            <field name="sign_in" /> <!-- Assuming it's a datetime field -->
                             <field name="priority" widget="integer"/> <!-- Corrected widget attribute -->
+                            <field name="blood_group"/>
                         </page>
                     </notebook>
                 </sheet>
             </form>
         </field>
-    </record>
+    </record>>
 
     <!-- Tree view / List view of patient -->
     <record id="view_hospital_tree" model="ir.ui.view">
@@ -60,18 +59,14 @@
                 <field name="age"/>
                 <field name="birthdate"/>
                 <field name="gender" widget="radio"/>
+                <field name="medical_history" />
+                <field name="blood_group" />
+                <field name="patient_id" />
             </tree>
         </field>
     </record>
 
     <!-- Action of Hospital -->
-    <record id="action_patient" model="ir.actions.act_window">
-        <field name="name">Patient</field>
-        <field name="res_model">hospital.patient</field>
-        <field name="view_mode">tree,form</field>
-    </record>
-
-    <!-- Include Action in the module's data section -->
     <record id="action_patient" model="ir.actions.act_window">
         <field name="name">Patient</field>
         <field name="res_model">hospital.patient</field>

@@ -4,14 +4,15 @@ class Patient(models.Model):
     _name = 'hospital.patient'
     _description = 'Hospital Patient'
 
-    patient_name = fields.Char(string='Name', required=True, translate=True)  # Changed field name to follow Python naming conventions
+    patient_name = fields.Char(string='Name', required=True, translate=True)
+    patient_id=fields.Integer(string='patient_id')
     age = fields.Integer(string='Age')
     active = fields.Boolean('Active', help='This field is used to activate or deactivate a record', default=True)
     weight = fields.Float(string='Weight (kg)')
-    height = fields.Float(string='Height')
+    height = fields.Float(string='Height (ft)')
 
     email = fields.Char('Email')
-    phone_number = fields.Char(string='Phone Number',size=10)
+    phone_number = fields.Char(string='Phone Number', size=10)
     address = fields.Char('Address')
     is_admitted = fields.Boolean(string='Admitted')
     birthdate = fields.Date('Birthdate')
@@ -27,3 +28,9 @@ class Patient(models.Model):
     medical_history = fields.Text(string='Medical History')
     sign_in = fields.Float('Sign In')
     priority = fields.Selection([(str(ele), str(ele)) for ele in range(6)], 'Priority')
+    blood_group = fields.Selection([
+        ('A', 'A'),
+        ('B', 'B'),
+        ('AB', 'AB'),
+        ('O', 'O'),
+    ], string='Blood Group')
