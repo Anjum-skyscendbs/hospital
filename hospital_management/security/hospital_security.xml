@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--  Group for hospital Admin -->
+    <record id="group_hospital_admin" model="res.groups">
+        <field name="name">Hospital Management</field>
+    </record>
+
+    <!--  Group for hospital User -->
+    <record id="group_hospital_user" model="res.groups">
+        <field name="name">Hospital User</field>
+    </record>
+
+</odoo>
+
