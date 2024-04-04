@@ -6,6 +6,9 @@
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
             <form string="Patient">
+             <header>
+                    <h1>Fill the Form</h1>
+                </header>
 
                 <sheet>
                     <h2>Patient Registration</h2>
@@ -28,16 +31,17 @@
                             <field name="blood_group" placeholder="Enter your Blood Group"/>
                             <field name="weight" placeholder="Enter your Weight"/>
                             <field name="height" placeholder="Enter your Height"/>
-                            <field name="hospital_name" placeholder="Enter hospital name"/>
-                            <field name="phone_number" placeholder="Enter your phone number" widget="phone"/>
-                            <field name="password"  placeholder="Enter your password" password="*"/>
-                            <field name="address" placeholder="Enter your Address"/>
                         </group>
                     </div>
 
 
                     <div class="col col-md-6">
                         <group>
+                            <field name="hospital_name" maxlength='4' placeholder="Enter hospital name"/>
+                            <field name="phone_number" placeholder="Enter your phone number" widget="phone"/>
+                            <field name="password"  placeholder="Enter your password" password="*"/>
+                            <field name="address" placeholder="Enter your Address"/>
+
                             <field name="is_admitted" />
                             <field name="Marital_status" placeholder="Select your Marital status" status="*"/>
                             <field name="diagnosis_notes" placeholder="Enter your diagnosis notes"/>
@@ -50,12 +54,16 @@
                     </div>
                     </div>
 
+                 <separator string="additional information"/>
+                    <field name="additional_information"/>
+
+
                     <notebook>
-                        <page name="pg_additional information" string="Additional Information">
+                        <page name="additional_information" string="Additional Information">
                             <field name="additional_information"/>
                         </page>
 
-                        <page name="pg_Other details" string="Other details">
+                        <page name="sign_in" string="Other details">
                             <field name="sign_in"/>
                         </page>
 
@@ -64,7 +72,7 @@
                 </sheet>
 
                 <footer>
-                    <h1>This is the Footer....</h1>
+                    <h1>Copyright 2024</h1>
                 </footer>
             </form>
         </field>
