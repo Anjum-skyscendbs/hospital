@@ -9,45 +9,67 @@
 
                 <sheet>
                     <h2>Patient Registration</h2>
-                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
-                    <widget name="web_ribbon" title="Active" bg_color="bg-success" attrs="{'invisible': [('active', '=', False)]}"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                            attrs="{'invisible': [('active', '=', True)]}"/>
+                    <widget name="web_ribbon" title="Active" bg_color="bg-success"
+                            attrs="{'invisible': [('active', '=', False)]}"/>
 
+                    <div class="row">
+                    <div class="col col-md-6">
                         <group>
-                            <field name="patient_name"/>
-                            <field name="patient_id"/>
-                            <field name="age"/>
+                            <field name="patient_name" placeholder="Enter your name"/>
+                            <field name="patient_id" placeholder="Enter your Id"/>
+                            <field name="email" placeholder="Enter your email" required="True"/>
+                            <field name="birthdate" placeholder="Enter your birthdate"/>
+                            <field name="age" placeholder="Enter your age"/>
+                            <field name="gender"  placeholder="select the Gender" widget="radio"/>
                             <field name="active" invisible="true"/>
-                            <field name="weight"/>
-                            <field name="height"/>
-                            <field name="email" required="True"/>
-                            <field name="phone_number" widget="phone"/>
-                            <field name="address"/>
-                            <field name="is_admitted"/>
-                            <field name="birthdate" />
-                            <field name="gender" widget="radio"/>
-                            <field name="Marital_status"/>
-                            <field name="notes"/>
-                            <field name="diagnosis_notes"/>
-                            <field name="last_checkup_date" />
-                            <field name="description"/>
-                            <field name="medical_history" widget="html"/>
-                    </group>
+                            <field name="active"/>
+                            <field name="blood_group" placeholder="Enter your Blood Group"/>
+                            <field name="weight" placeholder="Enter your Weight"/>
+                            <field name="height" placeholder="Enter your Height"/>
+                            <field name="hospital_name" placeholder="Enter hospital name"/>
+                            <field name="phone_number" placeholder="Enter your phone number" widget="phone"/>
+                            <field name="password"  placeholder="Enter your password" password="*"/>
+                            <field name="address" placeholder="Enter your Address"/>
+                        </group>
+                    </div>
+
+
+                    <div class="col col-md-6">
+                        <group>
+                            <field name="is_admitted" />
+                            <field name="Marital_status" placeholder="Select your Marital status" status="*"/>
+                            <field name="diagnosis_notes" placeholder="Enter your diagnosis notes"/>
+                            <field name="checkup_date" placeholder="Enter your Checkup date"/>
+                            <field name="priority" widget="priority"/>
+                            <field name="description" placeholder="Enter your description"/>
+                            <field name="medical_history" placeholder="Enter your Medical History" widget="html"/>
+
+                        </group>
+                    </div>
+                    </div>
 
                     <notebook>
-                        <page string="Additional Information">
-
+                        <page name="pg_additional information" string="Additional Information">
+                            <field name="additional_information"/>
                         </page>
 
-                        <page string="Other Details">
-                            <field name="sign_in" /> <!-- Assuming it's a datetime field -->
-                            <field name="priority" widget="integer"/> <!-- Corrected widget attribute -->
-                            <field name="blood_group"/>
+                        <page name="pg_Other details" string="Other details">
+                            <field name="sign_in"/>
                         </page>
+
                     </notebook>
+
                 </sheet>
+
+                <footer>
+                    <h1>This is the Footer....</h1>
+                </footer>
             </form>
         </field>
-    </record>>
+    </record>
+    >
 
     <!-- Tree view / List view of patient -->
     <record id="view_hospital_tree" model="ir.ui.view">
@@ -55,13 +77,14 @@
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="patient_id"/>
                 <field name="patient_name"/>
                 <field name="age"/>
                 <field name="birthdate"/>
+                <field name="active"/>
                 <field name="gender" widget="radio"/>
-                <field name="medical_history" />
-                <field name="blood_group" />
-                <field name="patient_id" />
+                <field name="medical_history"/>
+                <field name="blood_group"/>
             </tree>
         </field>
     </record>
@@ -77,7 +100,7 @@
     <menuitem id="menu_hospital" name="Hospital"/>
 
     <!-- Main Menu of patient -->
-    <menuitem id="menu_patient" name="Patients" parent="menu_hospital"/>
+    <menuitem id="menu_patient" name="Patient" parent="menu_hospital"/>
 
     <!-- Menu of patient -->
     <menuitem id="menu_patient_patient" action="action_patient" parent="menu_patient"/>
