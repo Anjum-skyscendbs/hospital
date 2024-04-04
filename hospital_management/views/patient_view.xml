@@ -24,10 +24,10 @@
                     <div class="row">
                         <div class="col col-md-6">
                             <group>
-<!--                                <label for="patient_name"/>-->
                                 <field name="patient_name" placeholder="Enter your name"/>
+                                <field name="patient_id" placeholder="Enter your Id" invisible="false"/>
+                                <!-- invisible is use for hidden the patient_id from user -->
 
-                                <field name="patient_id" placeholder="Enter your Id" invisible="True"/>
                                 <field name="email" widget="email" placeholder="Enter your email" required="True"/>
                                 <field name="birthdate" placeholder="Enter your birthdate"/>
                                 <field name="age" placeholder="Enter your age"/>
@@ -48,7 +48,7 @@
                                 <field name="phone_number"  placeholder="Enter your phone number" widget="phone"/>
                                 <field name="password" placeholder="Enter your password" password="*"/>
                                 <field name="address" placeholder="Enter your Address"/>
-                                <field name="website" widget="url" placeholder="Enter valid url"/>
+                                <field name="url" string="Website" widget="url"/>
                                 <field name="is_admitted"/>
                                 <field name="Marital_status" placeholder="Select your Marital status" status="*"/>
                                 <field name="diagnosis_notes" placeholder="Enter your diagnosis notes"/>
@@ -56,6 +56,7 @@
                                 <field name="priority" widget="priority"/>
                                 <field name="description" placeholder="Enter your description"/>
                                 <field name="medical_history" placeholder="Enter your Medical History" widget="html"/>
+                                <field name="sign_in" widget="float_time"/>
 
                             </group>
                         </div>
@@ -69,11 +70,6 @@
                         <page name="additional_information" string="Additional Information">
                             <field name="additional_information"/>
                         </page>
-
-                        <page name="sign_in" string="Other details">
-                            <field name="sign_in"/>
-                        </page>
-
                     </notebook>
 
                 </sheet>
@@ -84,7 +80,7 @@
             </form>
         </field>
     </record>
-    >
+
 
     <!-- Tree view / List view of patient -->
     <record id="view_hospital_tree" model="ir.ui.view">
