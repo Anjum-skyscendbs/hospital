@@ -6,55 +6,62 @@
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
             <form string="Patient">
-             <header>
-                    <h1>Fill the Form</h1>
+                <header>
+                    <h1>
+                        <centre>Hospital Management System</centre>
+                    </h1>
                 </header>
 
                 <sheet>
-                    <h2>Patient Registration</h2>
+                    <br>
+                        <h2>Patient Registration</h2>
+                    </br>
                     <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
                             attrs="{'invisible': [('active', '=', True)]}"/>
                     <widget name="web_ribbon" title="Active" bg_color="bg-success"
                             attrs="{'invisible': [('active', '=', False)]}"/>
 
                     <div class="row">
-                    <div class="col col-md-6">
-                        <group>
-                            <field name="patient_name" placeholder="Enter your name"/>
-                            <field name="patient_id" placeholder="Enter your Id"/>
-                            <field name="email" placeholder="Enter your email" required="True"/>
-                            <field name="birthdate" placeholder="Enter your birthdate"/>
-                            <field name="age" placeholder="Enter your age"/>
-                            <field name="gender"  placeholder="select the Gender" widget="radio"/>
-                            <field name="active" invisible="true"/>
-                            <field name="active"/>
-                            <field name="blood_group" placeholder="Enter your Blood Group"/>
-                            <field name="weight" placeholder="Enter your Weight"/>
-                            <field name="height" placeholder="Enter your Height"/>
-                        </group>
+                        <div class="col col-md-6">
+                            <group>
+<!--                                <label for="patient_name"/>-->
+                                <field name="patient_name" placeholder="Enter your name"/>
+
+                                <field name="patient_id" placeholder="Enter your Id" invisible="True"/>
+                                <field name="email" widget="email" placeholder="Enter your email" required="True"/>
+                                <field name="birthdate" placeholder="Enter your birthdate"/>
+                                <field name="age" placeholder="Enter your age"/>
+                                <field name="gender" placeholder="select the Gender" widget="radio"/>
+                                <field name="active" invisible="true"/>
+                                <field name="active"/>
+                                <field name="blood_group" placeholder="Enter your Blood Group"/>
+                                <field name="weight" placeholder="Enter your Weight"/>
+                                <field name="height" placeholder="Enter your Height"/>
+                                <field name="Diseases" placeholder="select the Diseases" widget="radio"/>
+                            </group>
+                        </div>
+
+
+                        <div class="col col-md-6">
+                            <group>
+                                <field name="hospital_name" maxlength='4' placeholder="Enter hospital name"/>
+                                <field name="phone_number"  placeholder="Enter your phone number" widget="phone"/>
+                                <field name="password" placeholder="Enter your password" password="*"/>
+                                <field name="address" placeholder="Enter your Address"/>
+                                <field name="website" widget="url" placeholder="Enter valid url"/>
+                                <field name="is_admitted"/>
+                                <field name="Marital_status" placeholder="Select your Marital status" status="*"/>
+                                <field name="diagnosis_notes" placeholder="Enter your diagnosis notes"/>
+                                <field name="checkup_date" placeholder="Enter your Checkup date"/>
+                                <field name="priority" widget="priority"/>
+                                <field name="description" placeholder="Enter your description"/>
+                                <field name="medical_history" placeholder="Enter your Medical History" widget="html"/>
+
+                            </group>
+                        </div>
                     </div>
 
-
-                    <div class="col col-md-6">
-                        <group>
-                            <field name="hospital_name" maxlength='4' placeholder="Enter hospital name"/>
-                            <field name="phone_number" placeholder="Enter your phone number" widget="phone"/>
-                            <field name="password"  placeholder="Enter your password" password="*"/>
-                            <field name="address" placeholder="Enter your Address"/>
-
-                            <field name="is_admitted" />
-                            <field name="Marital_status" placeholder="Select your Marital status" status="*"/>
-                            <field name="diagnosis_notes" placeholder="Enter your diagnosis notes"/>
-                            <field name="checkup_date" placeholder="Enter your Checkup date"/>
-                            <field name="priority" widget="priority"/>
-                            <field name="description" placeholder="Enter your description"/>
-                            <field name="medical_history" placeholder="Enter your Medical History" widget="html"/>
-
-                        </group>
-                    </div>
-                    </div>
-
-                 <separator string="additional information"/>
+                    <separator string="additional information"/>
                     <field name="additional_information"/>
 
 

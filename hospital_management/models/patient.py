@@ -6,14 +6,16 @@ class Patient(models.Model):
     _name = 'hospital.patient'
     _description = 'Hospital Patient'
 
+
     patient_name = fields.Char(string='Patient Name', required=True, translate=True,help='This field is used to take patient name')
     patient_id = fields.Integer(string='Patient ID',help='This field is used to take patient id')
     age = fields.Integer(string='Age',help='This field is used to take patient age')
     active = fields.Boolean('Active', help='This field is used to activate or deactivate a record', default=True)
     weight = fields.Float(string='Weight (kg)',help='This field is used to take patient weight',digits=(16,3))
     height = fields.Float(string='Height (ft)',help='This field is used to take patient height',digits=(16,3))
-    hospital_name = fields.Char(string='Hospital Name',maxlength='4')
-    # print("Hospital name:", hospital_name)
+    Diseases=fields.Selection(selection=[('high blood pressure','High Blood Pressure'),('diabetes','Diabetes'),('cholera','Cholera'),('heart attack','Heart Attack')],help='This field show the list of diseases')
+    hospital_name = fields.Char(string="Hospital name",size=4)
+    # print("Hospital name:", hospital_name)this field take a limited char size=4
 
 
     email = fields.Char('Email',help='This field is used to take patient email')
@@ -34,6 +36,7 @@ class Patient(models.Model):
     checkup_date = fields.Date(string='Checkup Date',help='This field is used to take patient checkup date')
     description = fields.Char('Description',help='This field is used to take description')
     medical_history = fields.Text(string='Medical History',help='This field is used to store patient medical history')
+    website=fields.Char('Enter your url')
     sign_in = fields.Float('Sign In')
     password = fields.Char('Password',help='This field is used to take password')
     additional_information = fields.Char('Additional Information',help='This field is used to take additional information')
