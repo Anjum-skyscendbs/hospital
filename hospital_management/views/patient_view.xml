@@ -58,6 +58,11 @@
                                 <field name="medical_history" placeholder="Enter your Medical History" widget="html"/>
                                 <field name="sign_in" widget="float_time"/>
 
+
+                                <button name="action_test" string="Test Button" type="object" class="oe_highlight"/>
+
+
+
                             </group>
                         </div>
                     </div>

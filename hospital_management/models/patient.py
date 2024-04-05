@@ -53,3 +53,9 @@ class Patient(models.Model):
         ('AB', 'AB'),
         ('O+', 'O'),
     ], string='Blood Group')
+
+
+    # Button clicked to submit the for
+
+    def action_test(self):
+        print("Button Clicked !!!!!")
