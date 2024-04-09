@@ -13,7 +13,6 @@
                         <field name="patient_name" placeholder="Enter your name"/>
                         <field name="age"/>
                         <field name="gender"/>
-                        <field name="department" widget="checkbox"/>
 <!--                        <field name="birthdate"/>-->
 
 <!--                        <field name="Marital_status"/>-->

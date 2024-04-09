@@ -4,9 +4,7 @@ class Department(models.Model):
     _name='hospital.department'
     _description='department'
 
-    # ref = fields.Reference([('hospital.patient', 'patient'),
-    #                         ('res.users', 'Users'),
-    #                         ('res.partner', 'Contacts')], 'Reference')
+    _rec_name='department'
 
     department=fields.Selection(selection=[('gynecology','Gynecology'),
                                                    ('physiotherapy','Physiotherapy'),
@@ -31,4 +29,3 @@ class Department(models.Model):
     # The first attribute for any relational field will be a comodel_name.
     # This comodel is the name of another model with which you're trying to create a relationship.
 
-    # department = fields.Many2one('hospital.department', 'Department', ondelete='restrict')

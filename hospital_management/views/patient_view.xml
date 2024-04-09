@@ -38,6 +38,8 @@
                                 <field name="weight" placeholder="Enter your Weight"/>
                                 <field name="height" placeholder="Enter your Height"/>
                                 <field name="Diseases" placeholder="select the Diseases" widget="radio"/>
+                                <field name="department_id" widget="Department"/>
+                                <field name="ref"/>
                             </group>
                         </div>
 
@@ -76,6 +78,14 @@
                             <field name="additional_information"/>
                         </page>
 
+                        <page name="pg_appointment" string="Appointment">
+                                <field name="appointment_ids"/>
+                        </page>
+
+                        <page name="pg_facility" string="facility">
+                                <field name="facility_ids" widget="many2many_checkbox"/>
+                        </page>
+
                         <page name="pg_temp" string="Template">
                             <field name="template"/>
                         </page>
@@ -106,6 +116,8 @@
                 <field name="gender" widget="radio"/>
                 <field name="medical_history"/>
                 <field name="blood_group"/>
+                <field name="active" widget="boolean_toggle"/>
+
             </tree>
         </field>
     </record>

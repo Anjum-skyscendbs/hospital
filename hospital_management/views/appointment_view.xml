@@ -20,6 +20,7 @@
                         <field name="checkup_date"/>
                         <field name="document" filename="file_name"/>
                         <field name="photo" widget="image"/>
+                        <field name="patient_id"/>
 
                     </group>
                 </sheet>

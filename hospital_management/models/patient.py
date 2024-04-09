@@ -48,9 +48,6 @@ class Patient(models.Model):
     additional_information = fields.Char('Additional Information',help='This field is used to take additional information')
     template = fields.Html('Template')
 
-
-    # department_id = fields.Many2one('hospital.department', 'department')
-
     priority = fields.Selection([(str(ele), str(ele)) for ele in range(5)], 'Priority')
     blood_group = fields.Selection([
         ('A', 'A'),
@@ -66,3 +63,26 @@ class Patient(models.Model):
 
     def action_test(self):
         print("Button Clicked !!!!!")
+
+     # 1) this is the required field type one Many2One in the department
+
+    department_id = fields.Many2one('hospital.department', 'Department')
+
+    # 2) The One2many field will have the first attribute as the comodel name being a relational field.
+    # The second attribute is the inverse field which has to be the name of the field in the comodel.
+    # This field will be a many2one field for current model (student) in comodel (exam).
+    # We will add _ids suffix to the One2many field.
+    # The third attribute is the label fo the field.
+    # This field is not stored in the database table.
+
+    appointment_ids = fields.One2many('hospital.appointment','patient_id',limit=2)
+
+    # 3) this field is uses many2many field for the facility
+
+    facility_ids= fields.Many2many('hospital.facility', 'pat_act_rel', 'patient_id', 'act_id', 'Activities', limit=2)
+
+    ref = fields.Reference([('hospital.patient', 'patient'),
+                            ('res.users', 'Users'),
+                            ('res.partner', 'Contacts')], 'Reference')
+
+
