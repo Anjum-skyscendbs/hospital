@@ -2,4 +2,12 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_hospital_patient_manager,access.hospital.patient.manager,model_hospital_patient,group_hospital_admin,1,1,1,1
 access_hospital_patient_user,access.hospital.patient.user,model_hospital_patient,group_hospital_user,1,1,0,0
 
+access_hospital_department_manager,access.hospital.department.manager,model_hospital_department,group_hospital_admin,1,1,1,1
+access_hospital_department_user,access.hospital.department.user,model_hospital_department,group_hospital_user,1,1,0,0
+
+access_hospital_appointment_manager,access.hospital.appointment.manager,model_hospital_appointment,group_hospital_admin,1,1,1,1
+access_hospital_appointment_user,access.hospital.appointment.user,model_hospital_appointment,group_hospital_user,1,1,0,0
+
+access_hospital_facility_manager,access.hospital.facility.manager,model_hospital_facility,group_hospital_admin,1,1,1,1
+access_hospital_facility_user,access.hospital.facility.user,model_hospital_facility,group_hospital_user,1,1,0,0
 

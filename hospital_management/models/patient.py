@@ -6,6 +6,10 @@ class Patient(models.Model):
     _name = 'hospital.patient'
     _description = 'Hospital Patient'
 
+    ### SIMPLE FIELDS
+    # '<field_name>' = fields.<FIELD_CLASS>(<PARAMS>)
+    # Here basically we are creating an object of one of the fields classes.
+
 
     patient_name = fields.Char(string='Patient Name', required=True, translate=True,help='This field is used to take patient name')
     patient_id = fields.Integer(string='Patient ID',help='This field is used to take patient id')
@@ -24,11 +28,11 @@ class Patient(models.Model):
     is_admitted = fields.Boolean(string='Admitted',help='This field is used to check that patient is admitted or not')
     # print("is_admitted for the patient is admitted or not")
 
+
     birthdate = fields.Date('Birthdate', index=True,help='This field is used for birthdate of patient')
     notes = fields.Text('Notes',help='This field is used for notes')
     today = date.today()
     print(today)
-
 
     gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string='Gender')
     timestamp = fields.Date('Timestamp', readonly=True)
@@ -42,7 +46,10 @@ class Patient(models.Model):
     sign_in = fields.Float('Sign In')
     password = fields.Char('Password',help='This field is used to take password')
     additional_information = fields.Char('Additional Information',help='This field is used to take additional information')
+    template = fields.Html('Template')
 
+
+    # department_id = fields.Many2one('hospital.department', 'department')
 
     priority = fields.Selection([(str(ele), str(ele)) for ele in range(5)], 'Priority')
     blood_group = fields.Selection([
@@ -55,7 +62,7 @@ class Patient(models.Model):
     ], string='Blood Group')
 
 
-    # Button clicked to submit the for
+    # Button clicked to submit the form
 
     def action_test(self):
         print("Button Clicked !!!!!")

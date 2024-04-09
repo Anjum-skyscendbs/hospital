@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+       <!-- Form view of Facility-->
+
+    <record id="view_facility_form" model="ir.ui.view">
+    <field name="name">view.facility.form</field>
+    <field name="model">hospital.facility</field>
+    <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                       <field name="patient_name"/>
+                        <field name="patient_id"/>
+                        <field name="word_rooms" widget="checkbox"/>
+                        <field name="phone_number"/>
+
+                    </group>
+                </sheet>
+            </form>
+    </field>
+    </record>
+
+
+
+
+    <!-- Tree view of Facility-->
+
+    <record id="view_facility_tree" model="ir.ui.view">
+        <field name="name">view.facility.tree</field>
+        <field name="model">hospital.facility</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="patient_name" placeholder="Enter your name"/>
+                <field name="patient_id"/>
+                <field name="word_rooms"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action of Facility-->
+
+    <record id="action_facility" model="ir.actions.act_window">
+        <field name="name">Facility</field>
+        <field name="res_model">hospital.facility</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu of Facility-->
+    <menuitem id="menu_facility" action="action_facility" parent="hospital_management.menu_configuration"/>
+
+</odoo>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+       <!-- Form view of Appointment-->
+
+    <record id="view_appointment_form" model="ir.ui.view">
+    <field name="name">view.appointment.form</field>
+    <field name="model">hospital.appointment</field>
+    <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                       <field name="patient_name"/>
+                        <field name="patient_id"/>
+                        <field name="charges"/>
+                        <field name="currency_id"/>
+                        <field name="phone_number"/>
+                        <field name="address"/>
+                        <field name="is_admitted"/>
+                        <field name="checkup_date"/>
+                        <field name="document" filename="file_name"/>
+                        <field name="photo" widget="image"/>
+
+                    </group>
+                </sheet>
+            </form>
+    </field>
+    </record>
+
+
+    <!-- Tree view of Appointment-->
+
+    <record id="view_appointment_tree" model="ir.ui.view">
+        <field name="name">view.appointment.tree</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="patient_name" placeholder="Enter your name"/>
+                <field name="patient_id"/>
+                <field name="checkup_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action of appointment-->
+
+    <record id="action_appointment" model="ir.actions.act_window">
+        <field name="name">Appointment</field>
+        <field name="res_model">hospital.appointment</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu of appointment-->
+
+    <menuitem id="menu_appointment" action="action_appointment" parent="hospital_management.menu_configuration"/>
+
+</odoo>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

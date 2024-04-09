@@ -45,7 +45,7 @@
                         <div class="col col-md-6">
                             <group>
                                 <field name="hospital_name" maxlength='4' placeholder="Enter hospital name"/>
-                                <field name="phone_number"  placeholder="Enter your phone number" widget="phone"/>
+                                <field name="phone_number"  maxlength='10' placeholder="Enter your phone number" widget="phone"/>
                                 <field name="password" placeholder="Enter your password" password="*"/>
                                 <field name="address" placeholder="Enter your Address"/>
                                 <field name="url" string="Website" widget="url"/>
@@ -59,7 +59,7 @@
                                 <field name="sign_in" widget="float_time"/>
 
 
-                                <button name="action_test" string="Test Button" type="object" class="oe_highlight"/>
+                                <button name="action_test" string="Button" type="object" class="oe_highlight"/>
 
 
 
@@ -67,14 +67,19 @@
                         </div>
                     </div>
 
-                    <separator string="additional information"/>
-                    <field name="additional_information"/>
+<!--                    <separator string="additional information"/>-->
+<!--                    <field name="additional_information"/>-->
 
 
                     <notebook>
                         <page name="additional_information" string="Additional Information">
                             <field name="additional_information"/>
                         </page>
+
+                        <page name="pg_temp" string="Template">
+                            <field name="template"/>
+                        </page>
+
                     </notebook>
 
                 </sheet>
@@ -119,6 +124,8 @@
     <menuitem id="menu_patient" name="Patient" parent="menu_hospital"/>
 
     <!-- Menu of patient -->
-    <menuitem id="menu_patient_patient" action="action_patient" parent="menu_patient"/>
+    <menuitem id="menu_configuration" name="Configuration" parent="menu_hospital"/>
+    <menuitem id="menu_appointment" name="Appointment" parent="menu_hospital"/>
+    <menuitem id="menu_hospital_patient"  action="action_patient" parent="menu_patient"/>
 
 </odoo>
