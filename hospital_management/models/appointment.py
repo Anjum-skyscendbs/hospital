@@ -8,7 +8,7 @@ class Appointment(models.Model):
     patient_name = fields.Char(string='Patient Name', required=True, translate=True,help='This field is used to take patient name')
     patient_id = fields.Integer(string='Patient ID',help='This field is used to take patient id')
 
-    charges = fields.Monetary(currency_field='currency_id',string='charges')
+    Charges = fields.Monetary(currency_field='currency_id',string='Charges')
     currency_id = fields.Many2one('res.currency', 'Currency')
 
     phone_number = fields.Char(string='Phone Number', size=10,help='This field is used to take patient phone number')
@@ -21,7 +21,7 @@ class Appointment(models.Model):
     photo = fields.Image('Photo')
 
 
-    appointment = fields.One2many('hospital.appointment',limit=2)
+    # appointment = fields.One2many('hospital.appointment',limit=2)
     # The One2many field will have the first attribute as the comodel name being a relational field.
     # The second attribute is the inverse field which has to be the name of the field in the comodel.
     # This field will be a many2one field for current model (student) in comodel (exam).

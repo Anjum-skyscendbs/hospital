@@ -22,7 +22,7 @@ class Department(models.Model):
     # birthdate = fields.Date('Birthdate', index=True,help='This field is used for birthdate of patient')
     # Marital_status = fields.Selection([('married', 'Married'), ('unmarried', 'Unmarried'), ('single', 'Single')],
     #                               string='Marital Status')
-    # is_admitted = fields.Boolean(string='Admitted', help='This field is used to check that patient is admitted or not')
+    is_admitted = fields.Boolean(string='Admitted', help='This field is used to check that patient is admitted or not')
 
 
     # Relational Fields
@@ -31,5 +31,4 @@ class Department(models.Model):
     # The first attribute for any relational field will be a comodel_name.
     # This comodel is the name of another model with which you're trying to create a relationship.
 
-    department = fields.Many2one('hospital.department', 'Department', ondelete='restrict')
-
+    # department = fields.Many2one('hospital.department', 'Department', ondelete='restrict')

@@ -16,10 +16,9 @@ phone_number = fields.Char(string='Phone Number', size=10, help='This field is u
 
 
 # The mapping will help us fetch the activities to be displayed against the student.
-facility = fields.Many2many('hospital.facility','pat_act_rel','patient_id','facility', limit=2)
+# facility = fields.Many2many('hospital.facility','pat_act_rel','patient_id','facility', limit=2)
  # You can also write the many2many field along with the details of lookup table.
 # Firstly you need to give the name of the model as first attribute.
 
 
-facility = fields.Many2many('hospital.facility', 'pat_act_rel', 'patient_id', 'act_id', 'Activities', limit=2)
-
+# facility = fields.Many2many('hospital.facility', 'pat_act_rel', 'patient_id', 'act_id', 'Activities', limit=2)

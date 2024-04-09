@@ -12,7 +12,7 @@
                     <group>
                        <field name="patient_name"/>
                         <field name="patient_id"/>
-                        <field name="charges"/>
+                        <field name="Charges"/>
                         <field name="currency_id"/>
                         <field name="phone_number"/>
                         <field name="address"/>
