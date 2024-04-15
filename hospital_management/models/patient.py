@@ -52,7 +52,7 @@ class Patient(models.Model):
     sign_in = fields.Float('Sign In')
     password = fields.Char('Password',help='This field is used to take password')
     additional_information = fields.Char('Additional Information',help='This field is used to take additional information')
-    # template = fields.Html('Template')
+    template = fields.Html('Template')
 
     priority = fields.Selection([(str(ele), str(ele)) for ele in range(5)], 'Priority')
     blood_group = fields.Selection([

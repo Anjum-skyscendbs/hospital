@@ -89,14 +89,14 @@
                         </page>
 
 
-<!--                        <page name="pg_department" string="Department">-->
-<!--                            <field name="department_id" widget="Many2one"/>-->
-<!--                        </page>-->
-
-
-                        <!--                        <page name="pg_temp" string="Template">-->
-                        <!--                            <field name="template"/>-->
+                        <!--                        <page name="pg_department" string="Department">-->
+                        <!--                            <field name="department_id" widget="Many2one"/>-->
                         <!--                        </page>-->
+
+
+                        <page name="pg_temp" string="Template">
+                            <field name="template"/>
+                        </page>
 
                     </notebook>
 
@@ -126,7 +126,7 @@
                 <field name="active" widget="boolean_toggle"/>
 
                 <field name="facility_ids"/>
-<!--                <field name="department_id"/>-->
+                <!--                <field name="department_id"/>-->
                 <field name="sequence" widget="handle"/>
 
 
@@ -152,8 +152,8 @@
     <!-- Menu of patient -->
     <menuitem id="menu_configuration" name="Configuration" parent="menu_hospital"/>
     <menuitem id="menu_appointment" name="Appointment" parent="menu_hospital"/>
+
     <menuitem id="menu_hospital_patient" action="action_patient" parent="menu_patient"/>
 
-    <!--    <menuitem id="menu_hospital_facility" action="action_facility" parent="menu_patient"/>-->
 
 </odoo>

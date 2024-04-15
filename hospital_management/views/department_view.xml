@@ -48,11 +48,20 @@
     </record>
 
 
+<!--*** 1)Application menu-->
 
+    <menuitem id="menu_hospital" name="Hospital"/>
 
+<!--*** 2)Main Menu of Department it will display the menu on top side-->
 
-    <!-- Menu of department-->
-    <menuitem id="menu_hospital_department" action="action_department" parent="hospital_management.menu_configuration"/>
+    <menuitem id="menu_department" name="Department" parent="menu_hospital"/>
+
+<!--*** 3)This is My Menu of the Department to display the menu in only one side of main menu-->
+
+    <menuitem id="menu_hospital_department" action="action_department" parent="menu_department"/>
+
+<!--*** 4)It will display menu in the config menu -->
+<!--    <menuitem id="menu_hospital_department" action="action_department" parent="hospital_management.menu_configuration"/>-->
 
 
 </odoo>
