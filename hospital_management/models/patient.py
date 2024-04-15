@@ -75,6 +75,7 @@ class Patient(models.Model):
     department_id = fields.Many2one('hospital.department', 'Department')
 
     # 2) The One2many field will have the first attribute as the comodel name being a relational field.
+
     # The second attribute is the inverse field which has to be the name of the field in the comodel.
     # This field will be a many2one field for current model (student) in comodel (exam).
     # We will add _ids suffix to the One2many field.
@@ -85,9 +86,9 @@ class Patient(models.Model):
 
     # 3) this field is uses many2many field for the facility
 
-    facility_ids= fields.Many2many('hospital.facility', 'pat_fact_rel', 'patient_id', 'fact_id', 'Activities', limit=2)
+    facility_ids= fields.Many2many('hospital.facility', 'pat_fact_rel', 'patient_id', 'fact_id', 'Facilities', limit=2)
 
-    ref = fields.Reference([('hospital.patient', 'patient'),
+    ref = fields.Reference([('hospital.patient', 'Patient'),
                             ('res.users', 'Users'),
                             ('res.partner', 'Contacts')], 'Reference')
 
