@@ -40,6 +40,8 @@
                                 <field name="Diseases" placeholder="select the Diseases" widget="radio"/>
                                 <field name="department_id" widget="Department"/>
                                 <field name="ref"/>
+                                <field name="sequence"/>
+
                             </group>
                         </div>
 
@@ -47,7 +49,8 @@
                         <div class="col col-md-6">
                             <group>
                                 <field name="hospital_name" maxlength='4' placeholder="Enter hospital name"/>
-                                <field name="phone_number"  maxlength='10' placeholder="Enter your phone number" widget="phone"/>
+                                <field name="phone_number" maxlength='10' placeholder="Enter your phone number"
+                                       widget="phone"/>
                                 <field name="password" placeholder="Enter your password" password="*"/>
                                 <field name="address" placeholder="Enter your Address"/>
                                 <field name="url" string="Website" widget="url"/>
@@ -59,18 +62,17 @@
                                 <field name="description" placeholder="Enter your description"/>
                                 <field name="medical_history" placeholder="Enter your Medical History" widget="html"/>
                                 <field name="sign_in" widget="float_time"/>
-
+                                <field name="facility_ids"/>
 
                                 <button name="action_test" string="Button" type="object" class="oe_highlight"/>
-
 
 
                             </group>
                         </div>
                     </div>
 
-<!--                    <separator string="additional information"/>-->
-<!--                    <field name="additional_information"/>-->
+                    <!--                    <separator string="additional information"/>-->
+                    <!--                    <field name="additional_information"/>-->
 
 
                     <notebook>
@@ -79,16 +81,22 @@
                         </page>
 
                         <page name="pg_appointment" string="Appointment">
-                                <field name="appointment_ids"/>
+                            <field name="appointment_ids"/>
                         </page>
 
-                        <page name="pg_facility" string="facility">
-                                <field name="facility_ids" widget="many2many_checkbox"/>
+                        <page name="pg_facility" string="Facility">
+                            <field name="facility_ids" widget="many2many_checkbox"/>
                         </page>
 
-                        <page name="pg_temp" string="Template">
-                            <field name="template"/>
-                        </page>
+
+<!--                        <page name="pg_department" string="Department">-->
+<!--                            <field name="department_id" widget="Many2one"/>-->
+<!--                        </page>-->
+
+
+                        <!--                        <page name="pg_temp" string="Template">-->
+                        <!--                            <field name="template"/>-->
+                        <!--                        </page>-->
 
                     </notebook>
 
@@ -112,11 +120,15 @@
                 <field name="patient_name"/>
                 <field name="age"/>
                 <field name="birthdate"/>
-                <field name="active"/>
+                <!--                <field name="active"/>-->
                 <field name="gender" widget="radio"/>
-                <field name="medical_history"/>
                 <field name="blood_group"/>
                 <field name="active" widget="boolean_toggle"/>
+
+                <field name="facility_ids"/>
+<!--                <field name="department_id"/>-->
+                <field name="sequence" widget="handle"/>
+
 
             </tree>
         </field>
@@ -129,15 +141,19 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+
     <!-- Application menu of Hospital -->
     <menuitem id="menu_hospital" name="Hospital"/>
 
     <!-- Main Menu of patient -->
     <menuitem id="menu_patient" name="Patient" parent="menu_hospital"/>
+    <!--    <menuitem id="menu_facility" name="Facility" parent="menu_hospital"/>-->
 
     <!-- Menu of patient -->
     <menuitem id="menu_configuration" name="Configuration" parent="menu_hospital"/>
     <menuitem id="menu_appointment" name="Appointment" parent="menu_hospital"/>
-    <menuitem id="menu_hospital_patient"  action="action_patient" parent="menu_patient"/>
+    <menuitem id="menu_hospital_patient" action="action_patient" parent="menu_patient"/>
+
+    <!--    <menuitem id="menu_hospital_facility" action="action_facility" parent="menu_patient"/>-->
 
 </odoo>
