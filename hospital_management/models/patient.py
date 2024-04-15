@@ -77,7 +77,7 @@ class Patient(models.Model):
     # 2) The One2many field will have the first attribute as the comodel name being a relational field.
 
     # The second attribute is the inverse field which has to be the name of the field in the comodel.
-    # This field will be a many2one field for current model (student) in comodel (exam).
+    # This field will be a many2one field for current model (hospital) in comodel (appointment).
     # We will add _ids suffix to the One2many field.
     # The third attribute is the label fo the field.
     # This field is not stored in the database table.

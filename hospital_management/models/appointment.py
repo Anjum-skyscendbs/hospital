@@ -8,7 +8,7 @@ class Appointment(models.Model):
     patient_name = fields.Char(string='Patient Name', required=True, translate=True,help='This field is used to take patient name')
     patient_id = fields.Integer(string='Patient ID',help='This field is used to take patient id')
 
-    Charges = fields.Monetary(currency_field='currency_id',string='Charges')
+    charges = fields.Monetary(currency_field='currency_id',string='Charges')
     currency_id = fields.Many2one('res.currency', 'Currency')
 
     phone_number = fields.Char(string='Phone Number', size=10,help='This field is used to take patient phone number')
@@ -20,7 +20,7 @@ class Appointment(models.Model):
     document = fields.Binary('Document')
     photo = fields.Image('Photo')
 
-    appointment_id = fields.Many2one('hospital.appointment', 'Appointment')
+    appointment_ids = fields.Many2one('hospital.appointment', 'Appointment')
 
 
 

@@ -13,10 +13,8 @@
                         <field name="patient_name" placeholder="Enter your name"/>
                         <field name="age"/>
                         <field name="gender"/>
-<!--                        <field name="birthdate"/>-->
-
-<!--                        <field name="Marital_status"/>-->
                         <field name="is_admitted"/>
+
                     </group>
                 </sheet>
             </form>
@@ -32,9 +30,6 @@
                 <field name="patient_name" placeholder="Enter your name"/>
                 <field name="age"/>
                 <field name="gender"/>
-
-<!--                <field name="ref"/>-->
-
             </tree>
         </field>
     </record>
