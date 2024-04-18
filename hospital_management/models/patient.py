@@ -4,6 +4,7 @@ from datetime import date
 
 class Patient(models.Model):
     _name = 'hospital.patient'
+    _rec_name = 'patient_name'
     _description = 'Hospital Patient'
 
     ### SIMPLE FIELDS
@@ -38,7 +39,7 @@ class Patient(models.Model):
     birthdate = fields.Date('Birthdate', index=True,help='This field is used for birthdate of patient')
     notes = fields.Text('Notes',help='This field is used for notes')
     today = date.today()
-    print(today)
+    print("\n\n\ntoday:::::::::::>>>>>>>>>>>>>>>", today)
 
     gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string='Gender')
     timestamp = fields.Date('Timestamp', readonly=True)
@@ -70,7 +71,15 @@ class Patient(models.Model):
     def action_test(self):
         print("Button Clicked !!!!!")
 
-     # 1) this is the required field type one Many2One in the department
+
+
+    # Following are the Relational Fields will be used to connect with other models.
+    # relational fields will be used to connect with other models.
+    # you can create different relations with models such as Many2one, One2many and Many2many.
+    # The first attribute for any relational field will be a comodel_name.
+    # This comodel is the name of another model with which you're trying to create a relationship.
+
+    # 1) this is the required field type one Many2One in the department
 
     department_id = fields.Many2one('hospital.department', 'Department')
 
@@ -84,7 +93,14 @@ class Patient(models.Model):
 
     appointment_ids = fields.One2many('hospital.appointment','patient_id',limit=2)
 
-    # 3) this field is uses many2many field for the facility
+    # 3) this field is uses .many2many field for the facility
+
+    # The Many2many field will have the first attribute as the comodel_name being a relational field.
+    # The second attribute is the label of the field.
+    # The field does not get stored in the table in database.
+    # Unlike O2M it does not have an inverse field.
+    # Here it creates a lookup table with the name "'comodel's table name + _ + current model's table name + '_'  + rel".
+    # So in our case it will be hospital_facility_hospital_patient_rel
 
     facility_ids= fields.Many2many('hospital.facility', 'pat_fact_rel', 'patient_id', 'fact_id', 'Facilities', limit=2)
 

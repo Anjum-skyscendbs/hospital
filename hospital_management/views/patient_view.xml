@@ -8,14 +8,11 @@
             <form string="Patient">
                 <header>
                     <h1>
-                        <centre>Hospital Management System</centre>
+                        <button name="action_test" string="Button" type="object" class="oe_highlight"/>
                     </h1>
                 </header>
 
                 <sheet>
-                    <br>
-                        <h2>Patient Registration</h2>
-                    </br>
                     <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
                             attrs="{'invisible': [('active', '=', True)]}"/>
                     <widget name="web_ribbon" title="Active" bg_color="bg-success"
@@ -23,6 +20,12 @@
 
                     <div class="row">
                         <div class="col col-md-6">
+                            <group>
+                                <h2>
+                                    Hospital Management System
+                                </h2>
+                            </group>
+
                             <group>
                                 <field name="patient_name" placeholder="Enter your name"/>
                                 <field name="patient_id" placeholder="Enter your Id" invisible="false"/>
@@ -38,9 +41,7 @@
                                 <field name="weight" placeholder="Enter your Weight"/>
                                 <field name="height" placeholder="Enter your Height"/>
                                 <field name="Diseases" placeholder="select the Diseases" widget="radio"/>
-                                <field name="department_id" widget="Department"/>
                                 <field name="ref"/>
-                                <field name="sequence"/>
 
                             </group>
                         </div>
@@ -53,7 +54,7 @@
                                        widget="phone"/>
                                 <field name="password" placeholder="Enter your password" password="*"/>
                                 <field name="address" placeholder="Enter your Address"/>
-                                <field name="url" string="Website" widget="url"/>
+                                <field name="url" string="Website" widget="url" placeholder="Enter URL"/>
                                 <field name="is_admitted"/>
                                 <field name="Marital_status" placeholder="Select your Marital status" status="*"/>
                                 <field name="diagnosis_notes" placeholder="Enter your diagnosis notes"/>
@@ -62,11 +63,8 @@
                                 <field name="description" placeholder="Enter your description"/>
                                 <field name="medical_history" placeholder="Enter your Medical History" widget="html"/>
                                 <field name="sign_in" widget="float_time"/>
-                                <field name="facility_ids" widget="many2many_tags"/>
-
-                                <!--                                <field name="department_id" widget="many2one_tags"/>-->
-                                <button name="action_test" string="Button" type="object" class="oe_highlight"/>
-
+                                <field name="department_id" placeholder="Select Department"/>
+                                <field name="sequence"/>
 
                             </group>
                         </div>
@@ -74,29 +72,14 @@
 
                     <!--                    <separator string="additional information"/>-->
                     <!--                    <field name="additional_information"/>-->
-
-
                     <notebook>
-                        <page name="additional_information" string="Additional Information">
-                            <field name="additional_information"/>
-                        </page>
 
                         <page name="pg_appointment" string="Appointment">
                             <field name="appointment_ids"/>
                         </page>
 
-                        <!--                        <page name="pg_facility" string="Facility">-->
-                        <!--                            <field name="facility_ids" widget="many2many_checkbox"/>-->
-                        <!--                        </page>-->
-
-
-                        <page name="pg_department" string="Department">
-                            <field name="department_id"/>
-                        </page>
-
-
-                        <page name="pg_temp" string="Template">
-                            <field name="template"/>
+                        <page name="pg_facility" string="Facility">
+                            <field name="facility_ids" widget="many2many_tags" placeholder="select any one"/>
                         </page>
 
                     </notebook>
