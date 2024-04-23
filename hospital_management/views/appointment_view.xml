@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-       <!-- Form view of Appointment-->
+    <!-- Form view of Appointment-->
 
     <record id="view_appointment_form" model="ir.ui.view">
-    <field name="name">view.appointment.form</field>
-    <field name="model">hospital.appointment</field>
-    <field name="arch" type="xml">
+        <field name="name">view.appointment.form</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
             <form>
                 <sheet>
                     <group>
-                       <field name="patient_name"/>
+                        <field name="patient_name"/>
                         <field name="patient_id"/>
+                        <field name="Diseases" placeholder="select the Diseases" widget="checkbox"/>
+
                         <field name="charges"/>
                         <field name="currency_id"/>
                         <field name="phone_number"/>
@@ -24,9 +26,8 @@
                     </group>
                 </sheet>
             </form>
-    </field>
+        </field>
     </record>
-
 
     <!-- Tree view of Appointment-->
 
@@ -36,7 +37,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="patient_name" placeholder="Enter your name"/>
-                <field name="patient_id"/>
+                <!--                <field name="patient_id"/>-->
                 <field name="checkup_date"/>
             </tree>
         </field>

@@ -21,13 +21,19 @@
                     <div class="row">
                         <div class="col col-md-6">
                             <group>
-                                <h2>
+                                <h1 colspan="7">
                                     Hospital Management System
-                                </h2>
+                                </h1>
+
+
                             </group>
 
                             <group>
-                                <field name="patient_name" placeholder="Enter your name"/>
+                                <label for="patient_name"/>
+                                <h1 colspan="1">
+                                    <field name="patient_name"/>
+                                </h1>
+                                <!--                                <field name="patient_name" placeholder="Enter your name"/>-->
                                 <field name="patient_id" placeholder="Enter your Id" invisible="false"/>
                                 <!-- invisible is use for hidden the patient_id from user -->
 
@@ -49,22 +55,23 @@
 
                         <div class="col col-md-6">
                             <group>
-                                <field name="hospital_name" maxlength='4' placeholder="Enter hospital name"/>
+                                <!--                                <field name="hospital_name" maxlength='4' placeholder="Enter hospital name"/>-->
                                 <field name="phone_number" maxlength='10' placeholder="Enter your phone number"
                                        widget="phone"/>
                                 <field name="password" placeholder="Enter your password" password="*"/>
                                 <field name="address" placeholder="Enter your Address"/>
                                 <field name="url" string="Website" widget="url" placeholder="Enter URL"/>
                                 <field name="is_admitted"/>
-                                <field name="Marital_status" placeholder="Select your Marital status" status="*"/>
+                                <field name="Marital_status" placeholder="Select your Marital status"/>
                                 <field name="diagnosis_notes" placeholder="Enter your diagnosis notes"/>
                                 <field name="checkup_date" placeholder="Enter your Checkup date"/>
                                 <field name="priority" widget="priority"/>
-                                <field name="description" placeholder="Enter your description"/>
+                                <!--                                <field name="description" placeholder="Enter your description"/>-->
                                 <field name="medical_history" placeholder="Enter your Medical History" widget="html"/>
                                 <field name="sign_in" widget="float_time"/>
-                                <field name="department_id" placeholder="Select Department"/>
+                                <!--                                <field name="department_id" placeholder="Select Department"/>-->
                                 <field name="sequence"/>
+                                <field name="parent_id"/>
 
                             </group>
                         </div>
@@ -75,11 +82,15 @@
                     <notebook>
 
                         <page name="pg_appointment" string="Appointment">
-                            <field name="appointment_ids"/>
+                            <field name="appointment_ids" widget="one2many"/>
                         </page>
 
                         <page name="pg_facility" string="Facility">
                             <field name="facility_ids" widget="many2many_tags" placeholder="select any one"/>
+                        </page>
+
+                        <page name="pg_sub" string="Subordinates">
+                            <field name="child_ids" readonly="1"/>
                         </page>
 
                     </notebook>
@@ -103,12 +114,12 @@
                 <field name="patient_id"/>
                 <field name="patient_name"/>
                 <field name="age"/>
-                <field name="birthdate"/>
-                <field name="gender" widget="radio"/>
-                <field name="blood_group"/>
+<!--                <field name="birthdate"/>-->
+<!--                <field name="gender" widget="radio"/>-->
+<!--                <field name="blood_group"/>-->
                 <field name="active" widget="boolean_toggle"/>
 
-                <field name="department_id"/>
+                <!--                <field name="department_id"/>-->
                 <field name="sequence" widget="handle"/>
 
 

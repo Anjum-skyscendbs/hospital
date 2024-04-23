@@ -7,6 +7,7 @@ class Appointment(models.Model):
 
     patient_name = fields.Char(string='Patient Name', required=True, translate=True,help='This field is used to take patient name')
     patient_id = fields.Integer(string='Patient ID',help='This field is used to take patient id')
+    Diseases=fields.Selection(selection=[('high blood pressure','High Blood Pressure'),('diabetes','Diabetes'),('cholera','Cholera'),('heart attack','Heart Attack')],help='This field show the list of diseases')
 
     charges = fields.Monetary(currency_field='currency_id',string='Charges')
     currency_id = fields.Many2one('res.currency', 'Currency')
