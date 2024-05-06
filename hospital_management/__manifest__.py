@@ -12,6 +12,8 @@
         'views/department_view.xml',
         'views/appointment_view.xml',
         'views/facility_view.xml',
+        'views/prescription_view.xml',
+        'views/diseases_view.xml',
     ],
     'auto_install': False,
     'installable': True,

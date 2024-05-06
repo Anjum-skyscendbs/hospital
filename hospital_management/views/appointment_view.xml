@@ -12,13 +12,11 @@
                     <group>
                         <field name="patient_name"/>
                         <field name="patient_id"/>
-                        <field name="Diseases" placeholder="select the Diseases" widget="checkbox"/>
-
+<!--                        <field name="Diseases" placeholder="select the Diseases" widget="checkbox"/>-->
                         <field name="charges"/>
                         <field name="currency_id"/>
                         <field name="phone_number"/>
                         <field name="address"/>
-                        <field name="is_admitted"/>
                         <field name="checkup_date"/>
                         <field name="document" filename="file_name"/>
                         <field name="photo" widget="image"/>

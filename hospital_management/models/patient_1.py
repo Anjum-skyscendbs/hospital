@@ -18,9 +18,9 @@ class Patient(models.Model):
     active = fields.Boolean('Active', help='This field is used to activate or deactivate a record', default=True)
     weight = fields.Float(string='Weight (kg)', help='This field is used to take patient weight', digits=(16, 3))
     height = fields.Float(string='Height (ft)', help='This field is used to take patient height', digits=(16, 3))
-    Diseases = fields.Selection(
-        selection=[('high blood pressure', 'High Blood Pressure'), ('diabetes', 'Diabetes'), ('cholera', 'Cholera'),
-                   ('heart attack', 'Heart Attack')], help='This field show the list of diseases')
+    # Diseases = fields.Selection(
+    #     selection=[('high blood pressure', 'High Blood Pressure'), ('diabetes', 'Diabetes'), ('cholera', 'Cholera'),
+    #                ('fever','Fever'),('headaches','Headaches')], help='This field show the list of diseases')
 
     # _order = '<field_name>' or '<field_name> desc'
     # This will be used to sort the fields with a field in either ascending or descending order
@@ -46,7 +46,6 @@ class Patient(models.Model):
     Marital_status = fields.Selection([('married', 'Married'), ('unmarried', 'Unmarried'), ('single', 'Single')],
                                       string='Marital Status')
 
-    diagnosis_notes = fields.Text(string='Diagnosis Notes', help='This field is used to take diagnosis notes')
     checkup_date = fields.Date(string='Checkup Date', help='This field is used to take patient checkup date')
     # description = fields.Char('Description',help='This field is used to take description')
     medical_history = fields.Text(string='Medical History', help='This field is used to store patient medical history')
@@ -66,6 +65,8 @@ class Patient(models.Model):
         ('AB', 'AB'),
         ('O+', 'O'),
     ], string='Blood Group')
+
+
 
     # Created a functio of Button in this file
     # function name is action_test sel
@@ -116,3 +117,13 @@ class Patient(models.Model):
     child_ids = fields.One2many('hospital.patient', 'parent_id', 'Subordinates')
     # This is also a reserved field and works for hierarchy.
     # It is an O2M field and  field will be always parent_id
+
+    # prescription_ids=fields.One2many('hospital.prescription','prescription_ids')
+
+    # This One2Many field will have the first attribute as the comodel name being a relational field.
+    # This field will be many2one field for current model(hospital) in comdel (appointment).
+    # we will add _ids suffix to the one2many field.
+    # The Third attribute is the label for the field.
+    # This field is not stored in the database table.
+
+    diseases_id = fields.Many2one('hospital.diseases', 'Diseases')

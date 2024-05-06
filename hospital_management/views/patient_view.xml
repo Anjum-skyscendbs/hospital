@@ -46,7 +46,7 @@
                                 <field name="blood_group" placeholder="Enter your Blood Group"/>
                                 <field name="weight" placeholder="Enter your Weight"/>
                                 <field name="height" placeholder="Enter your Height"/>
-                                <field name="Diseases" placeholder="select the Diseases" widget="radio"/>
+<!--                                <field name="Diseases" placeholder="Select Disease" widget="checkbox"/>-->
                                 <field name="ref"/>
 
                             </group>
@@ -56,22 +56,21 @@
                         <div class="col col-md-6">
                             <group>
                                 <!--                                <field name="hospital_name" maxlength='4' placeholder="Enter hospital name"/>-->
-                                <field name="phone_number" maxlength='10' placeholder="Enter your phone number"
-                                       widget="phone"/>
+                                <field name="phone_number" placeholder="Enter your phone number"/>
                                 <field name="password" placeholder="Enter your password" password="*"/>
                                 <field name="address" placeholder="Enter your Address"/>
                                 <field name="url" string="Website" widget="url" placeholder="Enter URL"/>
                                 <field name="is_admitted"/>
                                 <field name="Marital_status" placeholder="Select your Marital status"/>
-                                <field name="diagnosis_notes" placeholder="Enter your diagnosis notes"/>
                                 <field name="checkup_date" placeholder="Enter your Checkup date"/>
                                 <field name="priority" widget="priority"/>
-                                <!--                                <field name="description" placeholder="Enter your description"/>-->
                                 <field name="medical_history" placeholder="Enter your Medical History" widget="html"/>
                                 <field name="sign_in" widget="float_time"/>
                                 <!--                                <field name="department_id" placeholder="Select Department"/>-->
                                 <field name="sequence"/>
                                 <field name="parent_id"/>
+<!--                                <field name="prescription_ids"/>-->
+                                <field name="diseases_id"/>
 
                             </group>
                         </div>
@@ -84,6 +83,10 @@
                         <page name="pg_appointment" string="Appointment">
                             <field name="appointment_ids" widget="one2many"/>
                         </page>
+
+<!--                        <page name="pg_prescription" string="Prescription">-->
+<!--                            <field name="prescription_ids" widget="one2many"/>-->
+<!--                        </page>-->
 
                         <page name="pg_facility" string="Facility">
                             <field name="facility_ids" widget="many2many_tags" placeholder="select any one"/>
@@ -114,9 +117,9 @@
                 <field name="patient_id"/>
                 <field name="patient_name"/>
                 <field name="age"/>
-<!--                <field name="birthdate"/>-->
-<!--                <field name="gender" widget="radio"/>-->
-<!--                <field name="blood_group"/>-->
+                <!--                <field name="birthdate"/>-->
+                <!--                <field name="gender" widget="radio"/>-->
+                <!--                <field name="blood_group"/>-->
                 <field name="active" widget="boolean_toggle"/>
 
                 <!--                <field name="department_id"/>-->
