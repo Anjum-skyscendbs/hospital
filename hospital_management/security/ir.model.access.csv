@@ -17,3 +17,6 @@ access_hospital_prescription_user,access.hospital.prescription.user,model_hospit
 
 access_hospital_diseases_manager,access.hospital.diseases.manager,model_hospital_diseases,group_hospital_admin,1,1,1,1
 access_hospital_diseases_user,access.hospital.diseases.user,model_hospital_diseases,group_hospital_user,1,1,1,1
+
+access_hospital_medicines_manager,access.hospital.medicines.manager,model_hospital_medicines,group_hospital_admin,1,1,1,1
+access_hospital_medicines_user,access.hospital.medicines.user,model_hospital_medicines,group_hospital_user,1,1,1,1

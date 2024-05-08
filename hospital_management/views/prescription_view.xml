@@ -6,13 +6,18 @@
         <field name="name">view.prescription.form</field>
         <field name="model">hospital.prescription</field>
         <field name="arch" type="xml">
-
             <form>
                 <sheet>
                     <group>
-                        <field name="patient_name"/>
-<!--                        <field name="prescription_ids"/>-->
-                        <field name="disease"/>
+                        <!--                        <field name="patient_name"/>-->
+                        <field name="patient_id"/>
+<!--                        <field name="patient_name"/>-->
+
+                        <field name="medicines_id"/>
+                        <!--                        <field name="prescription_ids"/>-->
+                        <field name="quantity"/>
+                        <field name="sub_total"/>
+
                     </group>
                 </sheet>
             </form>
@@ -27,8 +32,12 @@
         <field name="model">hospital.prescription</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="patient_name" placeholder="Enter your name"/>
-                <field name="disease"/>
+<!--                <field name="patient_name"/>-->
+                <!--                <field name="patient_id"/>-->
+                <field name="medicines_id" placeholder="Enter your name"/>
+                <field name="quantity"/>
+                <field name="sub_total"/>
+
             </tree>
         </field>
     </record>

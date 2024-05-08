@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Form View of Medicine-->
+    <record id="view_medicines_form" model="ir.ui.view">
+        <field name="name">view.medicines.form</field>
+        <field name="model">hospital.medicines</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="medicines_name"/>
+<!--                        <field name="quantity"/>-->
+                        <field name="sub_total"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree view of Medicines-->
+
+    <record id="view_medicines_tree" model="ir.ui.view">
+        <field name="name">view.medicines.tree</field>
+        <field name="model">hospital.medicines</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="medicines_name"/>
+<!--                <field name="quantity"/>-->
+                <field name="sub_total"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action of Medicines-->
+
+    <record id="action_medicines" model="ir.actions.act_window">
+        <field name="name">Medicines</field>
+        <field name="view_mode">tree,form</field>
+        <field name="res_model">hospital.medicines</field>
+    </record>
+
+    <menuitem id="menu_hospital_medicines" action="action_medicines" parent="hospital_management.menu_configuration"/>
+
+</odoo>
