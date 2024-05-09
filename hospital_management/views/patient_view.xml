@@ -7,10 +7,10 @@
         <field name="arch" type="xml">
             <form string="Patient">
                 <header>
-                    <button name="action_test" string="Button" type="object" class="oe_highlight"/>
-
-                    <!--                        <button name="print_patient" string="Print" type="object"/>-->
-                    <field name="state" widget="statusbar" options="{'clickable':3}" statusbar_visible="admit,waiting,recovery,discharge"/>
+<!--                    <button name="print_patient" string="Print" type="object"/>-->
+<!--                    <button name="create_rec" string="Create" type="object"/>-->
+                    <field name="state" widget="statusbar" options="{'clickable':3}"
+                           statusbar_visible="admit,waiting,recovery,discharge"/>
 
                 </header>
 

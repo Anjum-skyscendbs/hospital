@@ -11,7 +11,9 @@
                 <sheet>
                     <group>
                         <field name="patient_name"/>
+
                         <field name="patient_id"/>
+
 <!--                        <field name="Diseases" placeholder="select the Diseases" widget="checkbox"/>-->
                         <field name="charges"/>
                         <field name="currency_id"/>

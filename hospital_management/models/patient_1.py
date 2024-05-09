@@ -63,8 +63,8 @@ class Patient(models.Model):
     ], string='Blood Group')
 
     state = fields.Selection([('admit', 'Admit'),
-                              ('waiting','Waiting'),
-                              ('recovery','Recovery'),
+                              ('waiting', 'Waiting'),
+                              ('recovery', 'Recovery'),
                               ('discharge', 'Discharge')], 'State', default='admit')
 
     # Created a function of Button in this file
@@ -139,6 +139,7 @@ class Patient(models.Model):
     # For Computing the total price of the medicine.
 
     sub_total = fields.Float(compute='_calc_sub_total', string='Total Amount')
+
     @api.depends('medicines_ids')
     def _calc_sub_total(self):
         """
@@ -163,3 +164,129 @@ class Patient(models.Model):
         male_records = active_records.filtered(lambda r: r.gender == 'male')
         print("FEMALE RECORDS", female_records)
         print("MALE RECORDS", male_records)
+
+        # Using a Mapping field and return the record in a list.
+        # Mapped is used to map field values from records and return in a list.
+        active_records_patient_name = active_records.mapped('patient_name')
+        print("ACTIVE NAMES", active_records_patient_name)
+
+        active_records_patient_name_age = active_records.mapped(lambda r: str(r.patient_name) + "," + str(r.age))
+        print("ACITVE NAME AGE", active_records_patient_name_age)
+
+        # sorted() is used to sort the records
+        sort_by_age = active_records.sorted(key='age')
+        print("SORT BY AGE", sort_by_age)
+
+        sort_by_name = active_records.sorted(key='patient_name', reverse=True)
+        print("SORT BY NAME", sort_by_name)
+
+        # # RECORDSET OPERATIONS
+        # # using in you can check whether a record exists in a recordset or not.
+        # # works with a single record and not multiple records
+        res = female_records in active_records
+        print("RES", res)
+        for fr in female_records:
+            print("FR IN ACT", fr in active_records)
+
+        res = female_records not in active_records
+        print("RES", res)
+
+        # < is used to check subset
+        print("SUBSET", female_records < active_records)
+        # <= is used to check either subset or same set
+        print("SUB OR SAME1", male_records <= active_records)
+        print("SUB OR SAME2", active_records <= active_records)
+
+        # > is used to check superset
+        print("SUPER", active_records > female_records)
+        # >= is used to check superset or same set
+        print("SUPER OR SAME 1", active_records >= male_records)
+        print("SUPER OR SAME 2", active_records >= active_records)
+
+        print("UNION", male_records | female_records)
+        print("INTERSECTION", male_records & active_records)
+        print("DIFF", active_records - female_records)
+
+        for patient in self:
+            # You can access the fields using '.'.
+            # Normal field will directly give the value of the field
+            print("NORMAL FIELD", patient.patient_name)
+            # Relational fields will always give you a recordset.
+            # M2O/Ref field will give you single record recordset
+            # O2M/M2M will give you multiple records recordset.
+            print("M2O FIELD", patient.department_id.patient_name)
+            # IF there's a single record you can access the field with multiple '.' referecnes.
+            print("O2M FIELD", patient.appointment_ids)
+            # If there are multiple records you can not access the field directly.
+            # print("Appointment FIELD",patient.appointment_ids # This will raise an error of singleton
+
+            # You can use index in the recordset but if and only if there is a record
+            if patient.appointment_ids:
+                print("O@M APPOINTMENT PATIENT", patient.appointment_ids[0].patient_name)
+
+            # # ensure_one() is used to validate a single record
+            # patient.ensure_one() # NO ERROR
+            # #patient.appointment_ids.ensure_one() # ERROR
+            #
+            # get_metadata() gives you the pre-defined fields / magic fields
+            # It returns a dictionary containing id, create_date, create_uid, write_date, write_uid
+            # mt_dt = patient.get_metadata()
+            # print("MT DT", mt_dt)
+
+             # def print_patient(self):
+             #        """
+             #        This is a method of the button to demonstrate the usage of button
+             #        -----------------------------------------------------------------
+             #        @param self: object pointer / recordset
+             #        """
+             #        # TODO: Future development
+             #        print("PRINT")
+             #        print("SELFFFFFF", self)
+             #        print("ENVIRONMENT", self.env)
+             #        print("ENVIRONEMTN  ATTRS", dir(self.env))
+             #        print("ARGS", self.env.args)
+             #        print("CURSOR", self.env.cr)
+             #        print("UID", self.env.uid)
+             #        print("USER", self.env.user)
+             #        print("CONTEXT", self.env.context)
+             #        print("COMPANY", self.env.company)
+             #        print("COMPANIES", self.env.companies)
+             #        print("LANG", self.env.lang)
+             #
+             #        appt_obj = self.env['hospital.appointment']
+             #        print("APPT OBJ", appt_obj)
+             #        depa_obj = self.env['hospital.department']
+             #        print("STD OBJ", depa_obj)
+             #
+             #        form_view_pat = self.env.ref('hospital.view_patient_form')
+             #        print("FORM VIEW PAT", form_view_pat)
+
+              # def create_rec(self):
+              #       """
+              #       This is a button method which is used to demonstrate create() method.
+              #       ---------------------------------------------------------------------
+              #       @param self: object pointer
+              #       """
+              #       vals1 = {
+              #           'name': 'Hirva',
+              #           'active': True,
+              #           'age': 34,
+              #           'birthdate': '1989-04-01',
+              #           'patient_id': 21,
+              #           'gender': 'female',
+              #           'blood_group':'A+'
+              #       }
+              #       vals2 = {
+              #           'name': 'Nirav',
+              #           'active': True,
+              #           'age': 19,
+              #           'birthdate': '2004-05-17',
+              #           'patient_id': 20,
+              #           'gender': 'male',
+              #           'blood_group': 'O'
+              #
+              #       }
+              #       vals_lst = [vals1, vals2]
+              #       # Creating a new records in the same object
+              #       new_pat = self.create(vals_lst)
+              #       print("pat", new_pat)
