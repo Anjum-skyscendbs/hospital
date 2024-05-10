@@ -4,9 +4,16 @@ class Appointment(models.Model):
     _name='hospital.appointment'
     _description='Appointment'
 
+    _rec_name = 'patient_name'
 
     patient_name = fields.Char(string='Patient Name', required=True, translate=True,help='This field is used to take patient name')
     patient_id = fields.Integer(string='Patient ID',help='This field is used to take patient id')
+    age = fields.Integer(string='Age', help='This field is used to take patient age')
+
+    email = fields.Char('Email', help='This field is used to take patient email')
+    gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string='Gender')
+
+
     # Diseases=fields.Selection(selection=[('fever','Fever'),
     #                                      ('diabetes','Diabetes'),
     #                                      ('cholera','Cholera'),
@@ -15,6 +22,8 @@ class Appointment(models.Model):
 
     charges = fields.Monetary(currency_field='currency_id',string='Charges')
     currency_id = fields.Many2one('res.currency', 'Currency')
+
+    sequence=fields.Integer(string="Sequence")
 
     phone_number = fields.Char(string='Phone Number', size=10,help='This field is used to take patient phone number')
     address = fields.Char('Address',help='This field is used to take patient address')

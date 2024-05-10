@@ -8,11 +8,16 @@
             <form>
                 <sheet>
                     <group>
+<!--                                        <field name="sequence" widget="handle"/>-->
+
                         <field name="medicines_name"/>
-<!--                        <field name="quantity"/>-->
+
+                        <!--                        <field name="quantity"/>-->
                         <field name="sub_total"/>
                     </group>
                 </sheet>
+
+
             </form>
         </field>
     </record>
@@ -24,8 +29,8 @@
         <field name="model">hospital.medicines</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="sequence" widget="handle"/>
                 <field name="medicines_name"/>
-<!--                <field name="quantity"/>-->
                 <field name="sub_total"/>
 
             </tree>

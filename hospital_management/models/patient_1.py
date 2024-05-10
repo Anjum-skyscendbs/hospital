@@ -233,60 +233,85 @@ class Patient(models.Model):
             # mt_dt = patient.get_metadata()
             # print("MT DT", mt_dt)
 
-             # def print_patient(self):
-             #        """
-             #        This is a method of the button to demonstrate the usage of button
-             #        -----------------------------------------------------------------
-             #        @param self: object pointer / recordset
-             #        """
-             #        # TODO: Future development
-             #        print("PRINT")
-             #        print("SELFFFFFF", self)
-             #        print("ENVIRONMENT", self.env)
-             #        print("ENVIRONEMTN  ATTRS", dir(self.env))
-             #        print("ARGS", self.env.args)
-             #        print("CURSOR", self.env.cr)
-             #        print("UID", self.env.uid)
-             #        print("USER", self.env.user)
-             #        print("CONTEXT", self.env.context)
-             #        print("COMPANY", self.env.company)
-             #        print("COMPANIES", self.env.companies)
-             #        print("LANG", self.env.lang)
-             #
-             #        appt_obj = self.env['hospital.appointment']
-             #        print("APPT OBJ", appt_obj)
-             #        depa_obj = self.env['hospital.department']
-             #        print("STD OBJ", depa_obj)
-             #
-             #        form_view_pat = self.env.ref('hospital.view_patient_form')
-             #        print("FORM VIEW PAT", form_view_pat)
 
-              # def create_rec(self):
-              #       """
-              #       This is a button method which is used to demonstrate create() method.
-              #       ---------------------------------------------------------------------
-              #       @param self: object pointer
-              #       """
-              #       vals1 = {
-              #           'name': 'Hirva',
-              #           'active': True,
-              #           'age': 34,
-              #           'birthdate': '1989-04-01',
-              #           'patient_id': 21,
-              #           'gender': 'female',
-              #           'blood_group':'A+'
-              #       }
-              #       vals2 = {
-              #           'name': 'Nirav',
-              #           'active': True,
-              #           'age': 19,
-              #           'birthdate': '2004-05-17',
-              #           'patient_id': 20,
-              #           'gender': 'male',
-              #           'blood_group': 'O'
+
+
+        # In this Method using search in ORM to find the records according to the Condition
+        # SEARCH METHOD
+    def print_patient(self):
+        search_var = self.env['hospital.patient'].search([('gender','=','male')])
+        print("Search Var........................",search_var)
+        for rec in search_var:
+            print("patient name.....................",rec.patient_name,'gender......',rec.gender)
+
+
+
+    # In this Method using search_count Method.It will count the total records in using search_count
+    def print_patient(self):
+        search_var = self.env['hospital.patient'].search_count([('gender', '=', 'male')])
+        for rec in search_var:
+            print("Search Var........................",search_var)
+
+    # In this Method using Browse Method.It uses id , list of ids to give records according to the ids
+    def print_patient(self):
+            search_var = self.env['hospital.patient'].browse([12,9])
+            for rec in search_var:
+                 print("Search Var........................",rec,"Name",rec.patient_name,"age",rec.age,'gender',rec.gender)
+
+              # """
+              #       This is a method of the button to demonstrate the usage of button
+              #       -----------------------------------------------------------------
+              #       @param self: object pointer / recordset
+              #     """
+              #   # TODO: Future development
               #
-              #       }
-              #       vals_lst = [vals1, vals2]
-              #       # Creating a new records in the same object
-              #       new_pat = self.create(vals_lst)
-              #       print("pat", new_pat)
+              #       print("PRINT")
+              #       print("SELFFFFFF", self)
+              #       print("ENVIRONMENT", self.env)
+              #       print("ENVIRONEMTN  ATTRS", dir(self.env))
+              #       print("ARGS", self.env.args)
+              #       print("CURSOR", self.env.cr)
+              #       print("UID", self.env.uid)
+              #       print("USER", self.env.user)
+              #       print("CONTEXT", self.env.context)
+              #       print("COMPANY", self.env.company)
+              #       print("COMPANIES", self.env.companies)
+              #       print("LANG", self.env.lang)
+              #
+              #       appt_obj = self.env['hospital.appointment']
+              #       print("APPT OBJ", appt_obj)
+              #       depa_obj = self.env['hospital.department']
+              #       print("DEP OBJ", depa_obj)
+              #
+              #       form_view_pat = self.env.ref('hospital.view_patient_form')
+              #       print("FORM VIEW PAT", form_view_pat)
+
+    def create_rec(self):
+    #                 """
+    #                 This is a button method which is used to demonstrate create() method.
+    #                 ---------------------------------------------------------------------
+    #                 @param self: object pointer
+    #                 """
+                    vals1 = {
+                        'patient_name': 'Hirva',
+                        'active': True,
+                        'age': 34,
+                        'birthdate': '1989-04-01',
+                        'patient_id': 21,
+                        'gender': 'female',
+                        'blood_group':'A+'
+                    }
+                    vals2 = {
+                        'patient_name': 'Nirav',
+                        'active': True,
+                        'age': 19,
+                        'birthdate': '2004-05-17',
+                        'patient_id': 20,
+                        'gender': 'male',
+                        'blood_group': 'A'
+
+                    }
+                    vals_lst = [vals1, vals2]
+                    # # Creating a new records in the same object
+                    new_pat = self.create(vals_lst)
+                    print("pat", new_pat)

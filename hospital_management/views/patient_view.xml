@@ -7,8 +7,8 @@
         <field name="arch" type="xml">
             <form string="Patient">
                 <header>
-<!--                    <button name="print_patient" string="Print" type="object"/>-->
-<!--                    <button name="create_rec" string="Create" type="object"/>-->
+                    <button name="print_patient" string="Print" type="object" class="oe_highlight"/>
+                    <button name="create_rec" string="Create" type="object" class="oe_highlight"/>
                     <field name="state" widget="statusbar" options="{'clickable':3}"
                            statusbar_visible="admit,waiting,recovery,discharge"/>
 
@@ -41,7 +41,7 @@
 
                                 <field name="email" widget="email" placeholder="Enter E-mail" required="True"/>
                                 <field name="birthdate" placeholder="Enter Birthdate"/>
-                                <field name="age" placeholder="Enter your age"/>
+                                <field name="age" avg="Average of age" placeholder="Enter your age"/>
                                 <field name="gender" placeholder="select the Gender" widget="radio"/>
                                 <field name="active" invisible="true"/>
                                 <field name="active"/>
@@ -68,7 +68,7 @@
                                 <field name="priority" widget="priority"/>
                                 <field name="medical_history" placeholder="Enter your Medical History" widget="html"/>
                                 <field name="sign_in" widget="float_time"/>
-                                <field name="sequence"/>
+                                <field name="sequence" widget="handle"/>
                                 <field name="parent_id"/>
                                 <!--                                <field name="prescription_ids"/>-->
                                 <field name="diseases_id"/>
@@ -88,6 +88,7 @@
 
                         <page name="pg_appointment" string="Appointment">
                             <field name="appointment_ids" widget="one2many"/>
+
                         </page>
 
                         <page name="pg_facility" string="Facility">
@@ -100,9 +101,8 @@
 
                         <page name="pg_sub" string="Subordinates">
                             <field name="child_ids" readonly="1"/>
+
                         </page>
-
-
                     </notebook>
 
                     <group>
@@ -127,11 +127,13 @@
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="sequence" widget="handle"/>
                 <field name="patient_id"/>
                 <field name="patient_name"/>
+                <field name="age" avg="Average of age"/>
+                <!--                sum="Sum of age"-->
                 <!--                <field name="age"/>-->
                 <field name="active" widget="boolean_toggle"/>
-                <field name="sequence" widget="handle"/>
 
             </tree>
         </field>

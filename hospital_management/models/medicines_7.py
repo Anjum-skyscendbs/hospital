@@ -11,5 +11,5 @@ class Medicines(models.Model):
     medicines_id = fields.Many2one('hospital.patient', string='Medicines')
     quantity = fields.Float(string='Quantity/Dose')
     sub_total = fields.Float(string='Sub Total')
-
+    sequence=fields.Integer(string='Sequence')
 
