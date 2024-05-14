@@ -1,4 +1,4 @@
-from odoo import fields,models
+from odoo import models, fields, api
 
 class Appointment(models.Model):
     _name='hospital.appointment'
@@ -12,7 +12,7 @@ class Appointment(models.Model):
 
     email = fields.Char('Email', help='This field is used to take patient email')
     gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string='Gender')
-
+    # photo=fields.Image("Image")
 
     # Diseases=fields.Selection(selection=[('fever','Fever'),
     #                                      ('diabetes','Diabetes'),

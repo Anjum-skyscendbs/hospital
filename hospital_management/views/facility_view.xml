@@ -11,9 +11,10 @@
                 <sheet>
                     <group>
                         <field name="patient_name"/>
-                        <field name="patient_id"/>
-                        <field name="word_rooms" widget="checkbox"/>
-                        <field name="phone_number"/>
+                        <field name="patient_id_no"/>
+                        <field name="wordrooms" options="{'no_create':1, 'no_open':1}"/>
+                        <field name="room_no"/>
+<!--                        <field name="phone_number"/>-->
                     </group>
 
                 </sheet>
@@ -30,8 +31,10 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="patient_name" placeholder="Enter your name"/>
-                <field name="patient_id"/>
-                <field name="word_rooms"/>
+                <field name="patient_id_no"/>
+                <field name="wordrooms"/>
+                <field name="room_no"/>
+
             </tree>
         </field>
     </record>

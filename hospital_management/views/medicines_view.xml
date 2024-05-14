@@ -8,16 +8,15 @@
             <form>
                 <sheet>
                     <group>
-<!--                                        <field name="sequence" widget="handle"/>-->
+                        <!--                                        <field name="sequence" widget="handle"/>-->
+                        <!--                        <field name="quantity"/>-->
 
                         <field name="medicines_name"/>
-
-                        <!--                        <field name="quantity"/>-->
-                        <field name="sub_total"/>
+                        <field name="total_price"/>
                     </group>
+
+
                 </sheet>
-
-
             </form>
         </field>
     </record>
@@ -31,7 +30,7 @@
             <tree>
                 <field name="sequence" widget="handle"/>
                 <field name="medicines_name"/>
-                <field name="sub_total"/>
+                <field name="total_price"/>
 
             </tree>
         </field>

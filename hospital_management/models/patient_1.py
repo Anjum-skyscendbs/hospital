@@ -50,7 +50,7 @@ class Patient(models.Model):
     additional_information = fields.Char('Additional Information',
                                          help='This field is used to take additional information')
     template = fields.Html('Template')
-    total_price = fields.Float(string='Total Marks')
+    total_price = fields.Float(string='Total Price')
 
     priority = fields.Selection([(str(ele), str(ele)) for ele in range(5)], 'Priority')
     blood_group = fields.Selection([
@@ -67,12 +67,6 @@ class Patient(models.Model):
                               ('recovery', 'Recovery'),
                               ('discharge', 'Discharge')], 'State', default='admit')
 
-    # Created a function of Button in this file
-    # function name is action_test sel
-
-    def action_test(self):
-        print("Button Clicked !!!!!")
-
     # Following are the Relational Fields will be used to connect with other models.
     # relational fields will be used to connect with other models.
     # you can create different relations with models such as Many2one, One2many and Many2many.
@@ -81,11 +75,20 @@ class Patient(models.Model):
 
     # This is also a Relational field of Using Many2one in diseases model.
 
+    # Exercise-3 Q-1 Having 'it' in substring in their name to select it’ as a substring in their name
+    # should be allowed to select.
+
     diseases_id = fields.Many2one('hospital.diseases', 'Diseases')
+    # Solution : domain="[('diseases_name','ilike','it')]"
 
     # 1) this is the required field type one Many2one in the department model.
 
-    department_id = fields.Many2one('hospital.department', 'Department')
+    # Exercise-2 Q-6 If a record is selected in a many2one field, it should not be possible to delete the
+    # record from the model of many2one.
+    department_id = fields.Many2one('hospital.department', 'Department', ondelete='restrict')
+
+    # This is Many2one field which I am using in this wardrooms fields.
+    # wordrooms_id = fields.Many2one('hospital.facility','Facility')
 
     # 2) The One2many field will have the first attribute as the comodel name being a relational field.
 
@@ -94,6 +97,9 @@ class Patient(models.Model):
     # We will add _ids suffix to the One2many field.
     # The third attribute is the label fo the field.
     # This field is not stored in the database table.
+
+    # Exercise-2 Q-5 Create a functionality such that whenever I delete a main record all the records in
+    # its one2many should be deleted.
 
     appointment_ids = fields.One2many('hospital.appointment', 'patient_id', limit=2)
 
@@ -111,7 +117,9 @@ class Patient(models.Model):
     # Here it creates a lookup table with the name "'comodel's table name + _ + current model's table name + '_'  + rel".
     # So in our case it will be hospital_facility_hospital_patient_rel
 
-    facility_ids = fields.Many2many('hospital.facility', 'pat_fact_rel', 'patient_id', 'fact_id', 'Facilities', limit=2)
+    # Exercise-2 Q-4,Q-8 Give the table user defined name. Also give user defined name for the
+    # columns in this table
+    facility_ids = fields.Many2many('hospital.facility', 'patient_fact_rel', 'patient_id', 'fact_id', 'Facilities')
 
     ref = fields.Reference([('hospital.patient', 'Patient'),
                             ('res.users', 'Users'),
@@ -122,6 +130,7 @@ class Patient(models.Model):
     # It is basically a many2one field to itself.
 
     child_ids = fields.One2many('hospital.patient', 'parent_id', 'Subordinates')
+
     # This is also a reserved field and works for hierarchy.
     # It is an O2M field and  field will be always parent_id
 
@@ -138,18 +147,27 @@ class Patient(models.Model):
     # method name is calc_sub_total.
     # For Computing the total price of the medicine.
 
-    sub_total = fields.Float(compute='_calc_sub_total', string='Total Amount')
+    # Created a function of Button in this file
+    # function name is action_test sel
+
+    def action_test(self):
+        print("Button Clicked !!!!!")
+
+    # sub total of medicines,write a compute method to calculate its value and fields in it.
+    # In the above I created a function name api.depends in it.
+    # To calculate this medicines calc sub total is function is used for this.
+    total_price = fields.Float(compute='_calc_total_price', string='Total Price')
 
     @api.depends('medicines_ids')
-    def _calc_sub_total(self):
+    def _calc_total_price(self):
         """
      This method calculates the total price based on quantity and medicine price.
     """
         for record in self:
             total = 0.0
             for medicines in record.medicines_ids:
-                total += medicines.sub_total
-            record.sub_total = total
+                total += medicines.total_price
+            record.total_price = total
 
         # 1) In below case it will return records which have active set.
         # This will show in the Terminal that records are in active stage or not
@@ -233,85 +251,80 @@ class Patient(models.Model):
             # mt_dt = patient.get_metadata()
             # print("MT DT", mt_dt)
 
-
-
-
         # In this Method using search in ORM to find the records according to the Condition
         # SEARCH METHOD
+
     def print_patient(self):
-        search_var = self.env['hospital.patient'].search([('gender','=','male')])
-        print("Search Var........................",search_var)
+        search_var = self.env['hospital.patient'].search([('gender', '=', 'male')])
+        print("Search Var........................", search_var)
         for rec in search_var:
-            print("patient name.....................",rec.patient_name,'gender......',rec.gender)
+            print("patient name.....................", rec.patient_name, 'gender......', rec.gender)
 
+        # In this Method using search_count Method.It will count the total records in using search_count
+        # search_var = self.env['hospital.patient'].search_count([('gender', '=', 'male')])
+        # for rec in search_var:
+        #     print("Search Var........................",search_var)
 
+        # In this Method using Browse Method.It uses id , list of ids to give records according to the ids
 
-    # In this Method using search_count Method.It will count the total records in using search_count
-    def print_patient(self):
-        search_var = self.env['hospital.patient'].search_count([('gender', '=', 'male')])
-        for rec in search_var:
-            print("Search Var........................",search_var)
+        # search_var = self.env['hospital.patient'].browse([12,9])
+        # for rec in search_var:
+        #      print("Search Var........................",rec,"Name",rec.patient_name,"age",rec.age,'gender',rec.gender)
 
-    # In this Method using Browse Method.It uses id , list of ids to give records according to the ids
-    def print_patient(self):
-            search_var = self.env['hospital.patient'].browse([12,9])
-            for rec in search_var:
-                 print("Search Var........................",rec,"Name",rec.patient_name,"age",rec.age,'gender',rec.gender)
-
-              # """
-              #       This is a method of the button to demonstrate the usage of button
-              #       -----------------------------------------------------------------
-              #       @param self: object pointer / recordset
-              #     """
-              #   # TODO: Future development
-              #
-              #       print("PRINT")
-              #       print("SELFFFFFF", self)
-              #       print("ENVIRONMENT", self.env)
-              #       print("ENVIRONEMTN  ATTRS", dir(self.env))
-              #       print("ARGS", self.env.args)
-              #       print("CURSOR", self.env.cr)
-              #       print("UID", self.env.uid)
-              #       print("USER", self.env.user)
-              #       print("CONTEXT", self.env.context)
-              #       print("COMPANY", self.env.company)
-              #       print("COMPANIES", self.env.companies)
-              #       print("LANG", self.env.lang)
-              #
-              #       appt_obj = self.env['hospital.appointment']
-              #       print("APPT OBJ", appt_obj)
-              #       depa_obj = self.env['hospital.department']
-              #       print("DEP OBJ", depa_obj)
-              #
-              #       form_view_pat = self.env.ref('hospital.view_patient_form')
-              #       print("FORM VIEW PAT", form_view_pat)
+        # """
+        #       This is a method of the button to demonstrate the usage of button
+        #       -----------------------------------------------------------------
+        #       @param self: object pointer / recordset
+        #     """
+        #   # TODO: Future development
+        #
+        #       print("PRINT")
+        #       print("SELFFFFFF", self)
+        #       print("ENVIRONMENT", self.env)
+        #       print("ENVIRONEMTN  ATTRS", dir(self.env))
+        #       print("ARGS", self.env.args)
+        #       print("CURSOR", self.env.cr)
+        #       print("UID", self.env.uid)
+        #       print("USER", self.env.user)
+        #       print("CONTEXT", self.env.context)
+        #       print("COMPANY", self.env.company)
+        #       print("COMPANIES", self.env.companies)
+        #       print("LANG", self.env.lang)
+        #
+        #       appt_obj = self.env['hospital.appointment']
+        #       print("APPT OBJ", appt_obj)
+        #       depa_obj = self.env['hospital.department']
+        #       print("DEP OBJ", depa_obj)
+        #
+        #       form_view_pat = self.env.ref('hospital.view_patient_form')
+        #       print("FORM VIEW PAT", form_view_pat)
 
     def create_rec(self):
-    #                 """
-    #                 This is a button method which is used to demonstrate create() method.
-    #                 ---------------------------------------------------------------------
-    #                 @param self: object pointer
-    #                 """
-                    vals1 = {
-                        'patient_name': 'Hirva',
-                        'active': True,
-                        'age': 34,
-                        'birthdate': '1989-04-01',
-                        'patient_id': 21,
-                        'gender': 'female',
-                        'blood_group':'A+'
-                    }
-                    vals2 = {
-                        'patient_name': 'Nirav',
-                        'active': True,
-                        'age': 19,
-                        'birthdate': '2004-05-17',
-                        'patient_id': 20,
-                        'gender': 'male',
-                        'blood_group': 'A'
+        #                 """
+        #                 This is a button method which is used to demonstrate create() method.
+        #                 ---------------------------------------------------------------------
+        #                 @param self: object pointer
+        #                 """
+        vals1 = {
+            'patient_name': 'Hirva',
+            'active': True,
+            'age': 34,
+            'birthdate': '1989-04-01',
+            'patient_id': 21,
+            'gender': 'female',
+            'blood_group': 'A+'
+        }
+        vals2 = {
+            'patient_name': 'Nirav',
+            'active': True,
+            'age': 19,
+            'birthdate': '2004-05-17',
+            'patient_id': 20,
+            'gender': 'male',
+            'blood_group': 'A'
 
-                    }
-                    vals_lst = [vals1, vals2]
-                    # # Creating a new records in the same object
-                    new_pat = self.create(vals_lst)
-                    print("pat", new_pat)
+        }
+        vals_lst = [vals1, vals2]
+        # # Creating a new records in the same object
+        new_pat = self.create(vals_lst)
+        print("pat", new_pat)

@@ -7,10 +7,12 @@
         <field name="arch" type="xml">
             <form string="Patient">
                 <header>
+
                     <button name="print_patient" string="Print" type="object" class="oe_highlight"/>
                     <button name="create_rec" string="Create" type="object" class="oe_highlight"/>
                     <field name="state" widget="statusbar" options="{'clickable':3}"
                            statusbar_visible="admit,waiting,recovery,discharge"/>
+
 
                 </header>
 
@@ -20,42 +22,37 @@
                     <widget name="web_ribbon" title="Active" bg_color="bg-success"
                             attrs="{'invisible': [('active', '=', False)]}"/>
 
+
                     <div class="row">
+
+                        <h2>Hospital Management System</h2>
+
                         <div class="col col-md-6">
                             <group>
-                                <h1 colspan="7">
-                                    Hospital Management System
-                                </h1>
 
-
-                            </group>
-
-                            <group>
                                 <label for="patient_name"/>
+
                                 <h1 colspan="1">
                                     <field name="patient_name"/>
                                 </h1>
-                                <!--                                <field name="patient_name" placeholder="Enter your name"/>-->
                                 <field name="patient_id" placeholder="Enter your Id" invisible="false"/>
-                                <!-- invisible is use for hidden the patient_id from user -->
-
                                 <field name="email" widget="email" placeholder="Enter E-mail" required="True"/>
                                 <field name="birthdate" placeholder="Enter Birthdate"/>
-                                <field name="age" avg="Average of age" placeholder="Enter your age"/>
+                                <field name="age" placeholder="Enter your age"/>
                                 <field name="gender" placeholder="select the Gender" widget="radio"/>
                                 <field name="active" invisible="true"/>
                                 <field name="active"/>
                                 <field name="blood_group" placeholder="Enter Blood Group"/>
                                 <field name="weight" placeholder="Enter Weight"/>
                                 <field name="height" placeholder="Enter Height"/>
-                                <!--                                <field name="Diseases" placeholder="Select Disease" widget="checkbox"/>-->
                                 <field name="ref"/>
-
+                                <!-- Prevent creation and opening of the department record from the field -->
+                                <field name="department_id" options="{'no_create': True, 'no_open': True}"/>
                             </group>
                         </div>
 
-
                         <div class="col col-md-6">
+
                             <group>
                                 <!--                                <field name="hospital_name" maxlength='4' placeholder="Enter hospital name"/>-->
                                 <field name="phone_number" placeholder="Enter your phone number"/>
@@ -72,10 +69,8 @@
                                 <field name="parent_id"/>
                                 <!--                                <field name="prescription_ids"/>-->
                                 <field name="diseases_id"/>
-                                <!--                                <field name="medicines_id"/>-->
 
-                                <filter name="fil_gender_male" string="Male" domain="[('gender','=','male')]"/>
-                                <filter name="fil_gender_female" string="Female" domain="[('gender','=','female')]"/>
+                                <!--                                                                <field name="medicines_id"/>-->
 
 
                             </group>
@@ -84,33 +79,34 @@
 
                     <!--                    <separator string="additional information"/>-->
                     <!--                    <field name="additional_information"/>-->
+
                     <notebook>
 
                         <page name="pg_appointment" string="Appointment">
                             <field name="appointment_ids" widget="one2many"/>
-
-                        </page>
-
-                        <page name="pg_facility" string="Facility">
-                            <field name="facility_ids" widget="many2many_tags" placeholder="select any one"/>
                         </page>
 
                         <page name="pg_medicines" string="Medicines">
-                            <field name="medicines_ids" widget="one2many"/>
+                            <field name="medicines_ids"/>
+                            <group>
+                                <field name="total_price"/>
+                            </group>
+                        </page>
+
+                        <!--Exercise-2 Q-8 The many2many field options should be listed as checkboxes.-->
+
+                        <page name="pg_facility" string="Facility">
+                            <!--                            <label for="facility_ids"/>-->
+                            <field name="facility_ids" widget="many2many_tags"/>
                         </page>
 
                         <page name="pg_sub" string="Subordinates">
                             <field name="child_ids" readonly="1"/>
-
                         </page>
+
                     </notebook>
-
-                    <group>
-                        <field name="sub_total"/>
-                    </group>
-
-
                 </sheet>
+
 
                 <footer>
                     <h1>Copyright 2024</h1>
@@ -130,7 +126,7 @@
                 <field name="sequence" widget="handle"/>
                 <field name="patient_id"/>
                 <field name="patient_name"/>
-                <field name="age" avg="Average of age"/>
+                <field name="age"/>
                 <!--                sum="Sum of age"-->
                 <!--                <field name="age"/>-->
                 <field name="active" widget="boolean_toggle"/>
@@ -141,7 +137,7 @@
 
     <!-- Search view -->
 
-    <record id="view_hospital_search" model="ir.ui.view">
+    <record id="view_patient_search" model="ir.ui.view">
         <field name="name">view.patient.search</field>
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
@@ -149,14 +145,16 @@
                 <field name="patient_name"/>
                 <field name="gender"/>
                 <field name="age"/>
+                <field name="diseases_id"/>
+
                 <!-- Adding Filters in the Search view -->
                 <filter name="fil_gender_male" string="Male" domain="[('gender','=','male')]"/>
                 <filter name="fil_gender_female" string="Female" domain="[('gender','=','female')]"/>
-                <filter name="fil_active_patient" string="Active Patient" domain="[('active','=',True)]"/>
-                <filter name="fil_archive_patient" string="Archived Patient" domain="[('active','=',False)]"/>
+
+
                 <!-- Adding Group By in the Search View -->
                 <filter name="grp_by_gender" string="Gender" context="{'group_by':'gender'}"/>
-                <filter name="grp_by_patient" string="patient" context="{'group_by':'patient_id'}"/>
+                <filter name="grp_by_diseases" string="Diseases" context="{'group_by':'diseases_id'}"/>
             </search>
         </field>
     </record>
@@ -168,12 +166,19 @@
         <field name="name">Patient</field>
         <field name="res_model">hospital.patient</field>
         <field name="view_mode">tree,form</field>
-        <field name="context">{'search_default_id':20, 'search_default_grp_by_id':1}</field>
+        <field name="context">{'search_default_age':29,'search_default_diseases_id':1}</field>
     </record>
 
     <!-- search_default_<field_name> or search_default_<filter_name>
         This is used to add a search by default when we open the view or set a filter or group
          by default when you open the view -->
+
+    <!-- Action of All Patient -->
+    <record id="action_patient" model="ir.actions.act_window">
+        <field name="name">All Patients</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">tree,form</field>
+    </record>
 
     <!-- Action of Male Patient -->
     <record id="action_patient_male" model="ir.actions.act_window">
@@ -197,7 +202,6 @@
         <field name="context">{'default_gender':'female'}</field>
     </record>
 
-
     <!-- Application menu of Hospital -->
 
     <!-- Description for creating a Menus in the model -->
@@ -218,9 +222,16 @@
     <menuitem id="menu_patient" name="Patient" parent="menu_hospital"/>
 
     <!-- Menu of patient -->
-    <menuitem id="menu_configuration" name="Configuration" parent="menu_hospital"/>
-    <menuitem id="menu_appointment" name="Appointment" parent="menu_hospital"/>
-    <menuitem id="menu_hospital_patient" action="action_patient" parent="menu_patient"/>
+    <menuitem id="menu_configuration" name="Configuration" sequence="100" parent="menu_hospital"/>
+
+    <!-- Menu of All Patients -->
+    <menuitem id="menu_patient_patient" action="action_patient" sequence="1" parent="menu_patient"/>
+
+    <!-- Menu of Females -->
+    <menuitem id="menu_patient_patient_female" action="action_patient_female" parent="menu_patient"/>
+
+    <!-- Menu of Males -->
+    <menuitem id="menu_patient_patient_male" action="action_patient_male" parent="menu_patient"/>
 
 
 </odoo>

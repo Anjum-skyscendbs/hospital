@@ -39,38 +39,45 @@
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
 
-            <kanban string="Staff Kanban" class="o_res_partner_kanban">
+            <kanban string="Appointment Kanban" class="o_res_partner_kanban">
+                <field name="id"/>
+
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
-                            <div>
-                                <ul style="list-style-type:none;">
-                                    <li>
-                                        <b>Name:</b>
-                                        <field name="patient_name"/>
-                                    </li>
 
-                                    <li>
-                                        <b>Age:</b>
-                                        <field name="age"/>
-                                    </li>
+                            <img alt="Avatar"
+                                 t-att-src="kanban_image('hospital.appointment','photo',record.id.raw_value)"
+                                 style="width:100px; height=120px;"/>
+                        </div>
 
-                                    <li>
-                                        <b>Email:</b>
-                                        <field name="email"/>
-                                    </li>
+                        <div>
+                            <ul style="list-style-type:none;">
+                                <li>
+                                    <b>Name:</b>
+                                    <field name="patient_name"/>
+                                </li>
 
-                                    <li>
-                                        <b>Gender:</b>
-                                        <field name="gender"/>
-                                    </li>
+                                <li>
+                                    <b>Age:</b>
+                                    <field name="age"/>
+                                </li>
 
-                                    <li>
-                                        <b>phone number:</b>
-                                        <field name="phone_number"/>
-                                    </li>
-                                </ul>
-                            </div>
+                                <li>
+                                    <b>Email:</b>
+                                    <field name="email"/>
+                                </li>
+
+                                <li>
+                                    <b>Gender:</b>
+                                    <field name="gender"/>
+                                </li>
+
+                                <li>
+                                    <b>phone number:</b>
+                                    <field name="phone_number"/>
+                                </li>
+                            </ul>
                         </div>
                     </t>
                 </templates>

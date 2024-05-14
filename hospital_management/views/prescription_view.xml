@@ -11,12 +11,12 @@
                     <group>
                         <!--                        <field name="patient_name"/>-->
                         <field name="patient_id"/>
-<!--                        <field name="patient_name"/>-->
+                        <!--                        <field name="patient_name"/>-->
 
                         <field name="medicines_id"/>
                         <!--                        <field name="prescription_ids"/>-->
                         <field name="quantity"/>
-                        <field name="sub_total"/>
+                        <field name="total_price"/>
 
                     </group>
                 </sheet>
@@ -32,11 +32,11 @@
         <field name="model">hospital.prescription</field>
         <field name="arch" type="xml">
             <tree>
-<!--                <field name="patient_name"/>-->
+                <!--                <field name="patient_name"/>-->
                 <!--                <field name="patient_id"/>-->
                 <field name="medicines_id" placeholder="Enter your name"/>
                 <field name="quantity"/>
-                <field name="sub_total"/>
+                <field name="total_price"/>
 
             </tree>
         </field>
@@ -52,7 +52,8 @@
 
     <!-- Menu of Prescription-->
 
-    <menuitem id="menu_hospital_prescription" action="action_prescription" parent="hospital_management.menu_configuration"/>
+    <menuitem id="menu_hospital_prescription" action="action_prescription"
+              parent="hospital_management.menu_configuration"/>
 </odoo>
 
 

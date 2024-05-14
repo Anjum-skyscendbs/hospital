@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
+
     <!--form view of Diseases-->
 
     <record id="view_diseases_form" model="ir.ui.view">
