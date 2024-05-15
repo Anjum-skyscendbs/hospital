@@ -21,7 +21,10 @@ class Patient(models.Model):
 
     # _order = '<field_name>' or '<field_name> desc'
     # This will be used to sort the fields with a field in either ascending or descending order
-    # _order = 'sequence'
+    _order = 'sequence'
+
+    # Exercise-2 Q-24 Add a sequence field and add a functionality such that you can drag and drop
+    # records to change the sequence.
     sequence = fields.Integer('Sequence')
 
     # hospital_name = fields.Char(string="Hospital name",size=4)
@@ -62,10 +65,16 @@ class Patient(models.Model):
         ('O+', 'O'),
     ], string='Blood Group')
 
+
+    # Exercise-2 Q-23. Add a state field on your main model and add atleast 5 states. Assign a default state.
+    # Display the states on progressbar on form view
     state = fields.Selection([('admit', 'Admit'),
                               ('waiting', 'Waiting'),
                               ('recovery', 'Recovery'),
-                              ('discharge', 'Discharge')], 'State', default='admit')
+                              ('discharge', 'Discharge'),
+                              ('draft', 'Draft'),
+                              ('left', 'Left'),
+                              ], 'State', default='admit')
 
     # Following are the Relational Fields will be used to connect with other models.
     # relational fields will be used to connect with other models.
@@ -75,7 +84,7 @@ class Patient(models.Model):
 
     # This is also a Relational field of Using Many2one in diseases model.
 
-    # Exercise-3 Q-1 Having 'it' in substring in their name to select it’ as a substring in their name
+    # Exercise-3 Q-1,Q-6 Having 'it' in substring in their name to select it’ as a substring in their name
     # should be allowed to select.
 
     diseases_id = fields.Many2one('hospital.diseases', 'Diseases')
@@ -87,9 +96,6 @@ class Patient(models.Model):
     # record from the model of many2one.
     department_id = fields.Many2one('hospital.department', 'Department', ondelete='restrict')
 
-    # This is Many2one field which I am using in this wardrooms fields.
-    # wordrooms_id = fields.Many2one('hospital.facility','Facility')
-
     # 2) The One2many field will have the first attribute as the comodel name being a relational field.
 
     # The second attribute is the inverse field which has to be the name of the field in the comodel.
@@ -98,13 +104,13 @@ class Patient(models.Model):
     # The third attribute is the label fo the field.
     # This field is not stored in the database table.
 
-    # Exercise-2 Q-5 Create a functionality such that whenever I delete a main record all the records in
+    # Exercise-2 Q-5,Q-7 Create a functionality such that whenever I delete a main record all the records in
     # its one2many should be deleted.
 
     appointment_ids = fields.One2many('hospital.appointment', 'patient_id', limit=2)
 
     # This is one2many field of Medicines which is define in inverse field of medicines_id
-    # It is used to show this field in the On the Other Side of the model
+    # It is used to show this field in the On the Other Side of the model.
 
     medicines_ids = fields.One2many('hospital.prescription', 'patient_id', 'Prescription')
 
@@ -117,14 +123,24 @@ class Patient(models.Model):
     # Here it creates a lookup table with the name "'comodel's table name + _ + current model's table name + '_'  + rel".
     # So in our case it will be hospital_facility_hospital_patient_rel
 
-    # Exercise-2 Q-4,Q-8 Give the table user defined name. Also give user defined name for the
-    # columns in this table
+    # Exercise-2 Q-4,Q-8 Give the table user defined name. Also give user defined name for the columns in this table
     facility_ids = fields.Many2many('hospital.facility', 'patient_fact_rel', 'patient_id', 'fact_id', 'Facilities')
 
+    # Exercise-2 Q-12 Add a reference field where you can select a record from multiple models.
     ref = fields.Reference([('hospital.patient', 'Patient'),
                             ('res.users', 'Users'),
                             ('res.partner', 'Contacts')], 'Reference')
 
+    # Reference field is a combination of Selection and M2O fields.
+    # The first parameter will be same as selection a list of tuple.
+    # So here the (first element) key must be a model name and the (second element) value can be anything.
+    # On the screen it displays a static dropdown similar to selection where you can select one fo the models.
+    # As soon as you select the model it shows another field where you can select a record related to the selected model.
+    # This will be a varchar field in the database.
+    # It stores the modelname + ',' + id of the selected record.
+
+    # Exercise-2 Q-26. Add a hierarchy in the model of your many2one field. Use another field other
+    # than parent_id for this hierarchy
     parent_id = fields.Many2one('hospital.patient', 'Monitor')
     # This is a reserved field used for hierarchy.
     # It is basically a many2one field to itself.
@@ -133,6 +149,14 @@ class Patient(models.Model):
 
     # This is also a reserved field and works for hierarchy.
     # It is an O2M field and  field will be always parent_id
+
+    # Exercise-2 Q-25 Add a hierarchy on your main model. The hierarchy should be stored in the character field.
+    parent_path = fields.Char('Parent Path', index=True)
+
+    # This is a reserved field which is used only if we have hierarchy in the model.
+    # It will be used for faster searching of the extended hierarchy. (Subordinates of subordinates)
+    # Not needed on the view.
+    # It stores the complete hierarchy of all the parent's ids including current record's id.
 
     # prescription_ids=fields.One2many('hospital.prescription','prescription_ids')
 
@@ -153,21 +177,22 @@ class Patient(models.Model):
     def action_test(self):
         print("Button Clicked !!!!!")
 
-    # sub total of medicines,write a compute method to calculate its value and fields in it.
+    # total price of medicines,write a compute method to calculate its value and fields in it.
     # In the above I created a function name api.depends in it.
-    # To calculate this medicines calc sub total is function is used for this.
+    # To calculate this medicines calc total price is function is used for this.
     total_price = fields.Float(compute='_calc_total_price', string='Total Price')
 
     @api.depends('medicines_ids')
     def _calc_total_price(self):
         """
-     This method calculates the total price based on quantity and medicine price.
-    """
+       This method calculates the total price based on quantity and medicine price.
+       """
+
         for record in self:
             total = 0.0
-            for medicines in record.medicines_ids:
-                total += medicines.total_price
-            record.total_price = total
+        for medicines in record.medicines_ids:
+            total += medicines.total_price
+        record.total_price = total
 
         # 1) In below case it will return records which have active set.
         # This will show in the Terminal that records are in active stage or not
@@ -209,18 +234,18 @@ class Patient(models.Model):
         res = female_records not in active_records
         print("RES", res)
 
-        # < is used to check subset
+        # # < is used to check subset
         print("SUBSET", female_records < active_records)
-        # <= is used to check either subset or same set
+        # # <= is used to check either subset or same set
         print("SUB OR SAME1", male_records <= active_records)
         print("SUB OR SAME2", active_records <= active_records)
 
         # > is used to check superset
         print("SUPER", active_records > female_records)
-        # >= is used to check superset or same set
+        # # >= is used to check superset or same set
         print("SUPER OR SAME 1", active_records >= male_records)
         print("SUPER OR SAME 2", active_records >= active_records)
-
+        #
         print("UNION", male_records | female_records)
         print("INTERSECTION", male_records & active_records)
         print("DIFF", active_records - female_records)
@@ -235,21 +260,21 @@ class Patient(models.Model):
             print("M2O FIELD", patient.department_id.patient_name)
             # IF there's a single record you can access the field with multiple '.' referecnes.
             print("O2M FIELD", patient.appointment_ids)
-            # If there are multiple records you can not access the field directly.
-            # print("Appointment FIELD",patient.appointment_ids # This will raise an error of singleton
+        # If there are multiple records you can not access the field directly.
+        # print("Appointment FIELD",patient.appointment_ids # This will raise an error of singleton
 
-            # You can use index in the recordset but if and only if there is a record
-            if patient.appointment_ids:
-                print("O@M APPOINTMENT PATIENT", patient.appointment_ids[0].patient_name)
+        # You can use index in the recordset but if and only if there is a record
+        if patient.appointment_ids:
+            print("O@M APPOINTMENT PATIENT", patient.appointment_ids[0].patient_name)
 
-            # # ensure_one() is used to validate a single record
-            # patient.ensure_one() # NO ERROR
-            # #patient.appointment_ids.ensure_one() # ERROR
-            #
-            # get_metadata() gives you the pre-defined fields / magic fields
-            # It returns a dictionary containing id, create_date, create_uid, write_date, write_uid
-            # mt_dt = patient.get_metadata()
-            # print("MT DT", mt_dt)
+        # # ensure_one() is used to validate a single record
+        # patient.ensure_one() # NO ERROR
+        # #patient.appointment_ids.ensure_one() # ERROR
+        #
+        # get_metadata() gives you the pre-defined fields / magic fields
+        # It returns a dictionary containing id, create_date, create_uid, write_date, write_uid
+        # mt_dt = patient.get_metadata()
+        # print("MT DT", mt_dt)
 
         # In this Method using search in ORM to find the records according to the Condition
         # SEARCH METHOD
@@ -260,71 +285,181 @@ class Patient(models.Model):
         for rec in search_var:
             print("patient name.....................", rec.patient_name, 'gender......', rec.gender)
 
-        # In this Method using search_count Method.It will count the total records in using search_count
-        # search_var = self.env['hospital.patient'].search_count([('gender', '=', 'male')])
-        # for rec in search_var:
-        #     print("Search Var........................",search_var)
-
-        # In this Method using Browse Method.It uses id , list of ids to give records according to the ids
-
-        # search_var = self.env['hospital.patient'].browse([12,9])
-        # for rec in search_var:
-        #      print("Search Var........................",rec,"Name",rec.patient_name,"age",rec.age,'gender',rec.gender)
-
-        # """
-        #       This is a method of the button to demonstrate the usage of button
-        #       -----------------------------------------------------------------
-        #       @param self: object pointer / recordset
-        #     """
-        #   # TODO: Future development
+        # # TODO: Future development
         #
-        #       print("PRINT")
-        #       print("SELFFFFFF", self)
-        #       print("ENVIRONMENT", self.env)
-        #       print("ENVIRONEMTN  ATTRS", dir(self.env))
-        #       print("ARGS", self.env.args)
-        #       print("CURSOR", self.env.cr)
-        #       print("UID", self.env.uid)
-        #       print("USER", self.env.user)
-        #       print("CONTEXT", self.env.context)
-        #       print("COMPANY", self.env.company)
-        #       print("COMPANIES", self.env.companies)
-        #       print("LANG", self.env.lang)
+        # print("PRINT")
+        # print("SELFFFFFF", self)
+        # print("ENVIRONMENT", self.env)
+        # print("ENVIRONEMTN  ATTRS", dir(self.env))
+        # print("ARGS", self.env.args)
+        # print("CURSOR", self.env.cr)
+        # print("UID", self.env.uid)
+        # print("USER", self.env.user)
+        # print("CONTEXT", self.env.context)
+        # print("COMPANY", self.env.company)
+        # print("COMPANIES", self.env.companies)
+        # print("LANG", self.env.lang)
         #
-        #       appt_obj = self.env['hospital.appointment']
-        #       print("APPT OBJ", appt_obj)
-        #       depa_obj = self.env['hospital.department']
-        #       print("DEP OBJ", depa_obj)
+        # appt_obj = self.env['hospital.appointment']
+        # print("APPT OBJ", appt_obj)
+        # depa_obj = self.env['hospital.department']
+        # print("DEP OBJ", depa_obj)
         #
-        #       form_view_pat = self.env.ref('hospital.view_patient_form')
-        #       print("FORM VIEW PAT", form_view_pat)
+        # form_view_pat = self.env.ref('hospital.view_patient_form')
+        # print("FORM VIEW PAT", form_view_pat)
 
     def create_rec(self):
-        #                 """
-        #                 This is a button method which is used to demonstrate create() method.
-        #                 ---------------------------------------------------------------------
-        #                 @param self: object pointer
-        #                 """
+        """
+        This is a button method which is used to demonstrate create() method.
+        ---------------------------------------------------------------------
+        @param self: object pointer
+        """
         vals1 = {
-            'patient_name': 'Hirva',
+            'patient_name': 'kajal',
+            'patient_id': 21,
+            'gender': 'female',
+            'blood_group': 'A+',
             'active': True,
             'age': 34,
             'birthdate': '1989-04-01',
-            'patient_id': 21,
-            'gender': 'female',
-            'blood_group': 'A+'
+
         }
         vals2 = {
-            'patient_name': 'Nirav',
+            'patient_name': 'Hardik',
+            'patient_id': 20,
+            'gender': 'male',
+            'blood_group': 'A',
             'active': True,
             'age': 19,
             'birthdate': '2004-05-17',
-            'patient_id': 20,
-            'gender': 'male',
-            'blood_group': 'A'
+
 
         }
         vals_lst = [vals1, vals2]
         # # Creating a new records in the same object
         new_pat = self.create(vals_lst)
         print("pat", new_pat)
+
+    def update_rec(self):
+        """
+        Button's method to demonstrate write() method
+        """
+        # 0 is for creation
+        # 1 is for updation
+        # (1,<id>,{}) will update existing recrod in o2m.
+        # 2 is for deletion
+        # (2,<id>) will remove the record from o2m field and will be removed from the table.
+        # 3 is for unlink
+        # (3,<id>) will remove the record from o2m field but will keep in the table.
+        # 4 is to link
+        # 5 is used to unlink all records
+        # (5,0,0) is used to unlink all records and keeps in the table.
+        # 6 is used to link multiple records but overwrites existing ones
+        # 6 first performs the 5 operation to remove existing records.
+        # then uses 4 operation to link the new records
+        vals = {
+            'age': 29.0,
+            'department_id': 4,
+            'appointment_ids': [
+                #  (5,0,0)
+                #  (6,0,[1,2,3])
+                #  (6,0,[8,19])
+                (4, 1), (4, 2), (4, 3)
+            ]
+        }
+        res = self.write(vals)
+        print("RES", res)
+
+
+        # In this Method using Browse Method.It uses id , list of ids to give records according to the ids
+        # Another Way to using a browse Method
+        # search_var = self.env['hospital.patient'].browse([12, 9])
+        # for rec in search_var:
+        #     print("Search Var........................", rec, "Name", rec.patient_name, "age", rec.age, 'gender',
+        #           rec.gender)
+
+        def browse_rec(self):
+
+            pat_rec = self.browse(23)
+            print("\nSTU REC--------------------------", pat_rec)
+            pat_dict = pat_rec.read(
+                ['name', 'age', 'patient_id', 'appoinment_ids', 'activity_ids'], load='')
+
+            print("PATIENT DICCT----------------------", pat_dict)
+            # M2O will give a tuple containing id and name (if load =='_classic_read')
+            # M2O will give you id (if load != '_classic_read')
+
+            print("DEPARTMENT", pat_dict[0]['department_id'])
+            # O2M  will give a list of ids
+            print("Appointment", pat_dict[0]['appointment_ids'])
+            # M2M will give a list of ids
+            print("ACT", pat_dict[0]['activity_ids'])
+            patient = self.browse([1, 2])
+            print("\nPatients--------------------------", patient)
+
+
+    def copy_rec(self):
+            default = {
+                'patient_name': self.patient_name + ' (copy)',
+                'email': False
+            }
+            new_rec = self.copy(default=default)
+            print("\nNEW REC", new_rec)
+
+    def delete_rec(self):
+            res = self.unlink()
+            print("RES", res)
+
+    def search_rec(self):
+            all_patient = self.search([])
+            # When you pass a blank domain it will return all the records.
+            print("ALL PATIENTS", all_patient)
+
+            # When you pass a condition in domain it will pass only matching records
+            male_patient = self.search([('gender', '=', 'male')])
+            print("MALE PATIENTS", male_patient)
+
+            # When you pass offset it will skip no of records from the result
+            offset_3_patient = self.search([], offset=3)
+            print("SKIP 3 RECORDS", offset_3_patient)
+
+            # When you pass limit it will limit the max no of records to fetch
+            limit_4_patient = self.search([], limit=4)
+            print("First 4 RECORDS", limit_4_patient)
+
+            # When you pass offset and limit both the priority will be offset and then limit
+            off_2_limit_4_patient = self.search([], offset=2, limit=4)
+            print("SKIP 2 MAX 4 RECORDS", off_2_limit_4_patient)
+
+            # When you pass order you can sort the records by a specific field
+            sort_asc_patient_name = self.search([], order='patient_name')
+            print("SHORT BY NAME<", sort_asc_patient_name)
+
+            # When you pass desc after the field it will sort in descending order
+            sort_desc_patient_name = self.search([], order='patient_name desc')
+            print("SHORT BY NAME< DESC", sort_desc_patient_name)
+
+            # When you pass offset, limit and order the priority goes to order then offset and then limit
+            sort_asc_patient_name = self.search([], offset=2, limit=4, order='patient_name')
+            print("SHORT BY NAME< OFFSET LIMIT", sort_asc_patient_name)
+
+            # When you pass count=True it returns no of records rather than a recordset
+            no_of_patient = self.search([], count=True)
+            print("TOTAL PATIENT", no_of_patient)
+            no_of_female_patient_name = self.search([('gender', '=', 'female')], count=True)
+            print("FEMALE PATIENT", no_of_female_patient_name)
+
+            ## search_count
+            no_of_patient = self.search_count([])
+            print("TOTAL PATIENT", no_of_patient)
+            no_of_female_patient_name = self.search_count([('gender', '=', 'female')])
+            print("FEMALE PATIENT", no_of_female_patient_name)
+
+            ### search_read
+            patient_name_lst = self.search_read(fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'])
+            print("SEARCH READ Patient", patient_name_lst)
+            patient_name_lst_2 = self.search_read(
+                fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'],
+                offset=2,
+                order='patient_name')
+            print("SEARCH READ PATIENT", patient_name_lst_2)

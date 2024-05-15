@@ -10,9 +10,18 @@
 
                     <button name="print_patient" string="Print" type="object" class="oe_highlight"/>
                     <button name="create_rec" string="Create" type="object" class="oe_highlight"/>
-                    <field name="state" widget="statusbar" options="{'clickable':3}"
-                           statusbar_visible="admit,waiting,recovery,discharge"/>
 
+                    <button name="update_rec" string="Update" type="object" class="oe_highlight"/>
+                    <button name="browse" string="Browse" type="object" class="oe_highlight"/>
+                    <button name="copy_rec" string="Copy" type="object" class="oe_highlight"/>
+                    <button name="delete_rec" string="Delete" type="object" class="oe_highlight"/>
+                    <button name="search_rec" string="Search" type="object" class="oe_highlight"/>
+
+                    <field name="state" widget="statusbar" options="{'clickable':3}"
+                           statusbar_visible="admit,waiting,recovery,discharge,draft,left"/>
+
+
+                    <!--                        <field name="state" invisible="1"/>-->
 
                 </header>
 
@@ -47,7 +56,7 @@
                                 <field name="height" placeholder="Enter Height"/>
                                 <field name="ref"/>
                                 <!-- Prevent creation and opening of the department record from the field -->
-                                <field name="department_id" options="{'no_create': True, 'no_open': True}"/>
+                                <!--                                <field name="department_id" options="{'no_create': True, 'no_open': True}"/>-->
                             </group>
                         </div>
 
@@ -69,8 +78,11 @@
                                 <field name="parent_id"/>
                                 <!--                                <field name="prescription_ids"/>-->
                                 <field name="diseases_id"/>
+                                <!-- Exercise-2 Q-10. In the many2one field it should not be possible to create or update the record of-->
+                                <!-- the many2one model from the field.-->
+                                <!-- Solution : options="{'no_create': True, 'no_open': True}"-->
 
-                                <!--                                                                <field name="medicines_id"/>-->
+                                <!--<field name="medicines_id"/>-->
 
 
                             </group>
@@ -126,9 +138,10 @@
                 <field name="sequence" widget="handle"/>
                 <field name="patient_id"/>
                 <field name="patient_name"/>
-                <field name="age"/>
+                <!-- Exercise-2 Q-16. Add a float field and add a functionality such that when you group the records it-->
+                <!--shows the average of the values given in the field on the group in tree view.-->
+                <field name="age" avg="AVERAGE"/>
                 <!--                sum="Sum of age"-->
-                <!--                <field name="age"/>-->
                 <field name="active" widget="boolean_toggle"/>
 
             </tree>

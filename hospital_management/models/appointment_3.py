@@ -21,6 +21,8 @@ class Appointment(models.Model):
     #                                      ('headaches','Headaches')],help='This field show the list of diseases')
 
     charges = fields.Monetary(currency_field='currency_id',string='Charges')
+
+    # Exercise-2 Q-11 Add an amount field which shows the currency in Canadian Dollar.
     currency_id = fields.Many2one('res.currency', 'Currency')
 
     sequence=fields.Integer(string="Sequence")
@@ -30,8 +32,17 @@ class Appointment(models.Model):
 
     checkup_date = fields.Date(string='Checkup Date',help='This field is used to take patient checkup date')
 
+    # Exercise-2 Q-15. Add a field where you can add a file and make it such that the file content is stored in the database.
     document = fields.Binary('Document')
+    # Binary field is used to store the binary data basically content of a document
+
+
+    # Exercise-2 Q-13 Add a field where you can add a file. Preserve the file name.
+    file_name = fields.Char('File Name')
+
+    # Exercise-2 Q-14 Add a field where you can add an image
     photo = fields.Image('Photo')
+    # In Image field you can upload an image.
 
     appointment_ids = fields.Many2one('hospital.appointment', 'Appointment')
 
