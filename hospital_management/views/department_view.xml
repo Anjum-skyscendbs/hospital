@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
 
+
+    <!-- Exercise-3 Q-32. Add a smart button on your model which will open the records related to your
+    current record Smart button-->
+
     <!-- Action of Department Patient -->
     <record id="action_department_patient" model="ir.actions.act_window">
         <field name="name">Patient</field>
@@ -29,6 +33,8 @@
                                 string="Departments"
                                 icon="fa-users"/>
                     </div>
+
+
                     <group>
 
                         <field name="department"/>

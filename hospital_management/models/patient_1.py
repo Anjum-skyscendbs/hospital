@@ -75,6 +75,7 @@ class Patient(models.Model):
                               ('draft', 'Draft'),
                               ('left', 'Left'),
                               ], 'State', default='admit')
+    # Exercise-3 Q-11 default = 'admit'
 
     # Following are the Relational Fields will be used to connect with other models.
     # relational fields will be used to connect with other models.
@@ -107,7 +108,8 @@ class Patient(models.Model):
     # Exercise-2 Q-5,Q-7 Create a functionality such that whenever I delete a main record all the records in
     # its one2many should be deleted.
 
-    appointment_ids = fields.One2many('hospital.appointment', 'patient_id', limit=2)
+    appointment_ids = fields.One2many('hospital.appointment', 'patient_id',string="Appointment")
+    # limit=2
 
     # This is one2many field of Medicines which is define in inverse field of medicines_id
     # It is used to show this field in the On the Other Side of the model.
@@ -124,7 +126,13 @@ class Patient(models.Model):
     # So in our case it will be hospital_facility_hospital_patient_rel
 
     # Exercise-2 Q-4,Q-8 Give the table user defined name. Also give user defined name for the columns in this table
-    facility_ids = fields.Many2many('hospital.facility', 'patient_fact_rel', 'patient_id', 'fact_id', 'Facilities')
+    facility_ids = fields.Many2many('hospital.facility', 'patient_fact_rel', 'patient_id', 'fact_id','Facilities')
+
+
+    # Exercise-3 Q-2 In the many2many field only the records which are ending with ‘ts’ substring
+    # should be allowed to select In the Facility field.
+    # Solution :- domain = "[('wordrooms', '=like', '%ts')]"
+
 
     # Exercise-2 Q-12 Add a reference field where you can select a record from multiple models.
     ref = fields.Reference([('hospital.patient', 'Patient'),
@@ -197,58 +205,61 @@ class Patient(models.Model):
         # 1) In below case it will return records which have active set.
         # This will show in the Terminal that records are in active stage or not
 
-        active_records = self.filtered('active')
-        print("ACTIVE RECORDS", active_records)
+        # active_records = self.filtered('active')
+        # print("ACTIVE RECORDS", active_records)
 
         # 2) The second way is to using lambda function where you can use proper conditions to filter records.
         # Another way of filtering the data in the module using lambda function in it.
 
-        female_records = active_records.filtered(lambda r: r.gender == 'female')
-        male_records = active_records.filtered(lambda r: r.gender == 'male')
-        print("FEMALE RECORDS", female_records)
-        print("MALE RECORDS", male_records)
+        # female_records = active_records.filtered(lambda r: r.gender == 'female')
+        # male_records = active_records.filtered(lambda r: r.gender == 'male')
+        # print("FEMALE RECORDS", female_records)
+        # print("MALE RECORDS", male_records)
 
         # Using a Mapping field and return the record in a list.
         # Mapped is used to map field values from records and return in a list.
-        active_records_patient_name = active_records.mapped('patient_name')
-        print("ACTIVE NAMES", active_records_patient_name)
+        # active_records_patient_name = active_records.mapped('patient_name')
+        # print("ACTIVE NAMES", active_records_patient_name)
 
-        active_records_patient_name_age = active_records.mapped(lambda r: str(r.patient_name) + "," + str(r.age))
-        print("ACITVE NAME AGE", active_records_patient_name_age)
+        # active_records_patient_name_age = active_records.mapped(lambda r: str(r.patient_name) + "," + str(r.age))
+        # print("ACITVE NAME AGE", active_records_patient_name_age)
 
         # sorted() is used to sort the records
-        sort_by_age = active_records.sorted(key='age')
-        print("SORT BY AGE", sort_by_age)
+        # sort_by_age = active_records.sorted(key='age')
+        # print("SORT BY AGE", sort_by_age)
 
-        sort_by_name = active_records.sorted(key='patient_name', reverse=True)
-        print("SORT BY NAME", sort_by_name)
+        # sort_by_name = active_records.sorted(key='patient_name', reverse=True)
+        # print("SORT BY NAME", sort_by_name)
 
         # # RECORDSET OPERATIONS
         # # using in you can check whether a record exists in a recordset or not.
         # # works with a single record and not multiple records
-        res = female_records in active_records
-        print("RES", res)
-        for fr in female_records:
-            print("FR IN ACT", fr in active_records)
+        # res = female_records in active_records
+        # print("RES", res)
+        # for fr in female_records:
+        #     print("FR IN ACT", fr in active_records)
+        #
+        # res = female_records not in active_records
+        # print("RES", res)
 
-        res = female_records not in active_records
-        print("RES", res)
+        # < is used to check subset
+        # print("SUBSET", female_records < active_records)
 
-        # # < is used to check subset
-        print("SUBSET", female_records < active_records)
-        # # <= is used to check either subset or same set
-        print("SUB OR SAME1", male_records <= active_records)
-        print("SUB OR SAME2", active_records <= active_records)
+        # <= is used to check either subset or same set
+        # print("SUB OR SAME1", male_records <= active_records)
+        # print("SUB OR SAME2", active_records <= active_records)
 
         # > is used to check superset
-        print("SUPER", active_records > female_records)
+        # print("SUPER", active_records > female_records)
+
         # # >= is used to check superset or same set
-        print("SUPER OR SAME 1", active_records >= male_records)
-        print("SUPER OR SAME 2", active_records >= active_records)
-        #
-        print("UNION", male_records | female_records)
-        print("INTERSECTION", male_records & active_records)
-        print("DIFF", active_records - female_records)
+        # print("SUPER OR SAME 1", active_records >= male_records)
+        # print("SUPER OR SAME 2", active_records >= active_records)
+
+        # Exercise-3 Q-25 Get the union, intersection and difference of two recordsets.
+        # print("UNION", male_records | female_records)
+        # print("INTERSECTION", male_records & active_records)
+        # print("DIFF", active_records - female_records)
 
         for patient in self:
             # You can access the fields using '.'.
@@ -283,17 +294,92 @@ class Patient(models.Model):
         search_var = self.env['hospital.patient'].search([('gender', '=', 'male')])
         print("Search Var........................", search_var)
         for rec in search_var:
-            print("patient name.....................", rec.patient_name, 'gender......', rec.gender)
+            print("Patient Name.....................", rec.patient_name, 'gender......', rec.gender)
 
-        # # TODO: Future development
-        #
-        # print("PRINT")
-        # print("SELFFFFFF", self)
-        # print("ENVIRONMENT", self.env)
-        # print("ENVIRONEMTN  ATTRS", dir(self.env))
-        # print("ARGS", self.env.args)
-        # print("CURSOR", self.env.cr)
-        # print("UID", self.env.uid)
+
+    #................... REFFFFFFFFFF METHOD....................
+
+    # Ref Method using self.env.ref it will get the xml id from your model name hospital_management.
+    # You Can do this by 2 method.
+    # First is go to the settings, View and find your xml External Id.
+    # Second is creating a function Check ORM of your model.
+    def check_orm(self):
+        search_var = self.env.ref('hospital_management.view_patient_form')
+        print("search_var.............",search_var.type,"name----",search_var.name)
+
+
+    # If you want to get a XML ID from the view than use this one.
+    # It will get the XML model ID in the terminal. REFFFF Method Using ID.
+    def check_orm(self):
+            search_var = self.env.ref('hospital_management.view_patient_form').id
+            print("search_var.............", search_var)
+
+
+    #.................... Create Method...................
+
+    # Create Method is Use to Create a Record in backend side when you click on the Check ORM,it will create a record
+    # In this method we use dictionary and also use .id to showing a id of the new record.
+
+    # Exercise-3 Q-26 Add a button on the form view when you click on this button it will create a
+    # record on a new model which does not have a relation with the current model. CREATE METHOD
+    def check_orm(self):
+        create_var = self.env['hospital.patient'].create({
+            "patient_name": 'Function Record',
+            "age": 23,
+        })
+        print("Create var............",create_var.id)
+
+    #...................... Write Method...................
+
+    # Another way to update a record using a brw_Id of the record.
+    # Create a method to Update the Record in the recordset using a ID & then update a record Using
+    # a write method in it.
+
+
+    # Exercise-3 Q-28. Add a button on the form view. When you click this button it should update a
+    # field’s value of the current record.
+
+        brw_id=self.env['hospital.patient'].browse(44)
+        update = brw_id.write({
+            "patient_name": 'Function Record Manually',
+            "age": 33,
+        })
+        print("UPDATE............. ",update)
+
+    #.....................Copy Method...............
+
+    # In this Method also used a brw ID for copying a record.
+    # brw_id.copy
+
+        brw_id=self.env['hospital.patient'].browse(33)
+        brw= brw_id.copy()
+        print("COPY....................",brw)
+
+    #...................Unlink Method..........
+
+    # This Method delete a record using a brw ID.
+    # Every time you have to give a new id bcz once it will delete you it can not be
+
+        # brw_id=self.env['hospital.patient'].browse(68)
+        # brw= brw_id.unlink()
+        # print("UNLINK...............",brw)
+
+
+
+        # TODO: Future development
+
+        print("PRINT")
+        print("SELFFFFFF", self)
+        print("ENVIRONMENT", self.env)
+        print("ENVIRONEMTN  ATTRS", dir(self.env))
+        print("ARGS", self.env.args)
+        print("CURSOR", self.env.cr)
+
+        # Exercise-3 Q-39 Get a recordset of the current user without using the env parameter user.
+        print("UID", self._uid)
+
+        # Exercise-3 Q-13,14,15,16  User,Context,Company,Language
+
         # print("USER", self.env.user)
         # print("CONTEXT", self.env.context)
         # print("COMPANY", self.env.company)
@@ -308,12 +394,11 @@ class Patient(models.Model):
         # form_view_pat = self.env.ref('hospital.view_patient_form')
         # print("FORM VIEW PAT", form_view_pat)
 
+
+
+    # Exercise-3 Q-40 Get a recordset of the user who created the record.
     def create_rec(self):
-        """
-        This is a button method which is used to demonstrate create() method.
-        ---------------------------------------------------------------------
-        @param self: object pointer
-        """
+
         vals1 = {
             'patient_name': 'kajal',
             'patient_id': 21,
@@ -322,8 +407,24 @@ class Patient(models.Model):
             'active': True,
             'age': 34,
             'birthdate': '1989-04-01',
+            # 0 is used for creation
+            # (0,0,{}) used to create record in O2M field
+            'appointment_ids': [
+                (0, 0, {
+                    'patient_id': 14,
+                    'patient_name' :'kervi',
 
+                }),
+                (0, 0, {
+                    'patient_id': 32,
+                    'patient_name':'Romil',
+                })
+            ],
+            # 4 to link the records
+            # (4,<id>)
+            'facility_ids': [(4, 2), (4, 5)],
         }
+
         vals2 = {
             'patient_name': 'Hardik',
             'patient_id': 20,
@@ -339,6 +440,18 @@ class Patient(models.Model):
         # # Creating a new records in the same object
         new_pat = self.create(vals_lst)
         print("pat", new_pat)
+
+        print("PRINT")
+        print("SELFFFFFF", self)
+        print("ENVIRONMENT", self.env)
+        print("ENVIRONEMTN  ATTRS", dir(self.env))
+        print("ARGS", self.env.args)
+        print("CURSOR", self.env.cr)
+
+        print("UID", self.env.uid)
+
+    # Exercise-3 Q-41 Add a user’s many2one field on your model. When a button is clicked by any
+    # user, it should update this field with the current logged in user.
 
     def update_rec(self):
         """
@@ -378,7 +491,7 @@ class Patient(models.Model):
         #     print("Search Var........................", rec, "Name", rec.patient_name, "age", rec.age, 'gender',
         #           rec.gender)
 
-        def browse_rec(self):
+    def browse_rec(self):
 
             pat_rec = self.browse(23)
             print("\nSTU REC--------------------------", pat_rec)
@@ -406,14 +519,23 @@ class Patient(models.Model):
             new_rec = self.copy(default=default)
             print("\nNEW REC", new_rec)
 
+    # Exercise-3 Q-29 Add another button on the page of one2many field when you click on this button
+    # it will remove one record but it will not remove it from the database. Use Unlink for it.
+
     def delete_rec(self):
             res = self.unlink()
             print("RES", res)
 
+    # Exercise-3 Q-35. Fetch the no of records based on a condition with  using search method.
+
     def search_rec(self):
-            all_patient = self.search([])
+            all_patient_name = self.search([])
+
+            # Exercise-3 Q-38 Get all the records with specific fields without passing the domain. Sort the
+            # records by name.
+
             # When you pass a blank domain it will return all the records.
-            print("ALL PATIENTS", all_patient)
+            print("ALL PATIENTS", all_patient_name)
 
             # When you pass a condition in domain it will pass only matching records
             male_patient = self.search([('gender', '=', 'male')])
@@ -427,17 +549,24 @@ class Patient(models.Model):
             limit_4_patient = self.search([], limit=4)
             print("First 4 RECORDS", limit_4_patient)
 
+
+            # Exercise-3 Q-34 Fetch 15 records from a model skipping first 5 records based on a condition and it
+            # should be sorted by name.
+
             # When you pass offset and limit both the priority will be offset and then limit
-            off_2_limit_4_patient = self.search([], offset=2, limit=4)
-            print("SKIP 2 MAX 4 RECORDS", off_2_limit_4_patient)
+            off_5_limit_15_patient_name = self.search([], offset=5, limit=15)
+            print("SKIP 5 MAX 15 RECORDS", off_5_limit_15_patient_name)
 
             # When you pass order you can sort the records by a specific field
             sort_asc_patient_name = self.search([], order='patient_name')
             print("SHORT BY NAME<", sort_asc_patient_name)
 
+            # Exercise-3 Q-23 Sort a recordset in a descending order with a field other than name. The action
+            # should be performed on a recordset only.
+
             # When you pass desc after the field it will sort in descending order
-            sort_desc_patient_name = self.search([], order='patient_name desc')
-            print("SHORT BY NAME< DESC", sort_desc_patient_name)
+            sort_desc_age = self.search([], order='age desc')
+            print("SHORT BY AGE< DESC", sort_desc_age)
 
             # When you pass offset, limit and order the priority goes to order then offset and then limit
             sort_asc_patient_name = self.search([], offset=2, limit=4, order='patient_name')
@@ -456,10 +585,10 @@ class Patient(models.Model):
             print("FEMALE PATIENT", no_of_female_patient_name)
 
             ### search_read
-            patient_name_lst = self.search_read(fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'])
-            print("SEARCH READ Patient", patient_name_lst)
-            patient_name_lst_2 = self.search_read(
-                fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'],
-                offset=2,
-                order='patient_name')
-            print("SEARCH READ PATIENT", patient_name_lst_2)
+            # patient_name_lst = self.search_read(fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'])
+            # print("SEARCH READ Patient", patient_name_lst)
+            # patient_name_lst_2 = self.search_read(
+            #     fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'],
+            #     offset=2,
+            #     order='patient_name')
+            # print("SEARCH READ PATIENT", patient_name_lst_2)

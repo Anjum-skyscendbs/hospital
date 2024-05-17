@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+
     <!-- Form view for Patient -->
     <record id="view_patient_form" model="ir.ui.view">
         <field name="name">view.patient.form</field>
@@ -16,6 +17,7 @@
                     <button name="copy_rec" string="Copy" type="object" class="oe_highlight"/>
                     <button name="delete_rec" string="Delete" type="object" class="oe_highlight"/>
                     <button name="search_rec" string="Search" type="object" class="oe_highlight"/>
+                    <button name="check_orm" string="check orm" type="object" class="oe_highlight"/>
 
                     <field name="state" widget="statusbar" options="{'clickable':3}"
                            statusbar_visible="admit,waiting,recovery,discharge,draft,left"/>
@@ -46,7 +48,9 @@
                                 </h1>
                                 <field name="patient_id" placeholder="Enter your Id" invisible="false"/>
                                 <field name="email" widget="email" placeholder="Enter E-mail" required="True"/>
-                                <field name="birthdate" placeholder="Enter Birthdate"/>
+                                <field name="birthdate" string="Birthdate" placeholder="Enter Birthdate"/>
+
+
                                 <field name="age" placeholder="Enter your age"/>
                                 <field name="gender" placeholder="select the Gender" widget="radio"/>
                                 <field name="active" invisible="true"/>
@@ -75,7 +79,8 @@
                                 <field name="medical_history" placeholder="Enter your Medical History" widget="html"/>
                                 <field name="sign_in" widget="float_time"/>
                                 <field name="sequence" widget="handle"/>
-                                <field name="parent_id"/>
+                                <field name="parent_id"/> <!--domain="[('gender','!=','active_id')]" -->
+
                                 <!--                                <field name="prescription_ids"/>-->
                                 <field name="diseases_id"/>
                                 <!-- Exercise-2 Q-10. In the many2one field it should not be possible to create or update the record of-->
@@ -108,8 +113,9 @@
                         <!--Exercise-2 Q-8 The many2many field options should be listed as checkboxes.-->
 
                         <page name="pg_facility" string="Facility">
-                            <!--                            <label for="facility_ids"/>-->
-                            <field name="facility_ids" widget="many2many_tags"/>
+
+
+                            <field name="facility_ids" widget="many2many_tags" placeholder="select any one"/>
                         </page>
 
                         <page name="pg_sub" string="Subordinates">
@@ -136,8 +142,11 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="sequence" widget="handle"/>
+
+
                 <field name="patient_id"/>
                 <field name="patient_name"/>
+
                 <!-- Exercise-2 Q-16. Add a float field and add a functionality such that when you group the records it-->
                 <!--shows the average of the values given in the field on the group in tree view.-->
                 <field name="age" avg="AVERAGE"/>
@@ -160,14 +169,24 @@
                 <field name="age"/>
                 <field name="diseases_id"/>
 
+                <!--Exercise-3 Q-5 Create atleast two filters to filter the records on your list view.-->
                 <!-- Adding Filters in the Search view -->
                 <filter name="fil_gender_male" string="Male" domain="[('gender','=','male')]"/>
                 <filter name="fil_gender_female" string="Female" domain="[('gender','=','female')]"/>
 
 
+                <!-- Exercise-3 Q-6 Create atleast two group by to group the records.-->
                 <!-- Adding Group By in the Search View -->
                 <filter name="grp_by_gender" string="Gender" context="{'group_by':'gender'}"/>
                 <filter name="grp_by_diseases" string="Diseases" context="{'group_by':'diseases_id'}"/>
+
+                <!--Exercise-3 Q-7 Add a filter for date field which gives specific criteria for filtering-->
+                <filter name="fil_birthdate" string="Birthdate" domain="[('birthdate','>','01/01/1980')]"/>
+
+                <!-- Exercise-3 Q-8 Add a group by for a date field.-->
+                 <!-- Adding Group By in the Search View -->
+                <filter name="grp_by_birthdate" string="Birthdate" context="{'group_by':'birthdate'}"/>
+
             </search>
         </field>
     </record>
@@ -179,6 +198,9 @@
         <field name="name">Patient</field>
         <field name="res_model">hospital.patient</field>
         <field name="view_mode">tree,form</field>
+
+        <!-- Exercise-3 Q-11 When an action is called need to have a default group by on your state field.-->
+        <!-- {'search_default_disease_id':1} -->
         <field name="context">{'search_default_age':29,'search_default_diseases_id':1}</field>
     </record>
 
@@ -198,13 +220,20 @@
         <field name="name">Males</field>
         <field name="res_model">hospital.patient</field>
         <field name="view_mode">tree,form</field>
+
+        <!-- Exercise-3 Q-12. Now on the action where you have put domain we want the field of the domain to-->
+        <!-- be assigned by default but only when the view is opened from that action.-->
         <field name="domain">[('gender','=','male')]</field>
+
         <field name="context">{'default_gender':'male'}</field>
     </record>
 
     <!-- Using a domain on the action to filter the records -->
     <!--default_<field_name>
         It gives the default value on the form view for a specific field when opened from this action -->
+
+
+    <!--Exercise-3 Q-4 Create an action and add a domain on this action to display specific records.-->
 
     <!-- Action of Female Patient -->
     <record id="action_patient_female" model="ir.actions.act_window">
