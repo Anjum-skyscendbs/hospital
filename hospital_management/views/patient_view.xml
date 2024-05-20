@@ -6,7 +6,7 @@
         <field name="name">view.patient.form</field>
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
-            <form string="Patient">
+            <form string="patient">
                 <header>
 
                     <button name="print_patient" string="Print" type="object" class="oe_highlight"/>
@@ -50,17 +50,23 @@
                                 <field name="email" widget="email" placeholder="Enter E-mail" required="True"/>
                                 <field name="birthdate" string="Birthdate" placeholder="Enter Birthdate"/>
 
+                                <!-- Exercise-3 Q-9. Add a character field and an integer field. When there is a value in the character
+                                field the integer field should be mandatory else readonly..attrs used...-->
 
-                                <field name="age" placeholder="Enter your age"/>
+                                <field name="age" placeholder="Enter your age"
+                                       attrs="{'readonly':[('patient_name','=','')],'required':[('patient_name','!=','')]}"/>
                                 <field name="gender" placeholder="select the Gender" widget="radio"/>
                                 <field name="active" invisible="true"/>
                                 <field name="active"/>
                                 <field name="blood_group" placeholder="Enter Blood Group"/>
+
+
                                 <field name="weight" placeholder="Enter Weight"/>
                                 <field name="height" placeholder="Enter Height"/>
                                 <field name="ref"/>
+
                                 <!-- Prevent creation and opening of the department record from the field -->
-                                <!--                                <field name="department_id" options="{'no_create': True, 'no_open': True}"/>-->
+                                <!--field name="department_id" options="{'no_create': True, 'no_open': True}"-->
                             </group>
                         </div>
 
@@ -79,7 +85,13 @@
                                 <field name="medical_history" placeholder="Enter your Medical History" widget="html"/>
                                 <field name="sign_in" widget="float_time"/>
                                 <field name="sequence" widget="handle"/>
-                                <field name="parent_id"/> <!--domain="[('gender','!=','active_id')]" -->
+                                <field name="summary"/>
+                                <field name="state"/>
+
+
+                                <!-- 3. In the field which is taken for the hierarchy it should not show the current record’s
+                                on which you are. For e.g. I can not be my own manager...Domain used-->
+                                <field name="parent_id" domain="[('id','!=',active_id)]"/>
 
                                 <!--                                <field name="prescription_ids"/>-->
                                 <field name="diseases_id"/>
@@ -106,6 +118,8 @@
                         <page name="pg_medicines" string="Medicines">
                             <field name="medicines_ids"/>
                             <group>
+                                <field name="total_tax"/>
+                                <field name="without_other_tax"/>
                                 <field name="total_price"/>
                             </group>
                         </page>
@@ -113,8 +127,6 @@
                         <!--Exercise-2 Q-8 The many2many field options should be listed as checkboxes.-->
 
                         <page name="pg_facility" string="Facility">
-
-
                             <field name="facility_ids" widget="many2many_tags" placeholder="select any one"/>
                         </page>
 
@@ -122,8 +134,22 @@
                             <field name="child_ids" readonly="1"/>
                         </page>
 
+                        <!--Exercise-3 Q-10.Add a boolean field and a text field. Put the text field in a separate page. Now
+                        when the boolean field is checked then the page should be visible else it should be invisible.-->
+
+                        <page name="pg_additional_information" string="Additional Information"
+                              placeholder="Enter Any text" attrs="{'invisible':[('summary','=',False)]}">
+                            <field name="additional_information"/>
+                        </page>
+
                     </notebook>
                 </sheet>
+<!--                <div class="oe_chatter">-->
+<!--                    <field name="message_follower_ids" groups="base.group_user"-->
+<!--                           options="{'post_refresh': 'recipients'}"/>-->
+<!--                    <field name="activity_ids"/>-->
+<!--                    <field name="message_ids"/>-->
+<!--                </div>-->
 
 
                 <footer>
@@ -140,18 +166,21 @@
         <field name="name">view.patient.tree</field>
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree string="patient tree" decoration-success="state=='admit'" decoration-warning="state=='draft'"
+                  decoration-bf="state=='left'" decoration-info="state=='recovery'"
+                  decoration-danger="state=='discharge'" decoration-muted="state=='waiting'">
                 <field name="sequence" widget="handle"/>
-
-
                 <field name="patient_id"/>
                 <field name="patient_name"/>
+                <field name="state"/>
 
                 <!-- Exercise-2 Q-16. Add a float field and add a functionality such that when you group the records it-->
                 <!--shows the average of the values given in the field on the group in tree view.-->
                 <field name="age" avg="AVERAGE"/>
                 <!--                sum="Sum of age"-->
                 <field name="active" widget="boolean_toggle"/>
+                <field name="total_tax"/>
+                <field name="without_other_tax"/>
 
             </tree>
         </field>
@@ -184,7 +213,7 @@
                 <filter name="fil_birthdate" string="Birthdate" domain="[('birthdate','>','01/01/1980')]"/>
 
                 <!-- Exercise-3 Q-8 Add a group by for a date field.-->
-                 <!-- Adding Group By in the Search View -->
+                <!-- Adding Group By in the Search View -->
                 <filter name="grp_by_birthdate" string="Birthdate" context="{'group_by':'birthdate'}"/>
 
             </search>

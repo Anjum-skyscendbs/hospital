@@ -16,7 +16,14 @@
                         <field name="medicines_id"/>
                         <!--                        <field name="prescription_ids"/>-->
                         <field name="quantity"/>
+                        <field name="gst"/>
+                        <field name="sgst"/>
+                        <field name="other_tax"/>
+                        <field name="total_tax"/>
+                        <field name="without_other_tax"/>
                         <field name="total_price"/>
+                        <field name="tax_perc" widget="progressbar"/>
+
 
                     </group>
                 </sheet>
@@ -36,7 +43,15 @@
                 <!--                <field name="patient_id"/>-->
                 <field name="medicines_id" placeholder="Enter your name"/>
                 <field name="quantity"/>
+                <field name="gst"/>
+                <field name="sgst"/>
+                <field name="other_tax"/>
+                <field name="total_tax"/>
+                <field name="without_other_tax"/>
                 <field name="total_price"/>
+                <!--Exercise-2 Q-20 This field will be displayed as progressbar in the tree view of one2many model. -->
+                <field name="tax_perc" widget="progressbar"/>
+
 
             </tree>
         </field>

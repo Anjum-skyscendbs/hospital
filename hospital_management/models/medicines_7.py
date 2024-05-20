@@ -10,5 +10,8 @@ class Medicines(models.Model):
     medicines_name = fields.Char('Medicines name')
     medicines_id = fields.Many2one('hospital.patient', string='Medicines')
     quantity = fields.Float(string='Quantity/Dose')
+
     total_price = fields.Float(string='Total Price')
     sequence = fields.Integer(string='Sequence')
+
+

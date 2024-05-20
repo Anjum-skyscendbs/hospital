@@ -12,7 +12,9 @@
                         <!--                        <field name="quantity"/>-->
 
                         <field name="medicines_name"/>
+
                         <field name="total_price"/>
+
                     </group>
 
 
@@ -30,6 +32,7 @@
             <tree>
                 <field name="sequence" widget="handle"/>
                 <field name="medicines_name"/>
+
                 <field name="total_price"/>
 
             </tree>

@@ -6,19 +6,19 @@ class Patient(models.Model):
     _name = 'hospital.patient'
     _rec_name = 'patient_name'
     _description = 'Hospital Patient'
+    # _inherit = ['mail.thred','mail.activity.mixin']
 
     ### SIMPLE FIELDS
     # '<field_name>' = fields.<FIELD_CLASS>(<PARAMS>)
     # Here basically we are creating an object of one of the fields classes.
 
-    patient_name = fields.Char(string='Patient Name', required=True, translate=True,
+    patient_name = fields.Char(string='Patient Name', translate=True,
                                help='This field is used to take patient name')
     patient_id = fields.Integer(string='Patient ID', help='This field is used to take patient id')
     age = fields.Integer(string='Age', help='This field is used to take patient age')
     active = fields.Boolean('Active', help='This field is used to activate or deactivate a record', default=True)
     weight = fields.Float(string='Weight (kg)', help='This field is used to take patient weight', digits=(16, 3))
     height = fields.Float(string='Height (ft)', help='This field is used to take patient height', digits=(16, 3))
-
     # _order = '<field_name>' or '<field_name> desc'
     # This will be used to sort the fields with a field in either ascending or descending order
     _order = 'sequence'
@@ -26,6 +26,7 @@ class Patient(models.Model):
     # Exercise-2 Q-24 Add a sequence field and add a functionality such that you can drag and drop
     # records to change the sequence.
     sequence = fields.Integer('Sequence')
+
 
     # hospital_name = fields.Char(string="Hospital name",size=4)
     # print(hospital_name this field take a limited char size=4)
@@ -65,6 +66,12 @@ class Patient(models.Model):
         ('O+', 'O'),
     ], string='Blood Group')
 
+    # Exercise-3 Q-10 Add a boolean field and a text field. Put the text field in a separate page. Now
+    # when the boolean field is checked then the page should be visible else it should be invisible.
+
+    additional_information = fields.Text('Additional Information')
+    summary = fields.Boolean('Summary')
+
 
     # Exercise-2 Q-23. Add a state field on your main model and add atleast 5 states. Assign a default state.
     # Display the states on progressbar on form view
@@ -75,6 +82,8 @@ class Patient(models.Model):
                               ('draft', 'Draft'),
                               ('left', 'Left'),
                               ], 'State', default='admit')
+
+
     # Exercise-3 Q-11 default = 'admit'
 
     # Following are the Relational Fields will be used to connect with other models.
@@ -195,12 +204,37 @@ class Patient(models.Model):
         """
        This method calculates the total price based on quantity and medicine price.
        """
-
-        for record in self:
+        for patient in self:
             total = 0.0
-        for medicines in record.medicines_ids:
+        for medicines in patient.medicines_ids:
             total += medicines.total_price
-        record.total_price = total
+        patient.total_price = total
+
+    # Exercise-2 Q-21 Now these two fields must be added in the database table. store=True
+    total_tax = fields.Float(string='TOTAL TAX', compute='_cal_total_tax', store=True)
+
+    # Exercise-2 Q-21 In the Main model where you have defined the one2many field add two float
+    # fields which will get the total of all the records of one2many from the two
+    # functional field which you have added.
+    without_other_tax = fields.Float(string='TOTAL TAX (WITHOUT OTHER TAX)', compute='_cal_total_tax_without_other_tax', store=True)
+
+   # This is the Method of Medicine total tax &&&  calculate the tax without the other tax.
+   # It will calculate total tax using a compute method.
+    @api.depends('medicines_ids')
+    def _cal_total_tax(self):
+        for patient in self:
+            total = 0.0
+            for medicine in patient.medicines_ids:
+                total += medicine.total_tax
+            patient.total_tax = total
+
+    @api.depends('medicines_ids')
+    def _cal_total_tax_without_other_tax(self):
+        for patient in self:
+            total = 0.0
+            for medicine in patient.medicines_ids:
+                total += medicine.without_other_tax
+            patient.without_other_tax = total
 
         # 1) In below case it will return records which have active set.
         # This will show in the Terminal that records are in active stage or not
@@ -293,9 +327,17 @@ class Patient(models.Model):
     def print_patient(self):
         search_var = self.env['hospital.patient'].search([('gender', '=', 'male')])
         print("Search Var........................", search_var)
-        for rec in search_var:
-            print("Patient Name.....................", rec.patient_name, 'gender......', rec.gender)
 
+        for rec in search_var:
+            if rec in search_var:
+                # print("Patient Name.....................", rec.patient_name, 'gender......', rec.gender)
+                return {
+                    'effect': {
+                        'fadeout': 'slow',
+                        'type': 'rainbow_man',
+                        'message': 'Record has been created successfully'
+                    }
+                }
 
     #................... REFFFFFFFFFF METHOD....................
 
