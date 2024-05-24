@@ -5,7 +5,7 @@
     'sequence': -100,
     'website': 'https://www.skycendbs.com',
     'version': '1.0',
-    'depends': ['base','mail'],
+    'depends': ['base'],
     'data':[
         'security/hospital_security.xml',
         'security/ir.model.access.csv',

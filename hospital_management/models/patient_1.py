@@ -21,7 +21,7 @@ class Patient(models.Model):
     height = fields.Float(string='Height (ft)', help='This field is used to take patient height', digits=(16, 3))
     # _order = '<field_name>' or '<field_name> desc'
     # This will be used to sort the fields with a field in either ascending or descending order
-    _order = 'sequence'
+    # _order = 'sequence'
 
     # Exercise-2 Q-24 Add a sequence field and add a functionality such that you can drag and drop
     # records to change the sequence.
@@ -51,8 +51,9 @@ class Patient(models.Model):
     url = fields.Char('URL')
     sign_in = fields.Float('Sign In')
     password = fields.Char('Password', help='This field is used to take password')
-    additional_information = fields.Char('Additional Information',
-                                         help='This field is used to take additional information')
+
+    # additional_information = fields.Char('Additional Information',
+    #                                      help='This field is used to take additional information')
     template = fields.Html('Template')
     total_price = fields.Float(string='Total Price')
 
@@ -80,8 +81,20 @@ class Patient(models.Model):
                               ('recovery', 'Recovery'),
                               ('discharge', 'Discharge'),
                               ('draft', 'Draft'),
-                              ('left', 'Left'),
                               ], 'State', default='admit')
+
+    def action_confirm(self):
+        self.state = 'waiting'
+        # print("clicked on button")
+
+    def action_done(self):
+        self.state = 'recovery'
+
+    def action_draft(self):
+        self.state = 'discharge'
+
+    def action_cancel(self):
+        self.state = 'draft'
 
 
     # Exercise-3 Q-11 default = 'admit'
@@ -169,46 +182,26 @@ class Patient(models.Model):
 
     # Exercise-2 Q-25 Add a hierarchy on your main model. The hierarchy should be stored in the character field.
     parent_path = fields.Char('Parent Path', index=True)
-
     # This is a reserved field which is used only if we have hierarchy in the model.
     # It will be used for faster searching of the extended hierarchy. (Subordinates of subordinates)
     # Not needed on the view.
     # It stores the complete hierarchy of all the parent's ids including current record's id.
+    # For e.g. 1/2/4/5/3
+    # Here current record is with id 3, parent of 3 is 5, parent of 5 is 4, parent of 4 is 2 and finally parent of 2 is 1.
 
-    # prescription_ids=fields.One2many('hospital.prescription','prescription_ids')
 
-    # This One2Many field will have the first attribute as the comodel name being a relational field.
-    # This field will be many2one field for current model(hospital) in comdel (appointment).
-    # we will add _ids suffix to the one2many field.
-    # The Third attribute is the label for the field.
-    # This field is not stored in the database table.
+    company_id = fields.Many2one('res.company', 'Company')
+    # This is the most important field in terms of reserved ones.
+    # It represents the company of the records.
+    # Company means the legal entity or Enterprise.
+    # It becomes more important when we have multiple companies in one database.
+    # It can be used to filter records as per the company.
 
-    # 4) this sub_total is for calculate the sub total in the main page in the Notebook session
-    # this is used to calculate a total price of medicine according to the Quantity
-    # method name is calc_sub_total.
-    # For Computing the total price of the medicine.
 
-    # Created a function of Button in this file
     # function name is action_test sel
 
-    def action_test(self):
-        print("Button Clicked !!!!!")
-
-    # total price of medicines,write a compute method to calculate its value and fields in it.
-    # In the above I created a function name api.depends in it.
-    # To calculate this medicines calc total price is function is used for this.
-    total_price = fields.Float(compute='_calc_total_price', string='Total Price')
-
-    @api.depends('medicines_ids')
-    def _calc_total_price(self):
-        """
-       This method calculates the total price based on quantity and medicine price.
-       """
-        for patient in self:
-            total = 0.0
-        for medicines in patient.medicines_ids:
-            total += medicines.total_price
-        patient.total_price = total
+    # def action_test(self):
+    #     print("Button Clicked !!!!!")
 
     # Exercise-2 Q-21 Now these two fields must be added in the database table. store=True
     total_tax = fields.Float(string='TOTAL TAX', compute='_cal_total_tax', store=True)
@@ -216,10 +209,131 @@ class Patient(models.Model):
     # Exercise-2 Q-21 In the Main model where you have defined the one2many field add two float
     # fields which will get the total of all the records of one2many from the two
     # functional field which you have added.
-    without_other_tax = fields.Float(string='TOTAL TAX (WITHOUT OTHER TAX)', compute='_cal_total_tax_without_other_tax', store=True)
+    without_other_tax = fields.Float(string='TOTAL TAX (WITHOUT OTHER TAX)',
+                                     compute='_cal_total_tax_without_other_tax', store=True)
 
-   # This is the Method of Medicine total tax &&&  calculate the tax without the other tax.
-   # It will calculate total tax using a compute method.
+    # 4) this sub_total is for calculate the sub total in the main page in the Notebook session
+    # this is used to calculate a total price of medicine according to the Quantity
+    # method name is calc_sub_total.
+    # For Computing the total price of the medicine.
+    # total price of medicines,write a compute method to calculate its value and fields in it.
+    # In the above I created a function name api.depends in it.
+    # To calculate this medicines calc total price is function is used for this.
+    total_price = fields.Float(compute='_calc_total_price', string='TOTAL PRICE')
+
+    @api.depends('medicines_ids')
+    def _calc_total_price(self):
+        """
+         This method will calculate multiple fields.
+        -------------------------------------------
+        @param self : object pointer / recordset
+        """
+        print("SELF",self)
+        # You can not access any fields from a recordset which contains multiple records
+        # print("SELF NAME", self.name) # This will raise singleton error
+        # filtered is used to filter the records
+        # It can be called only with recordset containing records
+        # You can use either just the field name in filtered which will check value eexisting or not.
+        # In below case it will return records which have active set.
+        # This will show in the Terminal that records are in active stage or not
+        active_records = self.filtered('active')
+        print("ACTIVE RECORDS", active_records)
+        # 2) Way is to using lambda function where you can use proper conditions to filter records.
+        # Another way of filtering the data in the module using lambda function in it.
+        # Exercise-3 Q-19,Q-20 Filter the existing recordset with a condition. The condition should contain a field
+        # and a value.
+        female_records = active_records.filtered(lambda r: r.gender == 'female')
+        male_records = active_records.filtered(lambda r: r.gender == 'male')
+        print("FEMALE RECORDS", female_records)
+        print("MALE RECORDS", male_records)
+
+        # Mapped is used to map field values from records and return in a list.
+        active_records_patient_name = active_records.mapped('patient_name')
+        print("ACTIVE NAMES", active_records_patient_name)
+
+        active_records_patient_name_age = active_records.mapped(lambda r: str(r.patient_name) + "," + str(r.age))
+        print("ACITVE NAME AGE", active_records_patient_name_age)
+
+        # sorted() is used to sort the records
+        sort_by_age = active_records.sorted(key='age')
+        print("SORT BY AGE", sort_by_age)
+
+        sort_by_name = active_records.sorted(key='patient_name', reverse=True)
+        print("SORT BY NAME", sort_by_name)
+
+        # # RECORDSET OPERATIONS
+        # # using in you can check whether a record exists in a recordset or not.
+        # # works with a single record and not multiple records
+        res = female_records in active_records
+        print("RES", res)
+        for fr in female_records:
+            print("Female IN ACT", fr in active_records)
+
+        res = female_records not in active_records
+        print("RES", res)
+
+    # Exercise-3 Q-24. Get three different recordset where first one will have all the records of a model,
+    # the second one will have few records of the model and third one will also have
+    # few records of that model. The condition of the later two recordset should not be
+    # same. Now check whether the later recordset are subset or superset of each other
+    # or not. Also check whether the first recordset is a superset or subset or not.
+
+        # < is used to check subset
+        print(" Female is subset of male", female_records < male_records)
+        # <= is used to check either subset or same set
+        print(" Male is Subset of female OR SAME1", male_records <= female_records)
+        print("Subset OR SAME2", active_records <= active_records)
+        # > is used to check superset
+        print(" Male is SUPER set of female", male_records > female_records)
+        # >= is used to check superset or same set
+        print(" Female is SUPER of Male set OR SAME 1", female_records >= male_records)
+        print(" SUPER OR SAME 2", active_records >= active_records)
+        # Exercise-3 Q-25 Get the union, intersection and difference of two recordsets.
+        print("UNION", male_records | female_records)
+        print("INTERSECTION", male_records & active_records)
+        print("DIFF", active_records - female_records)
+
+
+        for patient in self:
+            # You can access the fields using '.'.
+            # Normal field will directly give the value of the field
+            print("NORMAL FIELD", patient.patient_name)
+            # Relational fields will always give you a recordset.
+            # M2O/Ref field will give you single record recordset
+            # O2M/M2M will give you multiple records recordset.
+            print("M2O FIELD", patient.department_id.patient_name)
+            # IF there's a single record you can access the field with multiple '.' referecnes.
+            print("O2M FIELD", patient.appointment_ids)
+            # If there are multiple records you can not access the field directly.
+            # print("Appointment FIELD",patient.appointment_ids # This will raise an error of singleton
+
+        # You can use index in the recordset but if and only if there is a record
+        if patient.appointment_ids:
+            print("O@M APPOINTMENT PATIENT", patient.appointment_ids[0].patient_name)
+
+        # # ensure_one() is used to validate a single record
+        patient.ensure_one() # NO ERROR
+        #patient.appointment_ids.ensure_one() # ERROR
+
+
+        for patient in self:
+            total = 0.0
+        for medicines in patient.medicines_ids:
+            total += medicines.total_price
+        patient.total_price = total
+
+        # Exercise-3 Q-21. From a recordset get two fields character and integer such that the result would
+        # contain a single value which will be a concatenation of two fields mentioned above.
+        merge_patient_name_age = patient.mapped(lambda a: f"{a.patient_name}-{a.age}")
+        print(merge_patient_name_age)
+
+        # Exercise-3 Q-22. From a recordset get a list of values in a specific field.
+        record_list = patient.mapped('patient_name')
+        print(record_list)
+
+
+       # This is the Method of Medicine total tax &&&  calculate the tax without the other tax.
+       # It will calculate total tax using a compute method.
     @api.depends('medicines_ids')
     def _cal_total_tax(self):
         for patient in self:
@@ -236,108 +350,6 @@ class Patient(models.Model):
                 total += medicine.without_other_tax
             patient.without_other_tax = total
 
-        # 1) In below case it will return records which have active set.
-        # This will show in the Terminal that records are in active stage or not
-
-        # active_records = self.filtered('active')
-        # print("ACTIVE RECORDS", active_records)
-
-        # 2) The second way is to using lambda function where you can use proper conditions to filter records.
-        # Another way of filtering the data in the module using lambda function in it.
-
-        # female_records = active_records.filtered(lambda r: r.gender == 'female')
-        # male_records = active_records.filtered(lambda r: r.gender == 'male')
-        # print("FEMALE RECORDS", female_records)
-        # print("MALE RECORDS", male_records)
-
-        # Using a Mapping field and return the record in a list.
-        # Mapped is used to map field values from records and return in a list.
-        # active_records_patient_name = active_records.mapped('patient_name')
-        # print("ACTIVE NAMES", active_records_patient_name)
-
-        # active_records_patient_name_age = active_records.mapped(lambda r: str(r.patient_name) + "," + str(r.age))
-        # print("ACITVE NAME AGE", active_records_patient_name_age)
-
-        # sorted() is used to sort the records
-        # sort_by_age = active_records.sorted(key='age')
-        # print("SORT BY AGE", sort_by_age)
-
-        # sort_by_name = active_records.sorted(key='patient_name', reverse=True)
-        # print("SORT BY NAME", sort_by_name)
-
-        # # RECORDSET OPERATIONS
-        # # using in you can check whether a record exists in a recordset or not.
-        # # works with a single record and not multiple records
-        # res = female_records in active_records
-        # print("RES", res)
-        # for fr in female_records:
-        #     print("FR IN ACT", fr in active_records)
-        #
-        # res = female_records not in active_records
-        # print("RES", res)
-
-        # < is used to check subset
-        # print("SUBSET", female_records < active_records)
-
-        # <= is used to check either subset or same set
-        # print("SUB OR SAME1", male_records <= active_records)
-        # print("SUB OR SAME2", active_records <= active_records)
-
-        # > is used to check superset
-        # print("SUPER", active_records > female_records)
-
-        # # >= is used to check superset or same set
-        # print("SUPER OR SAME 1", active_records >= male_records)
-        # print("SUPER OR SAME 2", active_records >= active_records)
-
-        # Exercise-3 Q-25 Get the union, intersection and difference of two recordsets.
-        # print("UNION", male_records | female_records)
-        # print("INTERSECTION", male_records & active_records)
-        # print("DIFF", active_records - female_records)
-
-        for patient in self:
-            # You can access the fields using '.'.
-            # Normal field will directly give the value of the field
-            print("NORMAL FIELD", patient.patient_name)
-            # Relational fields will always give you a recordset.
-            # M2O/Ref field will give you single record recordset
-            # O2M/M2M will give you multiple records recordset.
-            print("M2O FIELD", patient.department_id.patient_name)
-            # IF there's a single record you can access the field with multiple '.' referecnes.
-            print("O2M FIELD", patient.appointment_ids)
-        # If there are multiple records you can not access the field directly.
-        # print("Appointment FIELD",patient.appointment_ids # This will raise an error of singleton
-
-        # You can use index in the recordset but if and only if there is a record
-        if patient.appointment_ids:
-            print("O@M APPOINTMENT PATIENT", patient.appointment_ids[0].patient_name)
-
-        # # ensure_one() is used to validate a single record
-        # patient.ensure_one() # NO ERROR
-        # #patient.appointment_ids.ensure_one() # ERROR
-        #
-        # get_metadata() gives you the pre-defined fields / magic fields
-        # It returns a dictionary containing id, create_date, create_uid, write_date, write_uid
-        # mt_dt = patient.get_metadata()
-        # print("MT DT", mt_dt)
-
-        # In this Method using search in ORM to find the records according to the Condition
-        # SEARCH METHOD
-
-    def print_patient(self):
-        search_var = self.env['hospital.patient'].search([('gender', '=', 'male')])
-        print("Search Var........................", search_var)
-
-        for rec in search_var:
-            if rec in search_var:
-                # print("Patient Name.....................", rec.patient_name, 'gender......', rec.gender)
-                return {
-                    'effect': {
-                        'fadeout': 'slow',
-                        'type': 'rainbow_man',
-                        'message': 'Record has been created successfully'
-                    }
-                }
 
     #................... REFFFFFFFFFF METHOD....................
 
@@ -370,6 +382,7 @@ class Patient(models.Model):
             "age": 23,
         })
         print("Create var............",create_var.id)
+
 
     #...................... Write Method...................
 
@@ -408,26 +421,42 @@ class Patient(models.Model):
 
 
 
-        # TODO: Future development
-
-        print("PRINT")
-        print("SELFFFFFF", self)
-        print("ENVIRONMENT", self.env)
-        print("ENVIRONEMTN  ATTRS", dir(self.env))
-        print("ARGS", self.env.args)
-        print("CURSOR", self.env.cr)
-
         # Exercise-3 Q-39 Get a recordset of the current user without using the env parameter user.
         print("UID", self._uid)
 
-        # Exercise-3 Q-13,14,15,16  User,Context,Company,Language
+        # In this Method using search in ORM to find the records according to the Condition
+        # SEARCH METHOD
 
-        # print("USER", self.env.user)
-        # print("CONTEXT", self.env.context)
-        # print("COMPANY", self.env.company)
-        # print("COMPANIES", self.env.companies)
-        # print("LANG", self.env.lang)
-        #
+    def print_patient(self):
+            search_var = self.env['hospital.patient'].search([('gender', '=', 'male')])
+            print("Search Var........................", search_var)
+
+            for rec in search_var:
+                if rec in search_var:
+                    # print("Patient Name.....................", rec.patient_name, 'gender......', rec.gender)
+                    return {
+                        'effect': {
+                            'fadeout': 'slow',
+                            'type': 'rainbow_man',
+                            'message': 'Record has been created successfully'
+                        }
+                    }
+
+            # TODO: Future development
+            print("PRINT")
+            print("SELFFFFFF", self)
+            print("ENVIRONMENT", self.env)
+            print("ENVIRONEMTN  ATTRS", dir(self.env))
+            print("ARGS", self.env.args)
+            print("CURSOR", self.env.cr)
+            print("UID", self.env.uid)
+            # Exercise-3 Q-13,14,15,16  User,Context,Company,Language
+            print("USER", self.env.user)
+            print("CONTEXT", self.env.context)
+            print("COMPANY", self.env.company)
+            print("COMPANIES", self.env.companies)
+            print("LANG", self.env.lang)
+
         # appt_obj = self.env['hospital.appointment']
         # print("APPT OBJ", appt_obj)
         # depa_obj = self.env['hospital.department']
@@ -436,9 +465,10 @@ class Patient(models.Model):
         # form_view_pat = self.env.ref('hospital.view_patient_form')
         # print("FORM VIEW PAT", form_view_pat)
 
-
-
     # Exercise-3 Q-40 Get a recordset of the user who created the record.
+    # Exer-3 Q-27 Add a button on the form view on the page of a one2many field. When you click
+    # this button it will add a record in the one2many field.
+
     def create_rec(self):
 
         vals1 = {
@@ -483,15 +513,6 @@ class Patient(models.Model):
         new_pat = self.create(vals_lst)
         print("pat", new_pat)
 
-        print("PRINT")
-        print("SELFFFFFF", self)
-        print("ENVIRONMENT", self.env)
-        print("ENVIRONEMTN  ATTRS", dir(self.env))
-        print("ARGS", self.env.args)
-        print("CURSOR", self.env.cr)
-
-        print("UID", self.env.uid)
-
     # Exercise-3 Q-41 Add a user’s many2one field on your model. When a button is clicked by any
     # user, it should update this field with the current logged in user.
 
@@ -507,8 +528,8 @@ class Patient(models.Model):
         # 3 is for unlink
         # (3,<id>) will remove the record from o2m field but will keep in the table.
         # 4 is to link
-        # 5 is used to unlink all records
-        # (5,0,0) is used to unlink all records and keeps in the table.
+        # 5 is used to unlink all records .
+        # (5,0,0) is used to unlink all records and keeps in the table.It is use for Many2Many..
         # 6 is used to link multiple records but overwrites existing ones
         # 6 first performs the 5 operation to remove existing records.
         # then uses 4 operation to link the new records
@@ -559,7 +580,18 @@ class Patient(models.Model):
                 'email': False
             }
             new_rec = self.copy(default=default)
+
             print("\nNEW REC", new_rec)
+
+    # Exercise-3 Q-18.Get the value of all predefined fields for a recordset containing one or more
+    # records without using the ORM methods.
+
+    # get_metadata() gives you the pre-defined fields / magic fields
+   # It returns a dictionary containing id, create_date, create_uid, write_date, write_uid
+
+            for patient in self:
+             mt_dt = patient.get_metadata()
+             print("MeTa DaTa >>>>>>>>>>>>>>>>>>>", mt_dt)
 
     # Exercise-3 Q-29 Add another button on the page of one2many field when you click on this button
     # it will remove one record but it will not remove it from the database. Use Unlink for it.
@@ -568,7 +600,7 @@ class Patient(models.Model):
             res = self.unlink()
             print("RES", res)
 
-    # Exercise-3 Q-35. Fetch the no of records based on a condition with  using search method.
+    # Exercise-3 Q-35. Fetch the no of records based on a condition with using search method.
 
     def search_rec(self):
             all_patient_name = self.search([])
@@ -620,6 +652,7 @@ class Patient(models.Model):
             no_of_female_patient_name = self.search([('gender', '=', 'female')], count=True)
             print("FEMALE PATIENT", no_of_female_patient_name)
 
+            # Exercise-3 Q-36 Get the no of records based on a condition.
             ## search_count
             no_of_patient = self.search_count([])
             print("TOTAL PATIENT", no_of_patient)
@@ -627,10 +660,17 @@ class Patient(models.Model):
             print("FEMALE PATIENT", no_of_female_patient_name)
 
             ### search_read
-            # patient_name_lst = self.search_read(fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'])
-            # print("SEARCH READ Patient", patient_name_lst)
-            # patient_name_lst_2 = self.search_read(
-            #     fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'],
-            #     offset=2,
-            #     order='patient_name')
-            # print("SEARCH READ PATIENT", patient_name_lst_2)
+            patient_name_lst = self.search_read(fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'])
+            print("SEARCH READ Patient", patient_name_lst)
+            patient_name_lst_2 = self.search_read(
+                fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'],
+                order='patient_name')     # Exercise-3 Q-35 without using search method.len(patient_name_lst_2)
+            print("SEARCH READ PATIENT", patient_name_lst_2 ,"no of record",len(patient_name_lst_2))
+
+
+    # @api.model_create_multi
+    # def create(self,vals_lst):
+    #     for vals in vals_lst:
+    #         vals['code'] = vals['diseases'][:4].upper()
+    #     return super().create(vals_lst)
+

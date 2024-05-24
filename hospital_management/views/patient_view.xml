@@ -9,23 +9,36 @@
             <form string="patient">
                 <header>
 
-                    <button name="print_patient" string="Print" type="object" class="oe_highlight"/>
-                    <button name="create_rec" string="Create" type="object" class="oe_highlight"/>
+                    <button name="print_patient" string="Print" type="object"/>
+                    <button name="create_rec" string="Create" type="object"/>
 
-                    <button name="update_rec" string="Update" type="object" class="oe_highlight"/>
-                    <button name="browse" string="Browse" type="object" class="oe_highlight"/>
-                    <button name="copy_rec" string="Copy" type="object" class="oe_highlight"/>
-                    <button name="delete_rec" string="Delete" type="object" class="oe_highlight"/>
-                    <button name="search_rec" string="Search" type="object" class="oe_highlight"/>
+                    <button name="update_rec" string="Update" type="object"/>
+                    <button name="browse" string="Browse" type="object"/>
+                    <button name="copy_rec" string="Copy" type="object"/>
+                    <button name="delete_rec" string="Delete" type="object"/>
+                    <button name="search_rec" string="Search" type="object"/>
                     <button name="check_orm" string="check orm" type="object" class="oe_highlight"/>
 
-                    <field name="state" widget="statusbar" options="{'clickable':3}"
-                           statusbar_visible="admit,waiting,recovery,discharge,draft,left"/>
-
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="admit,waiting,recovery,discharge,draft"/>
+                    <!--            options="{'clickable':3}"-->
 
                     <!--                        <field name="state" invisible="1"/>-->
 
                 </header>
+
+<!--                <button id="button_confirm" name="action_confirm" string="Confirm" states="draft"-->
+<!--                        class="btn-primary" type="object"/>-->
+
+<!--                <button id="button_done" name="action_done" string="Mark As Done" states="confirm"-->
+<!--                        class="btn-primary" type="object"/>-->
+
+<!--                <button id="button_draft" name="action_draft" string="Set to Draft" states="cancel"-->
+<!--                        class="btn-primary" type="object"/>-->
+
+<!--                <button id="button_cancel" name="action_cancel" string="Cancel" states="draft,done,confirm"-->
+<!--                       type="object"/>-->
+
 
                 <sheet>
                     <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
@@ -144,12 +157,6 @@
 
                     </notebook>
                 </sheet>
-<!--                <div class="oe_chatter">-->
-<!--                    <field name="message_follower_ids" groups="base.group_user"-->
-<!--                           options="{'post_refresh': 'recipients'}"/>-->
-<!--                    <field name="activity_ids"/>-->
-<!--                    <field name="message_ids"/>-->
-<!--                </div>-->
 
 
                 <footer>
