@@ -9,6 +9,7 @@
     'data':[
         'security/hospital_security.xml',
         'security/ir.model.access.csv',
+        'data/patient_sequence.xml',
         'views/patient_view.xml',
         'views/department_view.xml',
         'views/appointment_view.xml',

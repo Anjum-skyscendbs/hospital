@@ -27,18 +27,11 @@
 
                 </header>
 
-<!--                <button id="button_confirm" name="action_confirm" string="Confirm" states="draft"-->
-<!--                        class="btn-primary" type="object"/>-->
-
-<!--                <button id="button_done" name="action_done" string="Mark As Done" states="confirm"-->
-<!--                        class="btn-primary" type="object"/>-->
-
-<!--                <button id="button_draft" name="action_draft" string="Set to Draft" states="cancel"-->
-<!--                        class="btn-primary" type="object"/>-->
-
-<!--                <button id="button_cancel" name="action_cancel" string="Cancel" states="draft,done,confirm"-->
-<!--                       type="object"/>-->
-
+                <button name="action_confirm" string="Confirm" type="object"/>
+                <button name="action_done" string="Mark As Done" type="object"/>
+                <button name="action_draft" string="Set to Draft" type="object"/>
+                <button name="action_cancel" string="Cancel" type="object"/>
+                <!--                states="draft,done,confirm"-->
 
                 <sheet>
                     <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
@@ -97,9 +90,11 @@
                                 <field name="priority" widget="priority"/>
                                 <field name="medical_history" placeholder="Enter your Medical History" widget="html"/>
                                 <field name="sign_in" widget="float_time"/>
-                                <field name="sequence" widget="handle"/>
+                                <field name="sequence"/>
                                 <field name="summary"/>
                                 <field name="state"/>
+                                <field name="reg_no"/>
+                                <field name="patient_code"/>
 
 
                                 <!-- 3. In the field which is taken for the hierarchy it should not show the current record’s
