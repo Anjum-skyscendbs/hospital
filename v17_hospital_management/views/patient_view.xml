@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Form view for Patient -->
+    <record id="view_patient_form" model="ir.ui.view">
+        <field name="name">view.patient.form</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <form string="patient">
+                <header>
+
+                    <!--                    <button name="print_patient" string="Print" type="object" class="oe_highlight"/>-->
+                    <button name="create_rec" string="Create" type="object" class="oe_highlight"/>
+
+                    <button name="update_rec" string="Update" type="object" class="oe_highlight"/>
+                    <button name="browse" string="Browse" type="object" class="oe_highlight"/>
+                    <button name="copy_rec" string="Copy" type="object" class="oe_highlight"/>
+<!--                    <button name="delete_rec" string="Delete" type="object" class="oe_highlight"/>-->
+                    <button name="search_rec" string="Search" type="object" class="oe_highlight"/>
+                    <button name="check_orm" string="check orm" type="object" class="oe_highlight"/>
+
+                    <!--                    <field name="state" widget="statusbar" options="{'clickable':3}"-->
+                    <!--                           statusbar_visible="admit,waiting,recovery,discharge,draft,left"/>-->
+
+
+                    <!--                        <field name="state" invisible="1"/>-->
+
+                </header>
+
+                <sheet>
+                    <!--                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"-->
+                    <!--                            attrs="{'invisible': [('active', '=', True)]}"/>-->
+                    <!--                    <widget name="web_ribbon" title="Active" bg_color="bg-success"-->
+                    <!--                            attrs="{'invisible': [('active', '=', False)]}"/>-->
+
+
+                    <div class="row">
+
+                        <h2>Hospital Management System</h2>
+
+                        <div class="col col-md-6">
+                            <group>
+
+                                <label for="patient_name"/>
+
+                                <h1 colspan="1">
+                                    <field name="patient_name"/>
+                                </h1>
+                                <field name="patient_id" placeholder="Enter your Id" invisible="false"/>
+                                <field name="email" widget="email" placeholder="Enter E-mail" required="True"/>
+                                <field name="birthdate" string="Birthdate" placeholder="Enter Birthdate"/>
+
+                                <!-- Exercise-3 Q-9. Add a character field and an integer field. When there is a value in the character
+                                field the integer field should be mandatory else readonly..attrs used...-->
+
+                                <field name="age" placeholder="Enter your age"/>
+                                <!--                                       attrs="{'readonly':[('patient_name','=','')],'required':[('patient_name','!=','')]}"/>-->
+                                <field name="gender" placeholder="select the Gender" widget="radio"/>
+                                <field name="active" invisible="true"/>
+                                <field name="active"/>
+                                <field name="blood_group" placeholder="Enter Blood Group"/>
+
+
+                                <field name="weight" placeholder="Enter Weight"/>
+                                <field name="height" placeholder="Enter Height"/>
+                                <field name="ref"/>
+
+                                <!-- Prevent creation and opening of the department record from the field -->
+                                <!--field name="department_id" options="{'no_create': True, 'no_open': True}"-->
+                            </group>
+                        </div>
+
+                        <div class="col col-md-6">
+
+                            <group>
+                                <!--                                <field name="hospital_name" maxlength='4' placeholder="Enter hospital name"/>-->
+                                <field name="phone_number" placeholder="Enter your phone number"/>
+                                <field name="password" placeholder="Enter your password" password="*"/>
+                                <field name="address" placeholder="Enter your Address"/>
+                                <field name="url" string="Website" widget="url" placeholder="Enter URL"/>
+                                <field name="is_admitted"/>
+                                <field name="Marital_status" placeholder="Select your Marital status"/>
+                                <field name="checkup_date" placeholder="Enter your Checkup date"/>
+                                <field name="priority" widget="priority"/>
+                                <field name="medical_history" placeholder="Enter your Medical History" widget="html"/>
+                                <field name="sign_in" widget="float_time"/>
+                                <field name="sequence" widget="handle"/>
+                                <field name="summary"/>
+                                <!--                                <field name="state"/>-->
+
+
+                                <!-- 3. In the field which is taken for the hierarchy it should not show the current record’s
+                                on which you are. For e.g. I can not be my own manager...Domain used-->
+                                <field name="parent_id" domain="[('id','!=',active_id)]"/>
+
+                                <!--                                <field name="prescription_ids"/>-->
+                                <field name="diseases_id"/>
+                                <!-- Exercise-2 Q-10. In the many2one field it should not be possible to create or update the record of-->
+                                <!-- the many2one model from the field.-->
+                                <!-- Solution : options="{'no_create': True, 'no_open': True}"-->
+
+                                <!--<field name="medicines_id"/>-->
+
+
+                            </group>
+                        </div>
+                    </div>
+
+                    <!--                    <separator string="additional information"/>-->
+                    <!--                    <field name="additional_information"/>-->
+
+                    <notebook>
+
+                        <page name="pg_appointment" string="Appointment">
+                            <field name="appointment_ids" widget="one2many"/>
+                        </page>
+
+                        <page name="pg_medicines" string="Medicines">
+                            <field name="medicines_ids"/>
+                            <group>
+                                <field name="total_tax"/>
+                                <field name="without_other_tax"/>
+                                <field name="total_price"/>
+                            </group>
+                        </page>
+
+                        <!--Exercise-2 Q-8 The many2many field options should be listed as checkboxes.-->
+
+                        <page name="pg_facility" string="Facility">
+                            <field name="facility_ids" widget="many2many_tags" placeholder="select any one"/>
+                        </page>
+
+                        <page name="pg_sub" string="Subordinates">
+                            <field name="child_ids" readonly="1"/>
+                        </page>
+
+                        <!--Exercise-3 Q-10.Add a boolean field and a text field. Put the text field in a separate page. Now
+                        when the boolean field is checked then the page should be visible else it should be invisible.-->
+
+                        <page name="pg_additional_information" string="Additional Information"
+                              placeholder="Enter Any text">
+                            <!--                        attrs="{'invisible':[('summary','=',False)]}">-->
+                            <field name="additional_information"/>
+                        </page>
+                    </notebook>
+
+                </sheet>
+
+
+                <!--            <footer>-->
+                <!--                <h1>Copyright 2024</h1>-->
+                <!--            </footer>-->
+                <!--        </form>-->
+                <!--    </field>-->
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Tree view / List view of patient -->
+
+    <record id="view_hospital_tree" model="ir.ui.view">
+        <field name="name">view.patient.tree</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <tree>
+<!--                <decoration-success="state=='admit'" decoration-warning="state=='draft'"-->
+<!--                decoration-bf="state=='left'" decoration-info="state=='recovery'"-->
+<!--                decoration-danger="state=='discharge'" decoration-muted="state=='waiting'"/>-->
+
+                <field name="sequence" widget="handle"/>
+                <field name="patient_id"/>
+                <field name="patient_name"/>
+                <!--                <field name="state"/>-->
+
+                <!-- Exercise-2 Q-16. Add a float field and add a functionality such that when you group the records it-->
+                <!--shows the average of the values given in the field on the group in tree view.-->
+                <field name="age" avg="AVERAGE"/>
+                <!--                sum="Sum of age"-->
+                <field name="active" widget="boolean_toggle"/>
+                <field name="total_tax"/>
+                <field name="without_other_tax"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search view -->
+
+    <record id="view_patient_search" model="ir.ui.view">
+        <field name="name">view.patient.search</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="patient_name"/>
+                <field name="gender"/>
+                <field name="age"/>
+<!--                <field name="diseases_id"/>-->
+
+                <!--Exercise-3 Q-5 Create atleast two filters to filter the records on your list view.-->
+                <!-- Adding Filters in the Search view -->
+                <filter name="fil_gender_male" string="Male" domain="[('gender','=','male')]"/>
+                <filter name="fil_gender_female" string="Female" domain="[('gender','=','female')]"/>
+
+
+                <!-- Exercise-3 Q-6 Create atleast two group by to group the records.-->
+                <!-- Adding Group By in the Search View -->
+                <filter name="grp_by_gender" string="Gender" context="{'group_by':'gender'}"/>
+<!--                <filter name="grp_by_diseases" string="Diseases" context="{'group_by':'diseases_id'}"/>-->
+
+                <!--Exercise-3 Q-7 Add a filter for date field which gives specific criteria for filtering-->
+                <filter name="fil_birthdate" string="Birthdate" domain="[('birthdate','>','01/01/1980')]"/>
+
+                <!-- Exercise-3 Q-8 Add a group by for a date field.-->
+                <!-- Adding Group By in the Search View -->
+                <filter name="grp_by_birthdate" string="Birthdate" context="{'group_by':'birthdate'}"/>
+
+            </search>
+        </field>
+    </record>
+
+
+    <!-- Action of Hospital -->
+
+    <record id="action_patient" model="ir.actions.act_window">
+        <field name="name">Patient</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">tree,form</field>
+
+        <!-- Exercise-3 Q-11 When an action is called need to have a default group by on your state field.-->
+        <!-- {'search_default_disease_id':1} -->
+<!--        <field name="context">{'search_default_age':29,'search_default_diseases_id':1}</field>-->
+    </record>
+
+    <!-- search_default_<field_name> or search_default_<filter_name>
+        This is used to add a search by default when we open the view or set a filter or group
+         by default when you open the view -->
+
+    <!-- Action of All Patient -->
+    <record id="action_patient" model="ir.actions.act_window">
+        <field name="name">All Patients</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Action of Male Patient -->
+    <record id="action_patient_male" model="ir.actions.act_window">
+        <field name="name">Males</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">tree,form</field>
+
+        <!-- Exercise-3 Q-12. Now on the action where you have put domain we want the field of the domain to-->
+        <!-- be assigned by default but only when the view is opened from that action.-->
+        <field name="domain">[('gender','=','male')]</field>
+
+        <field name="context">{'default_gender':'male'}</field>
+    </record>
+
+    <!-- Using a domain on the action to filter the records -->
+    <!--default_<field_name>
+        It gives the default value on the form view for a specific field when opened from this action -->
+
+
+    <!--Exercise-3 Q-4 Create an action and add a domain on this action to display specific records.-->
+
+    <!-- Action of Female Patient -->
+    <record id="action_patient_female" model="ir.actions.act_window">
+        <field name="name">Females</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('gender','=','female')]</field>
+        <field name="context">{'default_gender':'female'}</field>
+    </record>
+
+    <!-- Application menu of Hospital -->
+
+    <!-- Description for creating a Menus in the model -->
+    <!-- When you're creating an application you need to create 3 levels of menus -->
+    <!-- First is the Application Menu -->
+    <!-- Second one is the Main Menu inside the application -->
+    <!-- Third one is the Submenu under the Main menu which will call the action -->
+
+    <!-- Application menu of School -->
+    <!-- menuitem tag is used to create a menu -->
+    <!-- name will be the caption of the menu -->
+
+
+    <!-- Application menu of Hospital -->
+    <menuitem id="menu_hospital" name="Hospital"/>
+
+    <!-- Main Menu of patient -->
+    <menuitem id="menu_patient" name="Patient" parent="menu_hospital"/>
+
+    <!-- Menu of patient -->
+    <menuitem id="menu_configuration" name="Configuration" sequence="100" parent="menu_hospital"/>
+
+    <!-- Menu of All Patients -->
+    <menuitem id="menu_patient_patient" action="action_patient" sequence="1" parent="menu_patient"/>
+
+    <!-- Menu of Females -->
+    <menuitem id="menu_patient_patient_female" action="action_patient_female" parent="menu_patient"/>
+
+    <!-- Menu of Males -->
+    <menuitem id="menu_patient_patient_male" action="action_patient_male" parent="menu_patient"/>
+
+
+</odoo>

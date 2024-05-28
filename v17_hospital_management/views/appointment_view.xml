@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Form view of Appointment-->
+
+    <record id="view_appointment_form" model="ir.ui.view">
+        <field name="name">view.appointment.form</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="patient_name"/>
+                        <field name="patient_id"/>
+                        <field name="age" avg="Average of age" placeholder="Enter your age"/>
+
+                        <field name="email" widget="email" placeholder="Enter E-mail" required="True"/>
+                        <field name="gender" placeholder="select the Gender" widget="radio"/>
+
+                        <!--                        <field name="Diseases" placeholder="select the Diseases" widget="checkbox"/>-->
+                        <field name="charges"/>
+                        <field name="currency_id"/>
+                        <field name="phone_number"/>
+                        <field name="address"/>
+                        <field name="checkup_date"/>
+                        <field name="document" filename="file_name"/>
+                        <field name="file_name" invisible="1"/>
+
+                        <field name="photo" widget="image"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Kanban view of Appointment-->
+
+    <record id="hospital_appointment_kanban_view" model="ir.ui.view">
+        <field name="name">hospital.appointment.kanban.view</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+
+            <kanban string="Appointment Kanban" class="o_res_partner_kanban">
+                <field name="id"/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+
+                            <img alt="Avatar"
+                                 t-att-src="kanban_image('hospital.appointment','photo',record.id.raw_value)"
+                                 style="width:100px; height=120px;"/>
+                        </div>
+
+                        <div>
+                            <ul style="list-style-type:none;">
+                                <li>
+                                    <b>Name:</b>
+                                    <field name="patient_name"/>
+                                </li>
+
+                                <li>
+                                    <b>Age:</b>
+                                    <field name="age"/>
+                                </li>
+
+                                <li>
+                                    <b>Email:</b>
+                                    <field name="email"/>
+                                </li>
+
+                                <li>
+                                    <b>Gender:</b>
+                                    <field name="gender"/>
+                                </li>
+
+                                <li>
+                                    <b>phone number:</b>
+                                    <field name="phone_number"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <!-- Tree view of Appointment-->
+
+    <record id="view_appointment_tree" model="ir.ui.view">
+        <field name="name">view.appointment.tree</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence" widget="handle"/>
+                <field name="patient_name" placeholder="Enter your name"/>
+                <!--                <field name="patient_id"/>-->
+                <field name="checkup_date"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action of appointment-->
+
+    <record id="action_appointment" model="ir.actions.act_window">
+        <field name="name">Appointment</field>
+        <field name="res_model">hospital.appointment</field>
+        <field name="view_mode">tree,kanban,form</field>
+    </record>
+
+    <!-- Menu of appointment-->
+
+    <menuitem id="menu_appointment" action="action_appointment" parent="hospital_management.menu_configuration"/>
+
+</odoo>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

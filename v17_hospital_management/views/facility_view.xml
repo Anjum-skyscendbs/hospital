@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Form view of Facility-->
+
+    <record id="view_facility_form" model="ir.ui.view">
+        <field name="name">view.facility.form</field>
+        <field name="model">hospital.facility</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="patient_name"/>
+                        <field name="patient_id_no"/>
+                        <field name="wordrooms" options="{'no_create':1, 'no_open':1}"/>
+                        <field name="room_no"/>
+<!--                        <field name="phone_number"/>-->
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Tree view of Facility-->
+
+    <record id="view_facility_tree" model="ir.ui.view">
+        <field name="name">view.facility.tree</field>
+        <field name="model">hospital.facility</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="patient_name" placeholder="Enter your name"/>
+                <field name="patient_id_no"/>
+                <field name="wordrooms"/>
+                <field name="room_no"/>
+
+            </tree>
+        </field>
+    </record>
+
+
+    <!-- Action of Facility-->
+
+    <record id="action_facility" model="ir.actions.act_window">
+        <field name="name">Facility</field>
+        <field name="res_model">hospital.facility</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!--*** 1)If you want to add your model in the main menu then you have to use the application menu & main menu in it-->
+
+    <!-- Application menu of Hospital -->
+    <!--  <menuitem id="menu_hospital" name="Hospital"/>-->
+
+
+    <!--*** 2)This Main Menu is for display the menu on top side-->
+
+    <!--  <menuitem id="menu_facility" name="Facility" parent="menu_hospital"/>-->
+
+    <!--*** 3)Menu of patient This is use for the display the menu in the config menu -->
+
+    <menuitem id="menu_hospital_facility" action="action_facility" parent="hospital_management.menu_configuration"/>
+
+
+</odoo>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

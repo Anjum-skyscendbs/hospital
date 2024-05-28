@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+
+    <!-- Exercise-3 Q-32. Add a smart button on your model which will open the records related to your
+    current record Smart button-->
+
+    <!-- Action of Department Patient -->
+    <record id="action_department_patient" model="ir.actions.act_window">
+        <field name="name">Patient</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Form view of department-->
+
+    <record id="view_department_form" model="ir.ui.view">
+        <field name="name">view.department.form</field>
+        <field name="model">hospital.department</field>
+        <field name="arch" type="xml">
+            <form>
+                <!--                <label for="department"/>-->
+                <header>
+                    <button name="%(action_patient)d" type="action" string="Patient"/>
+                </header>
+
+                <sheet>
+                    <div name="button_box" class="oe_button_box">
+                        <button class="oe_stat_button"
+                                type="action"
+                                name="%(action_department_patient)d"
+                                context="{'default_department_id':active_id,'search_default_department_id':active_id}"
+                                string="Departments"
+                                icon="fa-users"/>
+                    </div>
+
+
+                    <group>
+
+                        <field name="department"/>
+                        <field name="patient_name" placeholder="Enter your name"/>
+                        <field name="age"/>
+                        <field name="gender"/>
+                        <field name="is_admitted"/>
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree view of department-->
+    <record id="view_department_tree" model="ir.ui.view">
+        <field name="name">view.department.tree</field>
+        <field name="model">hospital.department</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="department"/>
+                <field name="patient_name" placeholder="Enter your name"/>
+                <field name="age"/>
+                <field name="gender"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action of department-->
+
+    <record id="action_department" model="ir.actions.act_window">
+        <field name="name">Department</field>
+        <field name="res_model">hospital.department</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!--*** 1)Application menu-->
+
+    <menuitem id="menu_hospital" name="Hospital"/>
+
+    <!--*** 2)Main Menu of Department it will display the menu on top side-->
+
+    <menuitem id="menu_department" name="Department" parent="menu_hospital"/>
+
+    <!--*** 3)This is My Menu of the Department to display the menu in only one side of main menu-->
+
+    <menuitem id="menu_hospital_department" action="action_department" parent="menu_department"/>
+
+    <!--*** 4)It will display menu in the config menu -->
+    <!--    <menuitem id="menu_hospital_department" action="action_department" parent="hospital_management.menu_configuration"/>-->
+
+
+</odoo>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Form view of Prescription-->
+
+    <record id="view_prescription_form" model="ir.ui.view">
+        <field name="name">view.prescription.form</field>
+        <field name="model">hospital.prescription</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <!--                        <field name="patient_name"/>-->
+                        <field name="patient_id"/>
+                        <!--                        <field name="patient_name"/>-->
+
+                        <field name="medicines_id"/>
+                        <!--                        <field name="prescription_ids"/>-->
+                        <field name="quantity"/>
+                        <field name="gst"/>
+                        <field name="sgst"/>
+                        <field name="other_tax"/>
+                        <field name="total_tax"/>
+                        <field name="without_other_tax"/>
+                        <field name="total_price"/>
+                        <field name="tax_perc" widget="progressbar"/>
+
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+
+    </record>
+
+    <!-- Tree view of Prescription-->
+
+    <record id="view_prescription_tree" model="ir.ui.view">
+        <field name="name">view.prescription.tree</field>
+        <field name="model">hospital.prescription</field>
+        <field name="arch" type="xml">
+            <tree>
+                <!--                <field name="patient_name"/>-->
+                <!--                <field name="patient_id"/>-->
+                <field name="medicines_id" placeholder="Enter your name"/>
+                <field name="quantity"/>
+                <field name="gst"/>
+                <field name="sgst"/>
+                <field name="other_tax"/>
+                <field name="total_tax"/>
+                <field name="without_other_tax"/>
+                <field name="total_price"/>
+                <!--Exercise-2 Q-20 This field will be displayed as progressbar in the tree view of one2many model. -->
+                <field name="tax_perc" widget="progressbar"/>
+
+
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action of Prescription-->
+
+    <record id="action_prescription" model="ir.actions.act_window">
+        <field name="name">Prescription</field>
+        <field name="res_model">hospital.prescription</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu of Prescription-->
+
+    <menuitem id="menu_hospital_prescription" action="action_prescription"
+              parent="hospital_management.menu_configuration"/>
+</odoo>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
