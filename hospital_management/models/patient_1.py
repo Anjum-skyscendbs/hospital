@@ -1,5 +1,6 @@
 from odoo import models, fields, api, Command ,_
 from datetime import date
+from odoo.exceptions import ValidationError
 
 class Patient(models.Model):
     _name = 'hospital.patient'
@@ -582,9 +583,22 @@ class Patient(models.Model):
     # Exercise-3 Q-29 Add another button on the page of one2many field when you click on this button
     # it will remove one record but it will not remove it from the database. Use Unlink for it.
 
+
     def delete_rec(self):
         res = self.unlink()
         print("RES", res)
+
+
+    # Default Method to add a validation Error
+    # Exercise-4 8.Override unlink() method to avoid deletion if it’s not8. Override unlink() method to avoid deletion if it’s not in the first state of the state
+    # field. I do validation on appointment can't delete once you add on form.
+
+    def unlink(self):
+
+        if self.appointment_ids:
+            raise ValidationError("You can not delete a patient with appointment!")
+        return super().unlink()
+
 
     # Exercise-3 Q-35. Fetch the no of records based on a condition with using search method.
 
@@ -653,13 +667,50 @@ class Patient(models.Model):
             order='patient_name')  # Exercise-3 Q-35 without using search method.len(patient_name_lst_2)
         print("SEARCH READ PATIENT", patient_name_lst_2, "no of record", len(patient_name_lst_2))
 
+
+    # Exercise-4 Q-1 Override create method to create a record in another model.
     @api.model
     def create(self,vals_lst):
+        """
+               Overridden create() method to have automated patient code
+               ---------------------------------------------------------
+               @param self: object pointer
+               @param vals_lst: List of dictionaries containing fields and values
+               return: Recordset containing newly created record(s)
+               """
+        # One way to use the sequence is next_by_code
+        # For this you just need the object and code of the sequence
         if vals_lst.get('patient_name'):
             vals_lst['patient_code'] = vals_lst['patient_name'][:2].upper()
         return super().create(vals_lst)
 
-    # def write(self,vals):
-    #     if vals.get('patient_name'):
-    #         vals['patient_code'] = vals['patient_name'][:5].upper()
-    #     return super().write(vals)
+
+        # Second way to use the sequence is next_by_id
+        # For this you need recordset which you can get by xmlid
+        seq = self.env.ref('hospital.seq_patient')
+        for vals in vals_lst:
+            # vals['reg_no'] = seq_obj.next_by_code('hospital.patient')
+            vals['reg_no'] = seq.next_by_id()
+            if vals.get('patient_name'):
+                vals['patient_code'] = vals['patient_name'][:4].upper()
+        return super().create(vals_lst)
+
+
+    # @api.model
+    # def search(self, args, offset=0, limit=None, order=None, count=False):
+    #
+    #     args = ['|', ('active', '=', False), ('active', '=', True)] + args
+    #     return super().search(args, offset=offset, limit=limit, order=order, count=count)
+    #
+
+    def write(self,vals):
+        """
+        Overridden write() method to set the patient code
+        -------------------------------------------------
+        @param self: recordset containing record(s)
+        @param vals: Dictionary containing fields and values
+        return : True
+        """
+        if vals.get('patient_name'):
+            vals['patient_code'] = vals['patient_name'][:4].upper()
+        return super().write(vals)

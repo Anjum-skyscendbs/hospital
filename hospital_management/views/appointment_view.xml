@@ -14,7 +14,8 @@
                     <!--                    </h1>-->
                     <group>
                         <field name="patient_name"/>
-                        <field name="patient_id" invisible="1"/>
+                        <field name="patient_id" />
+<!--                        invisible="1"-->
                         <field name="age" avg="Average of age" placeholder="Enter your age"/>
 
                         <field name="email" widget="email" placeholder="Enter E-mail" required="True"/>
