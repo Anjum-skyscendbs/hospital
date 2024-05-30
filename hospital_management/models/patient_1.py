@@ -27,7 +27,7 @@ class Patient(models.Model):
     # records to change the sequence.
     sequence = fields.Char('Sequence')
 
-    reg_no =  fields.Char('Reg No')
+    reg_no =  fields.Char('Reg No',required=True, copy=False, default = lambda self:_('New'))
 
     patient_code = fields.Char('Patient Code', size=4)
 
@@ -481,9 +481,6 @@ class Patient(models.Model):
                     'patient_name': 'Romil',
                 })
             ],
-            # 4 to link the records
-            # (4,<id>)
-            'facility_ids': [(4, 2), (4, 5)],
         }
 
         vals2 = {
@@ -582,22 +579,27 @@ class Patient(models.Model):
 
     # Exercise-3 Q-29 Add another button on the page of one2many field when you click on this button
     # it will remove one record but it will not remove it from the database. Use Unlink for it.
-
-
     def delete_rec(self):
         res = self.unlink()
         print("RES", res)
 
 
     # Default Method to add a validation Error
+
     # Exercise-4 8.Override unlink() method to avoid deletion if it’s not8. Override unlink() method to avoid deletion if it’s not in the first state of the state
     # field. I do validation on appointment can't delete once you add on form.
 
     def unlink(self):
-
         if self.appointment_ids:
             raise ValidationError("You can not delete a patient with appointment!")
         return super().unlink()
+
+    def unlink(self):
+                res = self.unlink()
+                print("RES Records will be delete but keep in table", res)
+        # 4 to link the records
+        # (4,<id>)
+        # 'facility_ids': [(4, 2), (4, 5)],
 
 
     # Exercise-3 Q-35. Fetch the no of records based on a condition with using search method.
@@ -669,8 +671,9 @@ class Patient(models.Model):
 
 
     # Exercise-4 Q-1 Override create method to create a record in another model.
+    # Exercise-4 Q-24. Create a sequence and assign it on creation of the record.
     @api.model
-    def create(self,vals_lst):
+    def create(self,vals):
         """
                Overridden create() method to have automated patient code
                ---------------------------------------------------------
@@ -678,39 +681,111 @@ class Patient(models.Model):
                @param vals_lst: List of dictionaries containing fields and values
                return: Recordset containing newly created record(s)
                """
-        # One way to use the sequence is next_by_code
-        # For this you just need the object and code of the sequence
-        if vals_lst.get('patient_name'):
-            vals_lst['patient_code'] = vals_lst['patient_name'][:2].upper()
-        return super().create(vals_lst)
+
+        # when create New Patient sequence according to their sequence automatic.
+        # Next_by_code method
+        if vals.get('patient_code'):
+            vals['patient_code'] = 'New Patient'
+        if vals.get('reg_no', _('New')) == _('New'):
+            vals['reg_no'] = self.env['ir.sequence'].next_by_code('hospital.patient') or _('New')
 
 
+        #This is to Override a Patient name while creating a new patient
+        # It will take 4 letters of patient of while creating.
         # Second way to use the sequence is next_by_id
-        # For this you need recordset which you can get by xmlid
-        seq = self.env.ref('hospital.seq_patient')
-        for vals in vals_lst:
-            # vals['reg_no'] = seq_obj.next_by_code('hospital.patient')
-            vals['reg_no'] = seq.next_by_id()
-            if vals.get('patient_name'):
-                vals['patient_code'] = vals['patient_name'][:4].upper()
-        return super().create(vals_lst)
-
-
-    # @api.model
-    # def search(self, args, offset=0, limit=None, order=None, count=False):
-    #
-    #     args = ['|', ('active', '=', False), ('active', '=', True)] + args
-    #     return super().search(args, offset=offset, limit=limit, order=order, count=count)
-    #
-
-    def write(self,vals):
-        """
-        Overridden write() method to set the patient code
-        -------------------------------------------------
-        @param self: recordset containing record(s)
-        @param vals: Dictionary containing fields and values
-        return : True
-        """
         if vals.get('patient_name'):
             vals['patient_code'] = vals['patient_name'][:4].upper()
-        return super().write(vals)
+        res = super(Patient,self).create(vals)
+        print("Return statment",res)
+        return res
+
+        # One way to use the sequence is next_by_code
+        # For this you just need the object and code of the sequence
+        # if vals_lst.get('patient_name'):
+        #     vals_lst['patient_code'] = vals_lst['patient_name'][:2].upper()
+        # return super().create(vals_lst)
+
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+
+        args = ['|', ('active', '=', False), ('active', '=', True)] + args
+        return super().search(args, offset=offset, limit=limit, order=order, count=count)
+
+
+    # Exercise-4 Q-4 Override write() method to update the records.
+    # def write(self,vals):
+    #     if vals.get('patient_name'):
+    #         vals['patient_code'] = vals['patient_name'][:4].upper()
+    #     return super().write(vals)
+
+    @api.model
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        """
+        Overridden Search method to fetch inactive records as well
+        ----------------------------------------------------------
+        @param self: object pointer
+        @param args: Domain / List of conditions
+        @param offset: no of records to skip
+        @param limit: Max nno of records
+        @param order: field name for sorting
+        @param count: True/False
+        :return : Recordset if count=False else no of records
+        """
+        args = ['|', ('active', '=', False), ('active', '=', True)] + args
+
+        return super().search(args, offset=offset, limit=limit, order=order, count=count)
+
+    def unlink(self):
+        """
+        Overridden unlink() method to check if the appointment are existing it should not allow to delete
+        -----------------------------------------------------------------------------------
+        @param self: object pointer
+        :return : True
+        """
+        if self.appointment_ids:
+            raise ValidationError("You can not delete a patient with appointment!")
+        return super().unlink()
+
+    def copy(self, default=None):
+        """
+        Overridden copy() method to add copy in name
+        --------------------------------------------
+        @param self: recordset
+        @param default: Dictionary containing fields to update while duplicating
+        """
+        default = {
+            'patient_name': self.patient_name + '- Copy'
+        }
+
+        return super().copy(default=default)
+
+    @api.model
+    def default_get(self, fields_list):
+            """
+            Overridden default_get method to add additional default values
+            --------------------------------------------------------------
+            @param self: object pointer
+            @param fields_list: List of fields having default values
+            """
+            print("FIELDS LIST", fields_list)
+            res = super().default_get(fields_list=fields_list)
+            print("RES", res)
+            res.update({'url': 'www.skyscendbs.com'})
+            print("UPDATE RES", res)
+            return res
+
+    # Exercise-4 Q-26 Add an SQL constraint to check a field’s value is not greater than a specific
+    # number.
+
+    @api.constrains('age', 'gender')
+    def check_patient_age(self):
+            """
+            Object Constraint used to check the age as per the gender
+            ---------------------------------------------------------
+            """
+            for patient in self:
+                if patient.gender == 'male' and patient.age < 8:
+                    raise ValidationError('Males should be 12 years old to get admitted!')
+                if patient.gender == 'female' and patient.age < 8:
+                    raise ValidationError('Females should be 12 years old to get admitted!')
+

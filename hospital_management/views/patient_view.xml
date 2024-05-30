@@ -17,6 +17,7 @@
                     <button name="copy_rec" string="Copy" type="object"/>
                     <button name="delete_rec" string="Delete" type="object"/>
                     <button name="search_rec" string="Search" type="object"/>
+                    <button name="unlink" string="Unlink" type="object"/>
                     <button name="check_orm" string="check orm" type="object" class="oe_highlight"/>
 
                     <field name="state" widget="statusbar"
@@ -34,6 +35,7 @@
                 <!--                states="draft,done,confirm"-->
 
                 <sheet>
+
                     <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
                             attrs="{'invisible': [('active', '=', True)]}"/>
                     <widget name="web_ribbon" title="Active" bg_color="bg-success"
@@ -41,8 +43,14 @@
 
 
                     <div class="row">
+                        <h1>Hospital Management System</h1>
 
-                        <h2>Hospital Management System</h2>
+                    <div class="oe_title">
+                            <h2>
+                                <field name="reg_no" readonly="1"/>
+                            </h2>
+                    </div>
+
 
                         <div class="col col-md-6">
                             <group>
@@ -93,7 +101,6 @@
                                 <field name="sequence"/>
                                 <field name="summary"/>
                                 <field name="state"/>
-                                <field name="reg_no"/>
                                 <field name="patient_code"/>
 
 
