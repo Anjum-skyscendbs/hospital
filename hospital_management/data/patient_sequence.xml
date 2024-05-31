@@ -4,7 +4,6 @@
     <data noupdate="1">
 
         <!-- Sequence for hospital.patient -->
-
         <record id="seq_hospital_patient" model="ir.sequence">
            <field name="name">Patient Sequence</field>
 
