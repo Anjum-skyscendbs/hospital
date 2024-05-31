@@ -9,6 +9,9 @@ class Appointment(models.Model):
     patient_name = fields.Char(string='Patient Name', required=True, translate=True,help='This field is used to take patient name')
     patient_id = fields.Integer(string='Patient ID',help='This field is used to take patient id')
     age = fields.Integer(string='Age', help='This field is used to take patient age')
+    # seq_num=fields.Char(string='Seq no.', readonly=True, copy=False,index=True, default= lambda self:_('New'))
+
+
 
     email = fields.Char('Email', help='This field is used to take patient email')
     gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string='Gender')

@@ -9,23 +9,35 @@
             <form string="patient">
                 <header>
 
-                    <!--                    <button name="print_patient" string="Print" type="object" class="oe_highlight"/>-->
-                    <button name="create_rec" string="Create" type="object" class="oe_highlight"/>
+                    <button name="print_patient" string="Print" type="object"/>
+                    <button name="create_rec" string="Create" type="object"/>
 
-                    <button name="update_rec" string="Update" type="object" class="oe_highlight"/>
-                    <button name="browse" string="Browse" type="object" class="oe_highlight"/>
-                    <button name="copy_rec" string="Copy" type="object" class="oe_highlight"/>
-<!--                    <button name="delete_rec" string="Delete" type="object" class="oe_highlight"/>-->
-                    <button name="search_rec" string="Search" type="object" class="oe_highlight"/>
+                    <button name="update_rec" string="Update" type="object"/>
+                    <button name="browse" string="Browse" type="object"/>
+                    <button name="copy_rec" string="Copy" type="object"/>
+                    <button name="delete_rec" string="Delete" type="object"/>
+                    <button name="search_rec" string="Search" type="object"/>
+                    <button name="unlink" string="Unlink" type="object"/>
+
                     <button name="check_orm" string="check orm" type="object" class="oe_highlight"/>
 
-                    <!--                    <field name="state" widget="statusbar" options="{'clickable':3}"-->
-                    <!--                           statusbar_visible="admit,waiting,recovery,discharge,draft,left"/>-->
-
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="admit,waiting,recovery,discharge,draft"/>
+                    <!--            options="{'clickable':3}"-->
 
                     <!--                        <field name="state" invisible="1"/>-->
 
                 </header>
+
+
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object"/>
+                    <button name="action_done" string="Mark As Done" type="object"/>
+                    <button name="action_draft" string="Set to Draft" type="object"/>
+                    <button name="action_cancel" string="Cancel" type="object"/>
+                </header>
+
+                <!--                states="draft,done,confirm"-->
 
                 <sheet>
                     <!--                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"-->
@@ -54,7 +66,6 @@
                                 field the integer field should be mandatory else readonly..attrs used...-->
 
                                 <field name="age" placeholder="Enter your age"/>
-                                <!--                                       attrs="{'readonly':[('patient_name','=','')],'required':[('patient_name','!=','')]}"/>-->
                                 <field name="gender" placeholder="select the Gender" widget="radio"/>
                                 <field name="active" invisible="true"/>
                                 <field name="active"/>
@@ -64,6 +75,10 @@
                                 <field name="weight" placeholder="Enter Weight"/>
                                 <field name="height" placeholder="Enter Height"/>
                                 <field name="ref"/>
+                                <field name="phone_number" placeholder="Enter your phone number"/>
+                                <field name="password" placeholder="Enter your password" password="*"/>
+                                <field name="address" placeholder="Enter your Address"/>
+
 
                                 <!-- Prevent creation and opening of the department record from the field -->
                                 <!--field name="department_id" options="{'no_create': True, 'no_open': True}"-->
@@ -74,19 +89,19 @@
 
                             <group>
                                 <!--                                <field name="hospital_name" maxlength='4' placeholder="Enter hospital name"/>-->
-                                <field name="phone_number" placeholder="Enter your phone number"/>
-                                <field name="password" placeholder="Enter your password" password="*"/>
-                                <field name="address" placeholder="Enter your Address"/>
+                                <field name="Marital_status" placeholder="Select your Marital status"/>
                                 <field name="url" string="Website" widget="url" placeholder="Enter URL"/>
                                 <field name="is_admitted"/>
-                                <field name="Marital_status" placeholder="Select your Marital status"/>
+
                                 <field name="checkup_date" placeholder="Enter your Checkup date"/>
                                 <field name="priority" widget="priority"/>
                                 <field name="medical_history" placeholder="Enter your Medical History" widget="html"/>
                                 <field name="sign_in" widget="float_time"/>
-                                <field name="sequence" widget="handle"/>
+                                <field name="sequence"/>
                                 <field name="summary"/>
-                                <!--                                <field name="state"/>-->
+                                <field name="state"/>
+                                <field name="reg_no"/>
+                                <field name="patient_code"/>
 
 
                                 <!-- 3. In the field which is taken for the hierarchy it should not show the current record’s
@@ -139,19 +154,16 @@
 
                         <page name="pg_additional_information" string="Additional Information"
                               placeholder="Enter Any text">
-                            <!--                        attrs="{'invisible':[('summary','=',False)]}">-->
                             <field name="additional_information"/>
                         </page>
-                    </notebook>
 
+                    </notebook>
                 </sheet>
 
 
-                <!--            <footer>-->
-                <!--                <h1>Copyright 2024</h1>-->
-                <!--            </footer>-->
-                <!--        </form>-->
-                <!--    </field>-->
+                <footer>
+                    <h1>Copyright 2024</h1>
+                </footer>
             </form>
         </field>
     </record>
@@ -163,15 +175,13 @@
         <field name="name">view.patient.tree</field>
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
-            <tree>
-<!--                <decoration-success="state=='admit'" decoration-warning="state=='draft'"-->
-<!--                decoration-bf="state=='left'" decoration-info="state=='recovery'"-->
-<!--                decoration-danger="state=='discharge'" decoration-muted="state=='waiting'"/>-->
-
+            <tree string="patient tree" decoration-success="state=='admit'" decoration-warning="state=='draft'"
+                  decoration-bf="state=='left'" decoration-info="state=='recovery'"
+                  decoration-danger="state=='discharge'" decoration-muted="state=='waiting'">
                 <field name="sequence" widget="handle"/>
                 <field name="patient_id"/>
                 <field name="patient_name"/>
-                <!--                <field name="state"/>-->
+                <field name="state"/>
 
                 <!-- Exercise-2 Q-16. Add a float field and add a functionality such that when you group the records it-->
                 <!--shows the average of the values given in the field on the group in tree view.-->
@@ -180,6 +190,7 @@
                 <field name="active" widget="boolean_toggle"/>
                 <field name="total_tax"/>
                 <field name="without_other_tax"/>
+
             </tree>
         </field>
     </record>
@@ -194,7 +205,7 @@
                 <field name="patient_name"/>
                 <field name="gender"/>
                 <field name="age"/>
-<!--                <field name="diseases_id"/>-->
+                <field name="diseases_id"/>
 
                 <!--Exercise-3 Q-5 Create atleast two filters to filter the records on your list view.-->
                 <!-- Adding Filters in the Search view -->
@@ -205,7 +216,7 @@
                 <!-- Exercise-3 Q-6 Create atleast two group by to group the records.-->
                 <!-- Adding Group By in the Search View -->
                 <filter name="grp_by_gender" string="Gender" context="{'group_by':'gender'}"/>
-<!--                <filter name="grp_by_diseases" string="Diseases" context="{'group_by':'diseases_id'}"/>-->
+                <filter name="grp_by_diseases" string="Diseases" context="{'group_by':'diseases_id'}"/>
 
                 <!--Exercise-3 Q-7 Add a filter for date field which gives specific criteria for filtering-->
                 <filter name="fil_birthdate" string="Birthdate" domain="[('birthdate','>','01/01/1980')]"/>
@@ -228,7 +239,7 @@
 
         <!-- Exercise-3 Q-11 When an action is called need to have a default group by on your state field.-->
         <!-- {'search_default_disease_id':1} -->
-<!--        <field name="context">{'search_default_age':29,'search_default_diseases_id':1}</field>-->
+        <field name="context">{'search_default_age':29,'search_default_diseases_id':1}</field>
     </record>
 
     <!-- search_default_<field_name> or search_default_<filter_name>

@@ -9,9 +9,12 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <!--                    <h1>-->
+                    <!--                        <field name="seq_num"/>-->
+                    <!--                    </h1>-->
                     <group>
                         <field name="patient_name"/>
-                        <field name="patient_id"/>
+                        <field name="patient_id" invisible="1"/>
                         <field name="age" avg="Average of age" placeholder="Enter your age"/>
 
                         <field name="email" widget="email" placeholder="Enter E-mail" required="True"/>
@@ -99,8 +102,30 @@
                 <field name="patient_name" placeholder="Enter your name"/>
                 <!--                <field name="patient_id"/>-->
                 <field name="checkup_date"/>
+                <!--                <field name="seq_num"/>-->
 
             </tree>
+        </field>
+    </record>
+
+    <!-- Search view -->
+
+    <record id="view_patient_search" model="ir.ui.view">
+        <field name="name">view.appointment.search</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="patient_name"/>
+                <field name="age"/>
+
+                <filter name="fil_gender_male" string="Male" domain="[('gender','=','male')]"/>
+                <filter name="fil_gender_female" string="Female" domain="[('gender','=','female')]"/>
+
+                <!-- Adding Group By in the Search View -->
+                <filter name="grp_by_gender" string="Gender" context="{'group_by':'gender'}"/>
+                <filter name="grp_by_patient_id" string="Patient id" context="{'group_by':'patient_id'}"/>
+
+            </search>
         </field>
     </record>
 
@@ -110,6 +135,12 @@
         <field name="name">Appointment</field>
         <field name="res_model">hospital.appointment</field>
         <field name="view_mode">tree,kanban,form</field>
+
+        <field name="context">{'search_default_age':29,'search_default_patient_id':1}</field>
+
+        <!--Using Domain -->
+<!--        <field name="domain">['|',('age','>=','18'),('gender','=','female')]</field>-->
+        <!--        <p class="o_view_nocontent_smiling_face"></p>-->
     </record>
 
     <!-- Menu of appointment-->
