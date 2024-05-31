@@ -697,20 +697,15 @@ class Patient(models.Model):
             if vals.get('patient_name'):
                 vals['patient_code'] = vals['patient_name'][:4].upper()
             res = super(Patient, self).create(vals)
-            print("Return statment", res)
+            print("________________Code Generated Successfully", res)
             return res
 
-            # One way to use the sequence is next_by_code
-            # For this you just need the object and code of the sequence
-            # if vals_lst.get('patient_name'):
-            #     vals_lst['patient_code'] = vals_lst['patient_name'][:2].upper()
-            # return super().create(vals_lst)
+        # One way to use the sequence is next_by_code
+        # For this you just need the object and code of the sequence
+        # if vals_lst.get('patient_name'):
+        #     vals_lst['patient_code'] = vals_lst['patient_name'][:2].upper()
+        # return super().create(vals_lst)
 
-    @api.model
-    def search(self, args, offset=0, limit=None, order=None, count=False):
-
-            args = ['|', ('active', '=', False), ('active', '=', True)] + args
-            return super().search(args, offset=offset, limit=limit, order=order)
 
         # Exercise-4 Q-4 Override write() method to update the records.
         # def write(self,vals):
@@ -732,7 +727,7 @@ class Patient(models.Model):
             :return : Recordset if count=False else no of records
             """
             args = ['|', ('active', '=', False), ('active', '=', True)] + args
-
+            print("______________________Search Successfully")
             return super().search(args, offset=offset, limit=limit, order=order)
 
     def unlink(self):
@@ -756,7 +751,7 @@ class Patient(models.Model):
             default = {
                 'patient_name': self.patient_name + '- Copy'
             }
-
+            print("______________________Copy Successfully")
             return super().copy(default=default)
 
     @api.model
@@ -769,7 +764,7 @@ class Patient(models.Model):
             """
             print("FIELDS LIST", fields_list)
             res = super().default_get(fields_list=fields_list)
-            print("RES", res)
+            print("_____________________Updated", res)
             res.update({'url': 'www.skyscendbs.com'})
             print("UPDATE RES", res)
             return res
