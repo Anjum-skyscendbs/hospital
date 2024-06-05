@@ -6,22 +6,43 @@ class Patient(models.Model):
     _name = 'hospital.patient'
     _rec_name = 'patient_name'
     _description = 'Hospital Patient'
-    # _inherit = ['mail.thred','mail.activity.mixin']
-
-    ### SIMPLE FIELDS
-    # '<field_name>' = fields.<FIELD_CLASS>(<PARAMS>)
-    # Here basically we are creating an object of one of the fields classes.
 
     patient_name = fields.Char(string='Patient Name', translate=True,
                                help='This field is used to take patient name')
     patient_id = fields.Integer(string='Patient ID', help='This field is used to take patient id')
-    age = fields.Integer(string='Age', help='This field is used to take patient age')
+
+
+    # Exercise-2 Q-17 Add an Integer field and add a functionality such that when you group the records
+    # it shows the maximum of the values given in the field on the group in tree view.
+    age = fields.Integer(string='Age',group_operator='max', help='This field is used to take patient age')
+    # sum, min, max  default = sum
+    # default attribute is used to provide default values to the field.
+    # The value has to be specific to the field type
+
     active = fields.Boolean('Active', help='This field is used to activate or deactivate a record', default=True)
     weight = fields.Float(string='Weight (kg)', help='This field is used to take patient weight', digits=(16, 3))
     height = fields.Float(string='Height (ft)', help='This field is used to take patient height', digits=(16, 3))
     # _order = '<field_name>' or '<field_name> desc'
     # This will be used to sort the fields with a field in either ascending or descending order
     _order = 'sequence'
+
+    # _sql_constraints = []
+    # This will be used to add constraints in SQL table.
+    # It is a list of tuple where each tuple is one constraint
+    # The tuple contains exactly 3 elements
+    # First one is the name of the constraint
+    # Second one is the constraint how we write in SQL
+    # Third one is the warning that gets raised when constraint fail
+
+    # Exercise-4 Q-11,12,13,18
+
+    _sql_constraints = [
+        ('check_age', 'check(age>=18)', 'The age has to be a at least 18!'),
+        ('unique_patient_code', 'unique(patient_code)', 'The code of the patient must be unique!'),
+        ('check_phone', 'check(LENGTH(phone) <= 10)', 'The Phone number must be 10 digit!!!'),
+        ('unique_email_password', 'unique(email,password)', 'The Email-id and Password must be unique!!!')
+
+    ]
 
     # Exercise-2 Q-24 Add a sequence field and add a functionality such that you can drag and drop
     # records to change the sequence.
@@ -30,6 +51,7 @@ class Patient(models.Model):
     reg_no =  fields.Char('Reg No',required=True, copy=False, default = lambda self:_('New'))
 
     patient_code = fields.Char('Patient Code', size=4)
+    # size is used to limit the maximum no of characters to be stored.
 
 
     # hospital_name = fields.Char(string="Hospital name",size=4)
@@ -781,8 +803,8 @@ class Patient(models.Model):
             ---------------------------------------------------------
             """
             for patient in self:
-                if patient.gender == 'male' and patient.age < 8:
+                if patient.gender == 'male' and patient.age < 10:
                     raise ValidationError('Males should be 12 years old to get admitted!')
-                if patient.gender == 'female' and patient.age < 8:
-                    raise ValidationError('Females should be 12 years old to get admitted!')
+                if patient.gender == 'female' and patient.age < 12:
+                    raise ValidationError('Females should be 12 or more to get admitted!')
 
