@@ -49,6 +49,24 @@ class Appointment(models.Model):
 
     appointment_ids = fields.Many2one('hospital.appointment', 'Appointment')
 
+    # Exercise-4 Q-16.Add an onchange method for multiple fields to update another field’s value.
+
+    @api.onchange('gender')
+    def onchange_gender(self):
+        """
+        Onchange method to set default Charges for male and female
+        ------------------------------------------------------
+        """
+        for patient in self:
+            # charges = 0.0
+            if patient.gender == 'female':
+                charges = 500.0
+            elif patient.gender == 'male':
+                charges = 1000.0
+            else:
+                charges = 0.0
+            patient.charges = charges
+            print("___________Patient Charges")
 
 
 
