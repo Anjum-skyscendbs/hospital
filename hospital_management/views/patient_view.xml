@@ -169,6 +169,75 @@
     </record>
 
 
+        <!-- Kanban view of Patient-->
+
+    <record id="hospital_patient_kanban_view" model="ir.ui.view">
+        <field name="name">hospital.patient.kanban.view</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+
+            <kanban string="Patient Kanban" class="o_res_partner_kanban">
+                <field name="id"/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+
+                            <img alt="Avatar"
+                                 t-att-src="kanban_image('hospital.patient',record.id.raw_value)"
+                                 style="width:100px; height=120px;"/>
+                        </div>
+
+                        <div>
+                            <ul style="list-style-type:none;">
+                                <li>
+                                    <b>Name:</b>
+                                    <field name="patient_name"/>
+                                </li>
+
+                                <li>
+                                    <b>Age:</b>
+                                    <field name="age"/>
+                                </li>
+
+                                <li>
+                                    <b>Email:</b>
+                                    <field name="email"/>
+                                </li>
+
+                                <li>
+                                    <b>Gender:</b>
+                                    <field name="gender"/>
+                                </li>
+
+                                <li>
+                                    <b>phone number:</b>
+                                    <field name="phone_number"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+        <!-- Graph View of Patient-->
+
+    <record id="hospital_patient_graph_view" model="ir.ui.view">
+        <field name="name">hospital.patient.graph.view</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+
+        <graph disable_linking="1">
+            <field name="patient_id"/>
+            <field name="patient_name"/>
+        </graph>
+
+        </field>
+    </record>
+
+
     <!-- Tree view / List view of patient -->
 
     <record id="view_hospital_tree" model="ir.ui.view">
@@ -195,7 +264,7 @@
         </field>
     </record>
 
-    <!-- Search view -->
+    <!-- Search view of Patient -->
 
     <record id="view_patient_search" model="ir.ui.view">
         <field name="name">view.patient.search</field>
@@ -250,7 +319,7 @@
     <record id="action_patient" model="ir.actions.act_window">
         <field name="name">All Patients</field>
         <field name="res_model">hospital.patient</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,kanban,graph,form</field>
     </record>
 
     <!-- Action of Male Patient -->

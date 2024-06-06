@@ -39,7 +39,7 @@ class Patient(models.Model):
     _sql_constraints = [
         ('check_age', 'check(age>=18)', 'The age has to be a at least 18!'),
         ('unique_patient_code', 'unique(patient_code)', 'The code of the patient must be unique!'),
-        ('check_phone', 'check(LENGTH(phone) <= 10)', 'The Phone number must be 10 digit!!!'),
+        ('check_phone_number', 'check(LENGTH(phone_number) <= 10)', 'The Phone number must be 10 digit!!!'),
         ('unique_email_password', 'unique(email,password)', 'The Email-id and Password must be unique!!!')
 
     ]
