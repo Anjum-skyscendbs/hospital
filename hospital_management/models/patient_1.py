@@ -4,7 +4,7 @@ from odoo.exceptions import ValidationError
 
 class Patient(models.Model):
     _name = 'hospital.patient'
-    _rec_name = 'patient_name'
+    _rec_name = 'sequence'
     _description = 'Hospital Patient'
 
     patient_name = fields.Char(string='Patient Name', translate=True,
@@ -25,6 +25,7 @@ class Patient(models.Model):
     # _order = '<field_name>' or '<field_name> desc'
     # This will be used to sort the fields with a field in either ascending or descending order
     _order = 'sequence'
+
 
     # _sql_constraints = []
     # This will be used to add constraints in SQL table.
@@ -788,9 +789,16 @@ class Patient(models.Model):
             """
             print("FIELDS LIST", fields_list)
             res = super().default_get(fields_list=fields_list)
-            print("___________________RES", res)
+            # print("___________________RES", res)
             res.update({'url': 'www.skyscendbs.com'})
             print("_________________UPDATE RES", res)
+            res['age'] = 22
+            res['phone_number'] = 123456890
+
+            # To GET A Default appointment in M2O field in the Model
+            # res['appointment_ids'] = [(0,0,{'patient_name':'leelaaaa','email':'leela@gmail.com'}),
+            #                           (0,0,{'patient_name':'Anjuuuu','email':'anju@gmail.com'})]
+            print('________Default Value of Age, phone no,URL', res)
             return res
 
     # Exercise-4 Q-26 Add an SQL constraint to check a field’s value is not greater than a specific
