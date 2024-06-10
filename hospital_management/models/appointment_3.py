@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 class Appointment(models.Model):
     _name='hospital.appointment'
@@ -50,7 +50,7 @@ class Appointment(models.Model):
     appointment_ids = fields.Many2one('hospital.appointment', 'Appointment')
 
 
-    # Exercise-4 Q-16.Add an onchange method for multiple fields to update another field’s value.
+    # Exercise-4 Q-15,16.Add an onchange method for multiple fields to update another field’s value.
 
     @api.onchange('gender')
     def onchange_gender(self):
@@ -68,7 +68,5 @@ class Appointment(models.Model):
                 charges = 0.0
             patient.charges = charges
             print("___________Patient Charges")
-
-
 
 

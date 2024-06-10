@@ -9,6 +9,7 @@ class Diseases(models.Model):
     diseases_name=fields.Char(string='Diseases')
     code = fields.Char(string='Code', size=5)
 
+   # Exercise-4 9. Override name_get method and display two fields rather than just name in the many2one field
     def name_get(self):
 
         diseases_list = []
@@ -23,7 +24,7 @@ class Diseases(models.Model):
             diseases_list.append((diseases.id, dis))
         return diseases_list
 
-
+    # Exercise-4 11.Override name_create method to add additional fields for creating records.
     @api.model
     def name_create(self,diseases_name):
         vals = {
@@ -35,6 +36,9 @@ class Diseases(models.Model):
 
         return diseases_name.name_get()[0]
 
+
+    # Exercise-4 10.Override name_search method to search with both the fields which are displayed
+    # in many2one field.
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
 
@@ -49,4 +53,10 @@ class Diseases(models.Model):
         print("_________LIMIT", limit)
         return diseases.name_get()
 
-
+    # Exercise-4 17.Add an onchange method which will add a domain on a many2one and
+    # many2many field.
+    @api.onchange
+    def _onchange(self):
+        domain = self.diseases_name and {
+            'domain': [('code', '=', self.env['diseases'].search([('name', '=', self.diseases_name)]).code)]}
+        return domain

@@ -35,8 +35,7 @@ class Patient(models.Model):
     # Second one is the constraint how we write in SQL
     # Third one is the warning that gets raised when constraint fail
 
-    # Exercise-4 Q-11,12,13,18
-
+    # Exercise-4 Q-19,20,21
     _sql_constraints = [
         ('check_age', 'check(age>=18)', 'The age has to be a at least 18!'),
         ('unique_patient_code', 'unique(patient_code)', 'The code of the patient must be unique!'),
@@ -580,7 +579,6 @@ class Patient(models.Model):
         patient = self.browse([1, 2])
         print("\nPatients--------------------------", patient)
 
-
     def copy_rec(self):
         default = {
             'patient_name': self.patient_name + ' (copy)',
@@ -716,6 +714,7 @@ class Patient(models.Model):
         #This is to Override a Patient name while creating a new patient
         # It will take 4 letters of patient of while creating.
         # Second way to use the sequence is next_by_id
+
         if vals.get('patient_name'):
             vals['patient_code'] = vals['patient_name'][:4].upper()
         res = super(Patient,self).create(vals)
@@ -765,19 +764,30 @@ class Patient(models.Model):
         print("______________________Return statement,deleted successfully")
         return super().unlink()
 
-
+    # Exercise-4 5,6. Override copy() method to remove one of the existing fields and add another value.
     def copy(self, default=None):
-        """
-        Overridden copy() method to add copy in name
-        --------------------------------------------
-        @param self: recordset
-        @param default: Dictionary containing fields to update while duplicating
-        """
+
         default = {
             'patient_name': self.patient_name + '- Copy'
         }
         print("__________________________________Return Statement,copy successfully")
         return super().copy(default=default)
+
+    @api.model
+    def copy(self, default=None):
+        original_state = self.state
+
+        default = {
+                 'state' : self.state + 'admit'
+        }
+        if original_state in ('confirmed', 'done'):
+            default['state'] = 'waiting'
+        else:
+            default['state'] = original_state
+
+        return super().copy(default=default)
+
+    # Exercise-4 12.Override default_get method to add default fields when the record is created.
 
     @api.model
     def default_get(self, fields_list):
@@ -787,6 +797,7 @@ class Patient(models.Model):
             @param self: object pointer
             @param fields_list: List of fields having default values
             """
+
             print("FIELDS LIST", fields_list)
             res = super().default_get(fields_list=fields_list)
             # print("___________________RES", res)
@@ -815,4 +826,9 @@ class Patient(models.Model):
                     raise ValidationError('Males should be 12 years old to get admitted!')
                 if patient.gender == 'female' and patient.age < 12:
                     raise ValidationError('Females should be 12 or more to get admitted!')
+
+    # Exercise-4 25.Create a sequence and assign it’s value on a button click.
+    def assign_sequence(self):
+        sequence_obj = self.env['ir.sequence']
+        self.reg_no = sequence_obj.next_by_code('hospital.patient') or _('New')
 

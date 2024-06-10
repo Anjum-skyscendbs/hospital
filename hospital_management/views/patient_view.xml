@@ -20,6 +20,10 @@
                     <button name="unlink" string="Unlink" type="object"/>
                     <button name="check_orm" string="check orm" type="object" class="oe_highlight"/>
 
+                    <header>
+                        <button name="assign_sequence" string="Squence" type="object"/>
+                    </header>
+
                     <field name="state" widget="statusbar"
                            statusbar_visible="admit,waiting,recovery,discharge,draft"/>
                     <!--            options="{'clickable':3}"-->

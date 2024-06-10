@@ -18,6 +18,12 @@
         'views/diseases_view.xml',
         'views/medicines_view.xml',
     ],
+    # 'assets': {
+    #     'web.assets_backend': [
+    #         'hospital/static/src/scss/test_style.scss'
+    #     ],
+    # },
+    #
     'auto_install': False,
     'installable': True,
     'application': True,
