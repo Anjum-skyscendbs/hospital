@@ -49,11 +49,11 @@
                     <div class="row">
                         <h1>Hospital Management System</h1>
 
-                    <div class="oe_title">
+                        <div class="oe_title">
                             <h2>
                                 <field name="reg_no" readonly="1"/>
                             </h2>
-                    </div>
+                        </div>
 
                         <div class="col col-md-6">
                             <group>
@@ -180,13 +180,31 @@
         <field name="name">view.patient.tree</field>
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
-            <tree string="patient tree" decoration-success="state=='admit'" decoration-warning="state=='draft'"
-                  decoration-bf="state=='left'" decoration-info="state=='recovery'"
-                  decoration-danger="state=='discharge'" decoration-muted="state=='waiting'">
-                <field name="sequence" widget="handle"/>
-                <field name="patient_id"/>
-                <field name="patient_name"/>
+
+            <!--Excercise-5 Q-7.Add 5 different colros on the tree view. Depending on state put 4 colors. 5th Color
+            would be red and this would be only for the records which are archived or deactivated-->
+            <tree string="patient tree"
+                  decoration-primary="state=='admit'"
+                  decoration-warning="state=='draft'"
+                  decoration-bf="state=='left'"
+                  decoration-info="state=='recovery'"
+                  decoration-danger="state=='discharge'"
+                  decoration-muted="state=='waiting'"
+                  default_order="birthdate asc">
+                <!--Exercise-5 Q-5. Add a tree view and set a default order on a date field. -->
+
+                <field name="sequence" widget="handle" optional="show"/>
+                <field name="birthdate" optional="show"/>
+                <!--Exercise-5 Q-8. Create a tree view and add few fields which can be hidden or shown dynamically.
+                Add atleast 4 fields which are hidden and 4 fields which are displayed but can be hidden. -->
+                <field name="patient_id" optional="hide"/>
+                <field name="patient_name" optional="hide"/>
                 <field name="state"/>
+
+                <!-- optional attribute gives the flexibility to the user to display or hide the field on list view -->
+                <!-- optional="show" by default displays the field on list view but can be hidden -->
+                <!-- optional="hide" by default hides the field on list view but can be displayed -->
+
 
                 <!-- Exercise-2 Q-16. Add a float field and add a functionality such that when you group the records it-->
                 <!--shows the average of the values given in the field on the group in tree view.-->
@@ -200,6 +218,115 @@
         </field>
     </record>
 
+    <!-- Kanban view of Patient-->
+
+    <record id="hospital_patient_kanban_view" model="ir.ui.view">
+        <field name="name">hospital.patient.kanban.view</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+
+            <kanban string="Patient Kanban" class="o_res_partner_kanban">
+                <field name="id"/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+
+                            <!--                            <img alt="Avatar"-->
+                            <!--                                 t-att-src="('hospital.patient',record.id.raw_value)"-->
+                            <!--                                 style="width:100px; height=120px;"/>-->
+                        </div>
+
+                        <div>
+                            <ul style="list-style-type:none;">
+                                <li>
+                                    <b>Name:</b>
+                                    <field name="patient_name"/>
+                                </li>
+
+                                <li>
+                                    <b>Age:</b>
+                                    <field name="age"/>
+                                </li>
+
+                                <li>
+                                    <b>Email:</b>
+                                    <field name="email"/>
+                                </li>
+
+                                <li>
+                                    <b>Gender:</b>
+                                    <field name="gender"/>
+                                </li>
+
+                                <li>
+                                    <b>phone number:</b>
+                                    <field name="phone_number"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- calendar tag will be used to create a calendar view -->
+    <!-- In order to create a calendar view you need either a date or datetime field -->
+    <!-- date_start would be the attribute to denote the date field -->
+
+    <record id="view_patient_calendar" model="ir.ui.view">
+        <field name="name">view.patient.calendar</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <calendar date_start="birthdate" mode="month" color="gender">
+                <field name="patient_name"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- You can also use date_start and date_stop in case you want to manage hourly or multiple days events -->
+    <!-- Calendar view --> <!-- Wtih Start and End -->
+    <record id="view_patient_calendar" model="ir.ui.view">
+        <field name="name">view.patient.calendar</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <calendar date_start="timestamp" date_stop="timestamp_end">
+                <field name="patient_name"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Graph View of Patient-->
+
+    <record id="hospital_patient_graph_view" model="ir.ui.view">
+        <field name="name">hospital.patient.graph.view</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+
+            <graph disable_linking="1">
+                <field name="patient_id"/>
+                <field name="patient_name"/>
+            </graph>
+
+        </field>
+    </record>
+
+    <!-- Pivot view of patient -->
+    <record id="view_patient_pivot" model="ir.ui.view">
+        <field name="name">view.patient.pivot</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="birthdate" type="row" interval="year"/>
+                <field name="gender" type="row"/>
+                <field name="department_id" type="col"/>
+                <field name="age" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+
     <!-- Search view -->
 
     <record id="view_patient_search" model="ir.ui.view">
@@ -207,10 +334,26 @@
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
             <search>
-                <field name="patient_name"/>
+
+                <!-- Exercise-5 2. Add a searchpanel on the searchview to filter the records-->
+                <!-- Search panel will give you field(s) to filter the records -->
+                <!-- It add a panel on the left side of your view -->
+                <field name="department_id"/>
                 <field name="gender"/>
+                <searchpanel>
+                    <field name="department_id" icon="fa-cubes"/>
+                    <field name="gender" icon="fa-group"/>
+                </searchpanel>
+
+                <field name="patient_name"/>
+                <!--                <field name="gender"/>-->
+                <!--                <field name="birthdate" widget="date" />-->
+                <!--                <filter name="by_date" string="By Date">-->
+                <!--                <field name="birthdate" operator="=" />-->
+                <!--                </filter>-->
                 <field name="age"/>
                 <field name="diseases_id"/>
+
 
                 <!--Exercise-3 Q-5 Create atleast two filters to filter the records on your list view.-->
                 <!-- Adding Filters in the Search view -->
@@ -224,6 +367,7 @@
                 <filter name="grp_by_diseases" string="Diseases" context="{'group_by':'diseases_id'}"/>
 
                 <!--Exercise-3 Q-7 Add a filter for date field which gives specific criteria for filtering-->
+                <!--Exercise-5 Q-1 Add a date attribute on the filter in search view.-->
                 <filter name="fil_birthdate" string="Birthdate" domain="[('birthdate','>','01/01/1980')]"/>
 
                 <!-- Exercise-3 Q-8 Add a group by for a date field.-->
@@ -240,7 +384,7 @@
     <record id="action_patient" model="ir.actions.act_window">
         <field name="name">Patient</field>
         <field name="res_model">hospital.patient</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,kanban,calendar,graph,pivot,search,form</field>
 
         <!-- Exercise-3 Q-11 When an action is called need to have a default group by on your state field.-->
         <!-- {'search_default_disease_id':1} -->

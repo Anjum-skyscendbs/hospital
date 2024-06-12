@@ -131,7 +131,11 @@
         <field name="name">view.appointment.tree</field>
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
-            <tree>
+
+            <!--Exercise-5 Q-3 Create an editable tree view for a model. -->
+            <!--Exercise-5 Q-4. Make a tree view and make sure that the records can not be created or deleted. -->
+            <tree editable="bottom" > <!--create="0" delete="0"-->
+
                 <field name="sequence" widget="handle"/>
                 <field name="patient_name" placeholder="Enter your name"/>
                 <!--                <field name="patient_id"/>-->
@@ -144,11 +148,12 @@
 
     <!-- Search view -->
 
-    <record id="view_patient_search" model="ir.ui.view">
+    <record id="view_patient1_search" model="ir.ui.view">
         <field name="name">view.appointment.search</field>
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
             <search>
+
                 <field name="patient_name"/>
                 <field name="age"/>
 

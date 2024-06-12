@@ -54,7 +54,7 @@
         <field name="name">view.department.tree</field>
         <field name="model">hospital.department</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree> <!-- multi_edit="1"-->
                 <field name="department"/>
                 <field name="patient_name" placeholder="Enter your name"/>
                 <field name="age"/>

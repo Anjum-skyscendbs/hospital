@@ -32,7 +32,6 @@ class Patient(models.Model):
 
     patient_code = fields.Char('Patient Code', size=4)
 
-
     # hospital_name = fields.Char(string="Hospital name",size=4)
     # print(hospital_name this field take a limited char size=4)
 
@@ -51,6 +50,10 @@ class Patient(models.Model):
     Marital_status = fields.Selection([('married', 'Married'), ('unmarried', 'Unmarried'), ('single', 'Single')],
                                       string='Marital Status')
 
+    timestamp = fields.Datetime('Timestamp')
+    timestamp_end = fields.Datetime("End Time")
+    # readonly attribute will make the field to be non-editable
+
     checkup_date = fields.Date(string='Checkup Date', help='This field is used to take patient checkup date')
     medical_history = fields.Text(string='Medical History', help='This field is used to store patient medical history')
     url = fields.Char('URL')
@@ -58,7 +61,7 @@ class Patient(models.Model):
     password = fields.Char('Password', help='This field is used to take password')
 
     # additional_information = fields.Char('Additional Information',
-    #                                      help='This field is used to take additional information')
+    #       help='This field is used to take additional information')
     template = fields.Html('Template')
     total_price = fields.Float(string='Total Price')
 
@@ -767,6 +770,13 @@ class Patient(models.Model):
             print("_____________________Updated", res)
             res.update({'url': 'www.skyscendbs.com'})
             print("UPDATE RES", res)
+
+            res['phone_number'] = 123456890
+
+            # To GET A Default appointment in M2O field in the Model
+            # res['appointment_ids'] = [(0,0,{'patient_name':'leelaaaa','email':'leela@gmail.com'}),
+            #                           (0,0,{'patient_name':'Anjuuuu','email':'anju@gmail.com'})]
+            print('________Default Value of Age, phone no,URL', res)
             return res
 
         # Exercise-4 Q-26 Add an SQL constraint to check a field’s value is not greater than a specific
