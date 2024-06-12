@@ -4,7 +4,8 @@ from odoo.exceptions import ValidationError
 
 class Patient(models.Model):
     _name = 'hospital.patient'
-    _rec_name = 'sequence'
+    # _rec_name = 'sequence'
+    _rec_name = 'patient_name'
     _description = 'Hospital Patient'
 
     patient_name = fields.Char(string='Patient Name', translate=True,
@@ -71,6 +72,11 @@ class Patient(models.Model):
     timestamp = fields.Date('Timestamp', readonly=True)
     Marital_status = fields.Selection([('married', 'Married'), ('unmarried', 'Unmarried'), ('single', 'Single')],
                                       string='Marital Status')
+
+    timestamp = fields.Datetime('Timestamp')
+    timestamp_end = fields.Datetime("End Time")
+    # readonly attribute will make the field to be non-editable
+
 
     checkup_date = fields.Date(string='Checkup Date', help='This field is used to take patient checkup date')
     medical_history = fields.Text(string='Medical History', help='This field is used to store patient medical history')
@@ -183,6 +189,12 @@ class Patient(models.Model):
     ref = fields.Reference([('hospital.patient', 'Patient'),
                             ('res.users', 'Users'),
                             ('res.partner', 'Contacts')], 'Reference')
+
+    photo = fields.Image('Photo')
+    # In Image field you can upload an image.
+
+    color = fields.Integer('Color')
+    # This field is used for Color on Kanban
 
     # Reference field is a combination of Selection and M2O fields.
     # The first parameter will be same as selection a list of tuple.
@@ -773,6 +785,8 @@ class Patient(models.Model):
         print("__________________________________Return Statement,copy successfully")
         return super().copy(default=default)
 
+
+    # Exercise-4 7.Override copy() method and have the state field not copied and bring back to the fiirst state in the selection.
     @api.model
     def copy(self, default=None):
         original_state = self.state

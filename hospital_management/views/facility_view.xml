@@ -14,7 +14,9 @@
                         <field name="patient_id_no"/>
                         <field name="wordrooms" options="{'no_create':1, 'no_open':1}"/>
                         <field name="room_no"/>
-<!--                        <field name="phone_number"/>-->
+                        <field name="color" widget="color_picker"/>
+
+                        <!--                        <field name="phone_number"/>-->
                     </group>
 
                 </sheet>
@@ -34,6 +36,8 @@
                 <field name="patient_id_no"/>
                 <field name="wordrooms"/>
                 <field name="room_no"/>
+                <field name="color" widget="color_picker"/>
+
 
             </tree>
         </field>

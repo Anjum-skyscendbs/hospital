@@ -54,7 +54,7 @@
         <field name="name">view.department.tree</field>
         <field name="model">hospital.department</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree> <!--  multi_edit="1"-->
                 <field name="department"/>
                 <field name="patient_name" placeholder="Enter your name"/>
                 <field name="age"/>
@@ -63,12 +63,88 @@
         </field>
     </record>
 
+    <!-- Kanban view of Department-->
+
+    <record id="hospital_department_kanban_view" model="ir.ui.view">
+        <field name="name">hospital.department.kanban.view</field>
+        <field name="model">hospital.department</field>
+        <field name="arch" type="xml">
+
+            <kanban string="Department Kanban" class="o_res_partner_kanban">
+                <field name="id"/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+
+                            <!--                            <img alt="Avatar"-->
+                            <!--                                 t-att-src="kanban_image('hospital.appointment','photo',record.id.raw_value)"-->
+                            <!--                                 style="width:100px; height=120px;"/>-->
+                        </div>
+
+                        <div>
+                            <ul style="list-style-type:none;">
+                                <li>
+                                    <b>Name:</b>
+                                    <field name="patient_name"/>
+                                </li>
+
+                                <li>
+                                    <b>Age:</b>
+                                    <field name="age"/>
+                                </li>
+
+
+                                <li>
+                                    <b>Gender:</b>
+                                    <field name="gender"/>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Graph view of Department -->
+
+    <record id="view_department_graph" model="ir.ui.view">
+        <field name="name">view.department.graph</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <!--            <graph type="bar" stacked="0">-->
+            <!--            <graph type="line">-->
+            <graph type="pie">
+                <!--                <field name="name" type="row"/>-->
+                <field name="gender" type="col"/>
+                <field name="age" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Pivot view of Department -->
+
+    <record id="view_department_pivot" model="ir.ui.view">
+
+        <field name="name">view.department.pivot</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="gender" type="row"/>
+                <field name="age" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+
     <!-- Action of department-->
 
     <record id="action_department" model="ir.actions.act_window">
         <field name="name">Department</field>
         <field name="res_model">hospital.department</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,kanban,graph,pivot,form</field>
     </record>
 
 

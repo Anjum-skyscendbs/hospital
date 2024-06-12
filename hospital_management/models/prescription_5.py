@@ -4,9 +4,9 @@ from odoo import fields, models, api
 class Prescription(models.Model):
     _name = 'hospital.prescription'
     _description = 'Prescription'
-    _rec_name = 'medicines_id'
+    _rec_name = 'patient_name'
 
-    # patient_name=fields.Char(string='Patient Name',required=True, help='This field is used to take patient name')
+    patient_name=fields.Char(string='Patient Name',required=True, help='This field is used to take patient name')
     #
     # patient_id = fields.Integer(string='Patient ID',help='This field is used to take patient id')
     #

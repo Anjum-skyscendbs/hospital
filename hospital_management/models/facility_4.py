@@ -18,3 +18,5 @@ class Facility(models.Model):
 
     wordrooms = fields.Char(string='Wordrooms')
     room_no = fields.Integer('Room No')
+
+    color = fields.Integer('Color')

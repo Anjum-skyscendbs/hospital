@@ -9,8 +9,7 @@
             <form>
                 <sheet>
                     <group>
-                        <!--                        <field name="patient_name"/>-->
-                        <field name="patient_id"/>
+<!--                        <field name="patient_id"/>-->
                         <!--                        <field name="patient_name"/>-->
 
                         <field name="medicines_id"/>
