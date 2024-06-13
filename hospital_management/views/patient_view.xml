@@ -58,9 +58,7 @@
 
                         <div class="col col-md-6">
                             <group>
-
-                                <label for="patient_name"/>
-
+                                <label for="patient_name" style="color:blue;"/>
                                 <h1 colspan="1">
                                     <field name="patient_name"/>
                                 </h1>
@@ -75,7 +73,7 @@
                                        attrs="{'readonly':[('patient_name','=','')],'required':[('patient_name','!=','')]}"/>
                                 <field name="gender" placeholder="select the Gender" widget="radio"/>
                                 <field name="active" invisible="true"/>
-                                <field name="active"/>
+                                <!--                                <field name="active"/>-->
                                 <field name="blood_group" placeholder="Enter Blood Group"/>
 
 
@@ -108,6 +106,8 @@
                                 <field name="summary"/>
                                 <field name="state"/>
                                 <field name="patient_code"/>
+                                <field name="color" widget="color_picker"/>
+
 
                                 <field name="facility_ids" widget="many2many_tags" options="{'color_field': 'color'}"
                                        optional="hide"/>
@@ -136,22 +136,48 @@
                     <notebook>
 
                         <page name="pg_appointment" string="Appointment">
-                            <field name="appointment_ids" widget="one2many"/>
+                            <field name="appointment_ids" widget="one2many">
+
+                                <!--Exercise-5 Q-35.Create internal views form and tree for a One2many field. -->
+                                <!--                            <tree editable="bottom">-->
+                                <!--                                <field name="patient_id"/>-->
+                                <!--                                <field name="age"/>-->
+                                <!--                                <field name="patient_name"/>-->
+                                <!--                            </tree>-->
+
+
+                                <!--Exercise-5 Q-35. Create internal views form of One2many field. -->
+                                <!--                                <form>-->
+                                <!--                                    <group>-->
+                                <!--                                        <field name="patient_id"/>-->
+                                <!--                                        <field name="patient_name"/>-->
+                                <!--                                        <field name="age"/>-->
+
+                                <!--                                        <field name="charges"-->
+                                <!--                                               attrs="{'readonly':[('patient_id','=',False)], 'required':[('patient_id','!=',False)]}"/>-->
+                                <!--                                        <field name="charges" widget="percentpie"/>-->
+                                <!--                                    </group>-->
+                                <!--                                </form>-->
+                            </field>
                         </page>
 
                         <page name="pg_medicines" string="Medicines">
                             <field name="medicines_ids"/>
-                            <group>
-                                <field name="total_tax"/>
-                                <field name="without_other_tax"/>
-                                <field name="total_price"/>
-                            </group>
+                            <form>
+                                <group>
+                                    <field name="total_tax"/>
+                                    <field name="without_other_tax"/>
+                                    <field name="total_price"/>
+                                </group>
+                            </form>
                         </page>
 
                         <!--Exercise-2 Q-8 The many2many field options should be listed as checkboxes.-->
+                        <!--For the color in the M2M fields -->
 
                         <page name="pg_facility" string="Facility">
-                            <field name="facility_ids" widget="many2many_tags" placeholder="select any one"/>
+                            <field name="facility_ids" widget="many2many_tags" options="{'color_field': 'color'}"
+                                   placeholder="select any one"/>
                         </page>
 
                         <page name="pg_sub" string="Subordinates">
@@ -209,6 +235,8 @@
 
                 <field name="patient_id"/>   <!--optional="hide"-->
                 <field name="patient_name"/> <!--optional="hide"-->
+                <!--                <field name="color" widget="color_picker"/>-->
+
                 <field name="state"/>
 
                 <!-- optional attribute gives the flexibility to the user to display or hide the field on list view -->
@@ -222,13 +250,13 @@
                 <field name="age" avg="AVERAGE"/>
                 <!--                sum="Sum of age"-->
                 <field name="active" widget="boolean_toggle"/>
+                <field name="facility_ids" widget="many2many_tags"
+                       options="{'color_field': 'color'}"/> <!--optional="hide" -->
+
 
                 <field name="total_tax" sum="Total_tax"/>
                 <!--Exercise-5 Q-9 Display the total of numerical fields at the bottom of the list view-->
                 <field name="without_other_tax" sum="without_other_tax"/>
-
-
-                <field name="facility_ids" widget="many2many_tags" options="{'color_field': 'color'}" optional="hide"/>
 
 
             </tree>
@@ -240,8 +268,8 @@
     <!--Exercise-5 Q-27 Create a kanban view to display only fields of a record. -->
 
 
-    <record id="hospital_patient_kanban_view" model="ir.ui.view">
-        <field name="name">hospital.patient.kanban.view</field>
+    <record id="view_patient_kanban" model="ir.ui.view">
+        <field name="name">view.patient.kanban</field>
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
 
@@ -254,7 +282,7 @@
 
                         <div t-attf-class="##{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_card oe_kanban_color oe_kanban_global_click">
 
-                               <!-- Exercise-5 Q-28 Add an image on the kanban view.-->
+                            <!-- Exercise-5 Q-28 Add an image on the kanban view.-->
                             <div class="o_kanban_image">
                                 <img t-att-src="kanban_image('hospital.patient', 'photo', record.id.raw_value)" alt=""/>
                             </div>
@@ -265,18 +293,17 @@
                                         <field name="patient_name"/>
                                     </h3>
                                     <br/>
-
                                     <field name="email" widget="email"/>
                                     <br/>
+                                    <field name="age" widget="age"/>
+                                    <br/>
+                                    <field name="Marital_status" widget="Marital_status"/>
+                                    <br/>
                                     <field name="url" widget="email"/>
+                                    <br/>
                                 </div>
-                                <br/>
 
                                 <field name="gender"/>
-                                <br/>
-
-
-                                <field name="patient_id"/>
                                 <br/>
                                 <field name="priority" widget="priority"/>
                                 <br/>
@@ -291,14 +318,15 @@
                                     <span class="fa fa-ellipsis-v"/>
                                 </a>
 
-                                 <!--Exercise-31. Add a dropdown on the kanban view.For Open -->
+                                <!--Exercise-31. Add a dropdown on the kanban view.For Open -->
                                 <div class="dropdown-menu" role="menu">
                                     <!-- type="open" is used to open the form view in non editable mode -->
                                     <a role="menuitem" type="open" class="dropdown-item">Open</a>
 
                                     <!-- type="edit" is used to open the form view in editable mdoe -->
                                     <t t-if="widget.editable">
-                                        <a role="menuitem" type="edit" class="dropdown-item">Edit</a> <!--Exercise-5 Q-30-->
+                                        <a role="menuitem" type="edit" class="dropdown-item">Edit
+                                        </a> <!--Exercise-5 Q-30-->
                                     </t>
 
                                     <!-- type="delete" is used to delete the record -->
@@ -312,11 +340,22 @@
 
                                     <!-- Using Object Button's Method -->
                                     <a role="menuitem" type="object" name="browse_rec" class="dropdown-item">Browse</a>
+
+                                    <!--Exercise-5 Q-34 Add a dropdown on the kanban to call a method of the model which will update
+                                     the value of a field in the record -->
+                                    <a role="menuitem" type="object" name="action_confirm" class="dropdown-item">
+                                        Confirm
+                                    </a>
+
+                                    <!--Exercise-5 Q-33. Add a dropdown on the kanban view it will open the records of the one2many
+                                    field-->
+                                    <a role="menuitem" type="object" name="open_one2many" class="dropdown-item">
+                                        one2many
+                                    </a>
                                     <div role="separator" class="dropdown-divider"/>
 
                                     <!-- Using Action Button -->
                                     <a role="menuitem" type="action" name="%(action_facility)d" class="dropdown-item">
-                                        <!--                                        Activities-->
                                     </a>
                                     <div role="separator" class="dropdown-divider"/>
                                     <!-- Adding Colorpicker to select the color -->
@@ -343,8 +382,7 @@
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
             <calendar
-                    date_start="birthdate"
-                    mode="month"> <!-- mode="year","week","day" -->
+                    date_start="birthdate" mode="month"> <!-- mode="year","week","day" -->
                 <field name="patient_name"/>
             </calendar>
         </field>
@@ -353,20 +391,20 @@
     <!-- You can also use date_start and date_stop in case you want to manage hourly or multiple days events -->
     <!-- Calendar view --> <!-- With Start and End -->
     <!-- Exercise-5 Q-16,17-->
-    <record id="view_patient_calendar" model="ir.ui.view">
-        <field name="name">view.patient.calendar</field>
-        <field name="model">hospital.patient</field>
-        <field name="arch" type="xml">
-            <calendar
-                    date_start="timestamp"
-                    date_stop="timestamp_end"
-                    mode="month"
-                    event_open_popup="true">
-                <field name="patient_name"/> <!--Exercise-5 Q-18 Specific Fields Name-->
+    <!--    <record id="view_patient2_calendar" model="ir.ui.view">-->
+    <!--        <field name="name">view.patient.calendar</field>-->
+    <!--        <field name="model">hospital.patient</field>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <calendar-->
+    <!--                    date_start="timestamp"-->
+    <!--                    date_stop="timestamp_end"-->
+    <!--                    mode="month"-->
+    <!--                    event_open_popup="true">-->
+    <!--                <field name="patient_name"/> &lt;!&ndash;Exercise-5 Q-18 Specific Fields Name&ndash;&gt;-->
 
-            </calendar>
-        </field>
-    </record>
+    <!--            </calendar>-->
+    <!--        </field>-->
+    <!--    </record>-->
 
 
     <!-- Graph View of Patient-->
@@ -421,15 +459,12 @@
             <search>
                 <!-- Search panel will give you field(s) to filter the records -->
                 <!-- It add a panel on the left side of your view -->
-                <field name="department_id"/>
-                <field name="gender"/>
                 <searchpanel>
-                    <field name="department_id" icon="fa-cubes"/>
+                    <field name="diseases_id" icon="fa-cubes"/>
                     <field name="gender" icon="fa-group"/>
                 </searchpanel>
 
                 <field name="patient_name"/>
-                <!--                <field name="gender"/>-->
                 <!--                <field name="birthdate" widget="date" />-->
                 <!--                <filter name="by_date" string="By Date">-->
                 <!--                <field name="birthdate" operator="=" />-->
@@ -437,12 +472,10 @@
                 <field name="age"/>
                 <field name="diseases_id"/>
 
-
                 <!--Exercise-3 Q-5 Create atleast two filters to filter the records on your list view.-->
                 <!-- Adding Filters in the Search view -->
                 <filter name="fil_gender_male" string="Male" domain="[('gender','=','male')]"/>
                 <filter name="fil_gender_female" string="Female" domain="[('gender','=','female')]"/>
-
 
                 <!-- Exercise-3 Q-6 Create atleast two group by to group the records.-->
                 <!-- Adding Group By in the Search View -->
@@ -457,35 +490,48 @@
                 <!-- Exercise-3 Q-8 Add a group by for a date field.-->
                 <!-- Adding Group By in the Search View -->
                 <filter name="grp_by_birthdate" string="Birthdate" context="{'group_by':'birthdate'}"/>
-
+                <!-- Exercise-5 Q-39.Link a search view to an action without using context. -->
+                <!--                <field name="context">{}</field>-->
             </search>
         </field>
     </record>
 
 
     <!-- Action of Hospital -->
+    <!-- To bind views to a menu or anything else we need to create an action -->
+    <!-- To create an action we will use the record tag -->
+    <!-- XML ID will be meaning the same as view but here you can see it starts with action rather than view -->
+    <!-- model for action is ir.actions.act_window -->
+    <!-- Action also has 3 fields -->
+    <!-- The name is the name of the action -->
+    <!-- Here for model the field is res_model unlike view -->
+    <!-- The view_mode we need to mention views in which you want to switch -->
 
     <record id="action_patient" model="ir.actions.act_window">
         <field name="name">Patient</field>
         <field name="res_model">hospital.patient</field>
         <field name="view_mode">tree,form</field>
+
+        <!--Exercise-5 Q-38. Link the same views to another action without using context. -->
         <!--        <field name="context">{} </field>-->
+        <field name="context">{'tree_view_ref':'hospital.view_patient_tree'}</field>
+
 
         <!-- Exercise-3 Q-11 When an action is called need to have a default group by on your state field.-->
         <!-- {'search_default_disease_id':1} -->
-
-        <field name="context">{'search_default_age':29,'search_default_diseases_id':1}</field>
+                <field name="context">{'search_default_age':29,'search_default_diseases_id':1}</field>
     </record>
 
-    <!-- search_default_<field_name> or search_default_<filter_name>
-        This is used to add a search by default when we open the view or set a filter or group
-         by default when you open the view -->
 
     <!-- Action of All Patient -->
     <record id="action_patient" model="ir.actions.act_window">
         <field name="name">All Patients</field>
         <field name="res_model">hospital.patient</field>
         <field name="view_mode">tree,kanban,calendar,graph,pivot,search,form</field>
+        <!--Exercise-5 Q-37. Create multiple views for a model of all types (tree,form,calendar,graph). Bind
+        these views to an action using context. -->
+        <field name="context">{'group_by':'state'}</field>
+
     </record>
 
     <!-- Action of Male Patient -->

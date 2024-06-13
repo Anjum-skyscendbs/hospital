@@ -5,7 +5,7 @@
     'sequence': -100,
     'website': 'https://www.skycendbs.com',
     'version': '1.0',
-    'depends': ['base'],
+    'depends': ['base','web'],
     'data':[
         'security/hospital_security.xml',
         'security/ir.model.access.csv',
@@ -18,12 +18,12 @@
         'views/diseases_view.xml',
         'views/medicines_view.xml',
     ],
-    # 'assets': {
-    #     'web.assets_backend': [
-    #         'hospital/static/src/scss/test_style.scss'
-    #     ],
-    # },
-    #
+    'assets': {
+        'web.assets_backend': [
+            'hospital_management/static/src/scss/test_style.scss'
+        ],
+    },
+
     'auto_install': False,
     'installable': True,
     'application': True,

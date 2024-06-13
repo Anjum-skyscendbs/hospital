@@ -574,22 +574,23 @@ class Patient(models.Model):
 
     def browse_rec(self):
 
-        pat_rec = self.browse(23)
-        print("\nSTU REC--------------------------", pat_rec)
-        pat_dict = pat_rec.read(
-            ['name', 'age', 'patient_id', 'appoinment_ids', 'activity_ids'], load='')
+        pat_rec = self.browse(239)
+        print("\n PATIENT --------------------------", pat_rec)
 
-        print("PATIENT DICCT----------------------", pat_dict)
+        pat_dict = pat_rec.read(
+            ['patient_name', 'age'], load ='')
+        print("Patient DICT----------------------", pat_dict)
+
         # M2O will give a tuple containing id and name (if load =='_classic_read')
         # M2O will give you id (if load != '_classic_read')
-
-        print("DEPARTMENT", pat_dict[0]['department_id'])
-        # O2M  will give a list of ids
-        print("Appointment", pat_dict[0]['appointment_ids'])
-        # M2M will give a list of ids
-        print("ACT", pat_dict[0]['activity_ids'])
-        patient = self.browse([1, 2])
-        print("\nPatients--------------------------", patient)
+        #, 'patient_id', 'appointment_ids', 'facility_ids'
+        # print("DEPARTMENT", pat_dict[0]['department_id'])
+        # # O2M  will give a list of ids
+        # print("Appointment", pat_dict[0]['appointment_ids'])
+        # # M2M will give a list of ids
+        # print("ACT", pat_dict[0]['activity_ids'])
+        # patient = self.browse([1, 2])
+        # print("\nPatients--------------------------", patient)
 
     def copy_rec(self):
         default = {
@@ -846,3 +847,19 @@ class Patient(models.Model):
         sequence_obj = self.env['ir.sequence']
         self.reg_no = sequence_obj.next_by_code('hospital.patient') or _('New')
 
+
+    # Exercise-5 Q-33 Add a dropdown on the kanban view it will open the records of the one2many
+    # field.
+    def open_one2many(self):
+        self.ensure_one()
+        return {
+            'name': 'One2Many Records',
+            'type': 'ir.actions.act_window',
+            'view_mode': 'tree,form',
+            'res_model': 'hospital.appointment',
+            'domain': [('appointment_ids', '=', self.id)],
+        }
+    # Exercise-5 Q-34. Add a dropdown on the kanban to call a method of the model which will update
+    # the value of a field in the record. Method for the kanban view in dropdown list.
+    def action_confirm(self):
+        self.state = 'draft'

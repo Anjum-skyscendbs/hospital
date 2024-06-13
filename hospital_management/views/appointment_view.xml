@@ -22,7 +22,7 @@
                         <field name="gender" placeholder="select the Gender" widget="radio"/>
 
                         <!--                        <field name="Diseases" placeholder="select the Diseases" widget="checkbox"/>-->
-                        <field name="charges"/>
+                        <field name="charges" class="color_red"/>
                         <field name="currency_id"/>
                         <field name="phone_number"/>
                         <field name="address"/>
@@ -135,9 +135,23 @@
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
 
+
+             <!-- <tree editable="top">-->
+            <!-- editable is used in a tree view when we have less fields -->
+            <!-- It is more convenient to directly enter the value in tree view rather than opening a form and then enter -->
+            <!-- create="0" will remove create feature from tree view -->
+            <!-- edit="0" will remove update feature from tree view -->
+            <!-- delete="0" will remove delete feature from tree view -->
+            <!-- default_order will sort the field given in this attribute -->
+            <!-- default_order="<field_name> or <field_name> desc" -->
+
             <!--Exercise-5 Q-3 Create an editable tree view for a model. -->
             <!--Exercise-5 Q-4. Make a tree view and make sure that the records can not be created or deleted -->
-             <tree editable="bottom" create="0" delete="0">
+             <tree>
+
+                 <!-- editable="bottom"  default_order="patient_name" -->
+                 <!--create="0" delete="0" -->
+
                 <field name="sequence" widget="handle"/>
                 <field name="patient_name" placeholder="Enter your name"/>
                 <!--                <field name="patient_id"/>-->
