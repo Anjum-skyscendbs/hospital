@@ -65,48 +65,48 @@
 
     <!-- Kanban view of Department-->
 
-    <record id="hospital_department_kanban_view" model="ir.ui.view">
-        <field name="name">hospital.department.kanban.view</field>
-        <field name="model">hospital.department</field>
-        <field name="arch" type="xml">
+<!--    <record id="hospital_department_kanban_view" model="ir.ui.view">-->
+<!--        <field name="name">hospital.department.kanban.view</field>-->
+<!--        <field name="model">hospital.department</field>-->
+<!--        <field name="arch" type="xml">-->
 
-            <kanban string="Department Kanban" class="o_res_partner_kanban">
-                <field name="id"/>
+<!--            <kanban string="Department Kanban" class="o_res_partner_kanban">-->
+<!--                <field name="id"/>-->
 
-                <templates>
-                    <t t-name="kanban-box">
-                        <div class="oe_kanban_global_click">
+<!--                <templates>-->
+<!--                    <t t-name="kanban-box">-->
+<!--                        <div class="oe_kanban_global_click">-->
 
-                            <!--                            <img alt="Avatar"-->
-                            <!--                                 t-att-src="kanban_image('hospital.appointment','photo',record.id.raw_value)"-->
-                            <!--                                 style="width:100px; height=120px;"/>-->
-                        </div>
+<!--                            &lt;!&ndash;                            <img alt="Avatar"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                 t-att-src="kanban_image('hospital.appointment','photo',record.id.raw_value)"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                 style="width:100px; height=120px;"/>&ndash;&gt;-->
+<!--                        </div>-->
 
-                        <div>
-                            <ul style="list-style-type:none;">
-                                <li>
-                                    <b>Name:</b>
-                                    <field name="patient_name"/>
-                                </li>
+<!--                        <div>-->
+<!--                            <ul style="list-style-type:none;">-->
+<!--                                <li>-->
+<!--                                    <b>Name:</b>-->
+<!--                                    <field name="patient_name"/>-->
+<!--                                </li>-->
 
-                                <li>
-                                    <b>Age:</b>
-                                    <field name="age"/>
-                                </li>
+<!--                                <li>-->
+<!--                                    <b>Age:</b>-->
+<!--                                    <field name="age"/>-->
+<!--                                </li>-->
 
 
-                                <li>
-                                    <b>Gender:</b>
-                                    <field name="gender"/>
-                                </li>
+<!--                                <li>-->
+<!--                                    <b>Gender:</b>-->
+<!--                                    <field name="gender"/>-->
+<!--                                </li>-->
 
-                            </ul>
-                        </div>
-                    </t>
-                </templates>
-            </kanban>
-        </field>
-    </record>
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </t>-->
+<!--                </templates>-->
+<!--            </kanban>-->
+<!--        </field>-->
+<!--    </record>-->
 
     <!-- Graph view of Department -->
 

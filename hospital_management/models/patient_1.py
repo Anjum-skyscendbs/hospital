@@ -492,45 +492,47 @@ class Patient(models.Model):
     # Exer-3 Q-27 Add a button on the form view on the page of a one2many field. When you click
     # this button it will add a record in the one2many field.
 
-    def create_rec(self):
 
-        vals1 = {
-            'patient_name': 'kajal',
-            'patient_id': 21,
-            'gender': 'female',
-            'blood_group': 'A+',
-            'active': True,
-            'age': 34,
-            'birthdate': '1989-04-01',
-            # 0 is used for creation
-            # (0,0,{}) used to create record in O2M field
-            'appointment_ids': [
-                (0, 0, {
-                    'patient_id': 14,
-                    'patient_name': 'kervi',
 
-                }),
-                (0, 0, {
-                    'patient_id': 32,
-                    'patient_name': 'Romil',
-                })
-            ],
-        }
-
-        vals2 = {
-            'patient_name': 'Hardik',
-            'patient_id': 20,
-            'gender': 'male',
-            'blood_group': 'A',
-            'active': True,
-            'age': 19,
-            'birthdate': '2004-05-17',
-
-        }
-        vals_lst = [vals1, vals2]
-        # # Creating a new records in the same object
-        new_pat = self.create(vals_lst)
-        print("pat", new_pat)
+    # def create_rec(self):
+    #
+    #     vals1 = {
+    #         'patient_name': 'kajal',
+    #         # 'patient_id': 21,
+    #         'gender': 'female',
+    #         'blood_group': 'A+',
+    #         'active': True,
+    #         'age': 34,
+    #         'birthdate': '1989-04-01',
+    #         # 0 is used for creation
+    #         # (0,0,{}) used to create record in O2M field
+    #         'appointment_ids': [
+    #             (0, 0, {
+    #                 'patient_id': 14,
+    #                 'patient_name': 'kervi',
+    #
+    #             }),
+    #             (0, 0, {
+    #                 'patient_id': 32,
+    #                 'patient_name': 'Romil',
+    #             })
+    #         ],
+    #     }
+    #
+    #     vals2 = {
+    #         'patient_name': 'Hardik',
+    #         'patient_id': 20,
+    #         'gender': 'male',
+    #         'blood_group': 'A',
+    #         'active': True,
+    #         'age': 19,
+    #         'birthdate': '2004-05-17',
+    #
+    #     }
+    #     vals_lst = [vals1, vals2]
+    #     # # Creating a new records in the same object
+    #     new_pat = self.create(vals_lst)
+    #     print("pat", new_pat)
 
     # Exercise-3 Q-41 Add a user’s many2one field on your model. When a button is clicked by any
     # user, it should update this field with the current logged in user.
@@ -624,6 +626,7 @@ class Patient(models.Model):
     # field. I do validation on appointment can't delete once you add on form.
 
     def unlink(self):
+
         if self.appointment_ids:
             raise ValidationError("You can not delete a patient with appointment!")
         return super().unlink()
@@ -763,19 +766,19 @@ class Patient(models.Model):
         args = ['|', ('active', '=', False), ('active', '=', True)] + args
         print("__________________________________Search successfully")
 
-        return super().search(args, offset=offset, limit=limit, order=order, count=count)
+        return super().search(args, offset=offset, limit=limit, order=order)
 
-    def unlink(self):
-        """
-        Overridden unlink() method to check if the appointment are existing it should not allow to delete
-        -----------------------------------------------------------------------------------
-        @param self: object pointer
-        :return : True
-        """
-        if self.appointment_ids:
-            raise ValidationError("You can not delete a patient with appointment!")
-        print("______________________Return statement,deleted successfully")
-        return super().unlink()
+    # def unlink(self):
+    #     """
+    #     Overridden unlink() method to check if the appointment are existing it should not allow to delete
+    #     -----------------------------------------------------------------------------------
+    #     @param self: object pointer
+    #     :return : True
+    #     """
+    #     if self.appointment_ids:
+    #         raise ValidationError("You can not delete a patient with appointment!")
+    #     print("______________________Return statement,deleted successfully")
+    #     return super().unlink()
 
     # Exercise-4 5,6. Override copy() method to remove one of the existing fields and add another value.
     def copy(self, default=None):
