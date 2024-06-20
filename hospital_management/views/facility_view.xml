@@ -65,7 +65,7 @@
 
     <!--*** 3)Menu of patient This is use for the display the menu in the config menu -->
 
-    <menuitem id="menu_hospital_facility" action="action_facility" parent="hospital_management.menu_configuration"/>
+    <menuitem id="menu_hospital_facility" action="action_facility" parent="menu_configuration"/>
 
 
 </odoo>
