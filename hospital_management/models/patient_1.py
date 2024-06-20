@@ -161,7 +161,7 @@ class Patient(models.Model):
     # Exercise-2 Q-5,Q-7 Create a functionality such that whenever I delete a main record all the records in
     # its one2many should be deleted.
 
-    appointment_ids = fields.One2many('hospital.appointment', 'patient_id', string="Appointment")
+    appointment_ids = fields.One2many('hospital.appointment', 'appointment_id', string="Appointment")
     # limit=2
 
     # This is one2many field of Medicines which is define in inverse field of medicines_id
@@ -787,31 +787,25 @@ class Patient(models.Model):
         return super().copy(default=default)
 
 
-    # Exercise-4 7.Override copy() method and have the state field not copied and bring back to the fiirst state in the selection.
-    @api.model
-    def copy(self, default=None):
-        original_state = self.state
-
-        default = {
-                 'state' : self.state + 'admit'
-        }
-        if original_state in ('confirmed', 'done'):
-            default['state'] = 'waiting'
-        else:
-            default['state'] = original_state
-
-        return super().copy(default=default)
+    # # Exercise-4 7.Override copy() method and have the state field not copied and bring back to the fiirst state in the selection.
+    # @api.model
+    # def copy(self, default=None):
+    #     original_state = self.state
+    #
+    #     default = {
+    #              'state' : self.state + 'admit'
+    #     }
+    #     if original_state in ('confirmed', 'done'):
+    #         default['state'] = 'waiting'
+    #     else:
+    #         default['state'] = original_state
+    #
+    #     return super().copy(default=default)
 
     # Exercise-4 12.Override default_get method to add default fields when the record is created.
 
     @api.model
     def default_get(self, fields_list):
-            """
-            Overridden default_get method to add additional default values
-            --------------------------------------------------------------
-            @param self: object pointer
-            @param fields_list: List of fields having default values
-            """
 
             print("FIELDS LIST", fields_list)
             res = super().default_get(fields_list=fields_list)
@@ -857,7 +851,7 @@ class Patient(models.Model):
             'type': 'ir.actions.act_window',
             'view_mode': 'tree,form',
             'res_model': 'hospital.appointment',
-            'domain': [('appointment_ids', '=', self.id)],
+            'domain': [('appointment_id', '=', self.id)],
         }
     # Exercise-5 Q-34. Add a dropdown on the kanban to call a method of the model which will update
     # the value of a field in the record. Method for the kanban view in dropdown list.
