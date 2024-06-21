@@ -51,7 +51,7 @@
 
                         <div class="oe_title">
                             <h2>
-                                <field name="reg_no" readonly="1"  class="color_blue"/>
+                                <field name="reg_no" readonly="1" class="color_blue"/>
                             </h2>
                         </div>
 
@@ -137,31 +137,31 @@
 
                     <notebook>
 
-                        <page name="pg_appointment" string="Appointment">
-                            <field name="appointment_ids" widget="one2many">
+                        <!--                        <page name="pg_appointment" string="Appointment">-->
+                        <!--                            <field name="appointment_ids" >-->
 
-                                <!--Exercise-5 Q-35.Create internal views form and tree for a One2many field. -->
-                                <!--                            <tree editable="bottom">-->
-                                <!--                                <field name="patient_id"/>-->
-                                <!--                                <field name="age"/>-->
-                                <!--                                <field name="patient_name"/>-->
-                                <!--                            </tree>-->
+                        <!--Exercise-5 Q-35.Create internal views form and tree for a One2many field. -->
+                        <!--                            <tree editable="bottom">-->
+                        <!--                                <field name="patient_id"/>-->
+                        <!--                                <field name="age"/>-->
+                        <!--                                <field name="patient_name"/>-->
+                        <!--                            </tree>-->
 
 
-                                <!--Exercise-5 Q-35. Create internal views form of One2many field. -->
-                                <!--                                <form>-->
-                                <!--                                    <group>-->
-                                <!--                                        <field name="patient_id"/>-->
-                                <!--                                        <field name="patient_name"/>-->
-                                <!--                                        <field name="age"/>-->
+                        <!--Exercise-5 Q-35. Create internal views form of One2many field. -->
+                        <!--                                <form>-->
+                        <!--                                    <group>-->
+                        <!--                                        <field name="patient_id"/>-->
+                        <!--                                        <field name="patient_name"/>-->
+                        <!--                                        <field name="age"/>-->
 
-                                <!--                                        <field name="charges"-->
-                                <!--                                               attrs="{'readonly':[('patient_id','=',False)], 'required':[('patient_id','!=',False)]}"/>-->
-                                <!--                                        <field name="charges" widget="percentpie"/>-->
-                                <!--                                    </group>-->
-                                <!--                                </form>-->
-                            </field>
-                        </page>
+                        <!--                                        <field name="charges"-->
+                        <!--                                               attrs="{'readonly':[('patient_id','=',False)], 'required':[('patient_id','!=',False)]}"/>-->
+                        <!--                                        <field name="charges" widget="percentpie"/>-->
+                        <!--                                    </group>-->
+                        <!--                                </form>-->
+                        <!--                            </field>-->
+                        <!--                        </page>-->
 
                         <page name="pg_medicines" string="Medicines">
                             <field name="medicines_ids"/>
@@ -265,9 +265,20 @@
         </field>
     </record>
 
+    <!-- Action of All Patient -->
+    <record id="action_patient" model="ir.actions.act_window">
+        <field name="name">All Patients</field>
+        <field name="res_model">hospital.patient</field>
+        <field name="view_mode">tree,kanban,calendar,graph,pivot,search,form</field>
+        <!--Exercise-5 Q-37. Create multiple views for a model of all types (tree,form,calendar,graph). Bind
+        these views to an action using context. -->
+        <field name="context">{'group_by':'state'}</field>
 
-    <!-- Kanban view of Patient-->
-    <!--Exercise-5 Q-27 Create a kanban view to display only fields of a record. -->
+    </record>
+
+
+    <!--     Kanban view of Patient-->
+    <!--    Exercise-5 Q-27 Create a kanban view to display only fields of a record. -->
 
 
     <record id="view_patient_kanban" model="ir.ui.view">
@@ -278,7 +289,7 @@
             <kanban class="o_kanban_mobile">
                 <field name="id"/>
                 <field name="color"/>
-                <field name="appointment_ids"/>
+                <!--                <field name="appointment_ids"/>-->
 
                 <templates>
                     <t t-name="kanban-box">
@@ -306,14 +317,14 @@
                                     <br/>
 
 
-
-                                <field name="gender"/>
-                                <br/>
-                                <field name="priority" widget="priority"/>
-                                <br/>
-                                <field name="facility_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                            </div>
+                                    <field name="gender"/>
+                                    <br/>
+                                    <field name="priority" widget="priority"/>
+                                    <br/>
+                                    <field name="facility_ids" widget="many2many_tags"
+                                           options="{'color_field': 'color'}"/>
                                 </div>
+                            </div>
                             <!-- Exercise-5 Q-30. Add a dropdown on the kanban view. This should open the current record in edit
                                 mode. -->
                             <div class="o_dropdown_kanban o_dropdown">
@@ -357,11 +368,11 @@
                                     <a role="menuitem" type="object" name="open_one2many" class="dropdown-item">
                                         one2many
                                     </a>
-<!--                                    <div role="separator" class="dropdown-divider"/>-->
+                                    <!--                                    <div role="separator" class="dropdown-divider"/>-->
 
-<!--                                    &lt;!&ndash; Using Action Button &ndash;&gt;-->
-<!--                                    <a role="menuitem" type="action" name="%(action_facility)d" class="dropdown-item">-->
-<!--                                    </a>-->
+                                    <!--                                    &lt;!&ndash; Using Action Button &ndash;&gt;-->
+                                    <!--                                    <a role="menuitem" type="action" name="%(action_facility)d" class="dropdown-item">-->
+                                    <!--                                    </a>-->
                                     <div role="separator" class="dropdown-divider"/>
                                     <!-- Adding Colorpicker to select the color -->
                                     <!--Exercise-5 Q-29 -->
@@ -414,25 +425,25 @@
     <!--    </record>-->
 
 
-    <!-- Graph View of Patient-->
+    <!--     Graph View of Patient-->
 
-<!--    <record id="hospital_patient_graph_view" model="ir.ui.view">-->
-<!--        <field name="name">hospital.patient.graph.view</field>-->
-<!--        <field name="model">hospital.patient</field>-->
-<!--        <field name="arch" type="xml">-->
+    <record id="view_patient_graph" model="ir.ui.view">
+        <field name="name">view.patient.graph</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
 
-<!--            &lt;!&ndash;Exercise-5 Q-19,20,21,22,23.Create a graph view which will be a bar chart with one measure.&ndash;&gt;-->
-<!--            <graph disable_linking="1"/>-->
-<!--            <graph type="bar" stacked="0"/>-->
-<!--            <field name="patient_id" type="row"/>-->
-<!--            <field name="patient_name" type="col"/>-->
-<!--            <field name="age" type="measure"/>-->
-<!--            &lt;!&ndash;            <graph type="line">&ndash;&gt;-->
-<!--            &lt;!&ndash;            <graph type="pie">&ndash;&gt;-->
-<!--            &lt;!&ndash;            </graph>&ndash;&gt;-->
+            <!--Exercise-5 Q-19,20,21,22,23.Create a graph view which will be a bar chart with one measure.-->
+            <graph type="bar" disable_linking="1" stacked="0">
 
-<!--        </field>-->
-<!--    </record>-->
+                <field name="department_id" type="row"/>
+                <field name="gender" type="col"/>
+                <field name="age" type="measure"/>
+                <!--            <graph type="line">-->
+                <!--            <graph type="pie">-->
+            </graph>
+
+        </field>
+    </record>
 
     <!-- Pivot view of patient -->
     <!--Exercise-5 Q-24. Create a pivot view with single row and single col but multiple measures.-->
@@ -514,32 +525,32 @@
     <!-- Here for model the field is res_model unlike view -->
     <!-- The view_mode we need to mention views in which you want to switch -->
 
-<!--    <record id="action_patient" model="ir.actions.act_window">-->
-<!--        <field name="name">Patient</field>-->
-<!--        <field name="res_model">hospital.patient</field>-->
-<!--        <field name="view_mode">tree,form</field>-->
+    <!--    <record id="action_patient" model="ir.actions.act_window">-->
+    <!--        <field name="name">Patient</field>-->
+    <!--        <field name="res_model">hospital.patient</field>-->
+    <!--        <field name="view_mode">tree,form</field>-->
 
-<!--        &lt;!&ndash;Exercise-5 Q-38. Link the same views to another action without using context. &ndash;&gt;-->
-<!--        &lt;!&ndash;        <field name="context">{} </field>&ndash;&gt;-->
-<!--        <field name="context">{'tree_view_ref':'hospital.view_patient_tree'}</field>-->
-
-
-<!--        &lt;!&ndash; Exercise-3 Q-11 When an action is called need to have a default group by on your state field.&ndash;&gt;-->
-<!--        &lt;!&ndash; {'search_default_disease_id':1} &ndash;&gt;-->
-<!--                <field name="context">{'search_default_age':29,'search_default_diseases_id':1}</field>-->
-<!--    </record>-->
+    <!--        &lt;!&ndash;Exercise-5 Q-38. Link the same views to another action without using context. &ndash;&gt;-->
+    <!--        &lt;!&ndash;        <field name="context">{} </field>&ndash;&gt;-->
+    <!--        <field name="context">{'tree_view_ref':'hospital.view_patient_tree'}</field>-->
 
 
-    <!-- Action of All Patient -->
-    <record id="action_patient" model="ir.actions.act_window">
-        <field name="name">All Patients</field>
-        <field name="res_model">hospital.patient</field>
-        <field name="view_mode">tree,kanban,calendar,graph,pivot,search,form</field>
-        <!--Exercise-5 Q-37. Create multiple views for a model of all types (tree,form,calendar,graph). Bind
-        these views to an action using context. -->
-        <field name="context">{'group_by':'state'}</field>
+    <!--        &lt;!&ndash; Exercise-3 Q-11 When an action is called need to have a default group by on your state field.&ndash;&gt;-->
+    <!--        &lt;!&ndash; {'search_default_disease_id':1} &ndash;&gt;-->
+    <!--                <field name="context">{'search_default_age':29,'search_default_diseases_id':1}</field>-->
+    <!--    </record>-->
 
-    </record>
+
+    <!--    &lt;!&ndash; Action of All Patient &ndash;&gt;-->
+    <!--    <record id="action_patient" model="ir.actions.act_window">-->
+    <!--        <field name="name">All Patients</field>-->
+    <!--        <field name="res_model">hospital.patient</field>-->
+    <!--        <field name="view_mode">tree,kanban,calendar,graph,pivot,search,form</field>-->
+    <!--        &lt;!&ndash;Exercise-5 Q-37. Create multiple views for a model of all types (tree,form,calendar,graph). Bind-->
+    <!--        these views to an action using context. &ndash;&gt;-->
+    <!--        <field name="context">{'group_by':'state'}</field>-->
+
+    <!--    </record>-->
 
     <!-- Action of Male Patient -->
     <record id="action_patient_male" model="ir.actions.act_window">
@@ -556,7 +567,7 @@
 
     <!-- Using a domain on the action to filter the records -->
     <!--default_<field_name>
-        It gives the default value on the form view for a specific field when opened from this action -->
+   It gives the default value on the form view for a specific field when opened from this action -->
 
 
     <!--Exercise-3 Q-4 Create an action and add a domain on this action to display specific records.-->

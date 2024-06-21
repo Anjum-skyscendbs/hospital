@@ -47,7 +47,7 @@ class Appointment(models.Model):
     photo = fields.Image('Photo')
     # In Image field you can upload an image.
 
-    appointment_id = fields.Many2one('hospital.appointment')
+    # appointment_id = fields.Many2one('hospital.appointment')
 
 
     # Exercise-4 Q-15,16.Add an onchange method for multiple fields to update another field’s value.
