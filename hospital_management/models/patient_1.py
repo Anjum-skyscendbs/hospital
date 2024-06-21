@@ -161,7 +161,7 @@ class Patient(models.Model):
     # Exercise-2 Q-5,Q-7 Create a functionality such that whenever I delete a main record all the records in
     # its one2many should be deleted.
 
-    appointment_ids = fields.One2many('hospital.appointment', 'appointment_id', string="Appointment")
+    # appointment_ids = fields.One2many('hospital.appointment', 'appointment_id', string="Appointment")
     # limit=2
 
     # This is one2many field of Medicines which is define in inverse field of medicines_id
@@ -335,13 +335,13 @@ class Patient(models.Model):
             # O2M/M2M will give you multiple records recordset.
             print("M2O FIELD", patient.department_id.patient_name)
             # IF there's a single record you can access the field with multiple '.' referecnes.
-            print("O2M FIELD", patient.appointment_ids)
+            # print("O2M FIELD", patient.appointment_ids)
             # If there are multiple records you can not access the field directly.
             # print("Appointment FIELD",patient.appointment_ids # This will raise an error of singleton
 
         # You can use index in the recordset but if and only if there is a record
-        if patient.appointment_ids:
-            print("O@M APPOINTMENT PATIENT", patient.appointment_ids[0].patient_name)
+        # if patient.appointment_ids:
+        #     print("O@M APPOINTMENT PATIENT", patient.appointment_ids[0].patient_name)
 
         # # ensure_one() is used to validate a single record
         patient.ensure_one()  # NO ERROR
@@ -557,12 +557,12 @@ class Patient(models.Model):
         vals = {
             'age': 29.0,
             'department_id': 4,
-            'appointment_ids': [
-                #  (5,0,0)
-                #  (6,0,[1,2,3])
-                #  (6,0,[8,19])
-                (4, 1), (4, 2), (4, 3)
-            ]
+            # 'appointment_ids': [
+            #     #  (5,0,0)
+            #     #  (6,0,[1,2,3])
+            #     #  (6,0,[8,19])
+            #     (4, 1), (4, 2), (4, 3)
+            # ]
         }
         res = self.write(vals)
         print("RES", res)
@@ -625,11 +625,11 @@ class Patient(models.Model):
     # Exercise-4 8.Override unlink() method to avoid deletion if it’s not8. Override unlink() method to avoid deletion if it’s not in the first state of the state
     # field. I do validation on appointment can't delete once you add on form.
 
-    def unlink(self):
-
-        if self.appointment_ids:
-            raise ValidationError("You can not delete a patient with appointment!")
-        return super().unlink()
+    # def unlink(self):
+    #
+    #     # if self.appointment_ids:
+        #     raise ValidationError("You can not delete a patient with appointment!")
+        # return super().unlink()
 
     def unlink(self):
                 res = self.unlink()
@@ -698,13 +698,13 @@ class Patient(models.Model):
         print("FEMALE PATIENT", no_of_female_patient_name)
 
         ### search_read
-        patient_name_lst = self.search_read(
-            fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'])
-        print("SEARCH READ Patient", patient_name_lst)
-        patient_name_lst_2 = self.search_read(
-            fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'],
-            order='patient_name')  # Exercise-3 Q-35 without using search method.len(patient_name_lst_2)
-        print("SEARCH READ PATIENT", patient_name_lst_2, "no of record", len(patient_name_lst_2))
+        # patient_name_lst = self.search_read(
+        #     fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'])
+        # print("SEARCH READ Patient", patient_name_lst)
+        # patient_name_lst_2 = self.search_read(
+        #     fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'],
+        #     order='patient_name')  # Exercise-3 Q-35 without using search method.len(patient_name_lst_2)
+        # print("SEARCH READ PATIENT", patient_name_lst_2, "no of record", len(patient_name_lst_2))
 
 
     # Exercise-4 Q-1 Override create method to create a record in another model.
@@ -847,16 +847,16 @@ class Patient(models.Model):
 
     # Exercise-5 Q-33 Add a dropdown on the kanban view it will open the records of the one2many
     # field.
-    def open_one2many(self):
-        self.ensure_one()
-        return {
-            'name': 'One2Many Records',
-            'type': 'ir.actions.act_window',
-            'view_mode': 'tree,form',
-            'res_model': 'hospital.appointment',
-            'domain': [('appointment_id', '=', self.id)],
-        }
-    # Exercise-5 Q-34. Add a dropdown on the kanban to call a method of the model which will update
-    # the value of a field in the record. Method for the kanban view in dropdown list.
-    def action_confirm(self):
-        self.state = 'draft'
+    # def open_one2many(self):
+    #     self.ensure_one()
+    #     return {
+    #         'name': 'One2Many Records',
+    #         'type': 'ir.actions.act_window',
+    #         'view_mode': 'tree,form',
+    #         'res_model': 'hospital.appointment',
+    #         'domain': [('appointment_id', '=', self.id)],
+    #     }
+    # # Exercise-5 Q-34. Add a dropdown on the kanban to call a method of the model which will update
+    # # the value of a field in the record. Method for the kanban view in dropdown list.
+    # def action_confirm(self):
+    #     self.state = 'draft'
