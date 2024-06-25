@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!--form view of Diseases-->
+
+    <record id="view_diseases_form" model="ir.ui.view">
+        <field name="name">view.diseases.form</field>
+        <field name="model">hospital.diseases</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="diseases_name"/>
+                        <field name="code"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree view of Diseases-->
+
+    <record id="view_diseases_tree" model="ir.ui.view">
+        <field name="name">view.diseases.tree</field>
+        <field name="model">hospital.diseases</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="diseases_name"/>
+                <field name="code"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <!-- Action of diseases-->
+
+    <record id="action_diseases" model="ir.actions.act_window">
+        <field name="name">Diseases</field>
+        <field name="res_model">hospital.diseases</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!--*** 1)Application menu-->
+
+    <menuitem id="menu_hospital" name="Hospital"/>
+
+    <!--*** 2)Main Menu of Department it will display the menu on top side-->
+
+    <menuitem id="menu_diseases" name="Diseases" parent="menu_hospital"/>
+
+    <!--*** 3)This is My Menu of the Department to display the menu in only one side of main menu-->
+
+    <menuitem id="menu_hospital_diseases" action="action_diseases" parent="menu_diseases"/>
+
+</odoo>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

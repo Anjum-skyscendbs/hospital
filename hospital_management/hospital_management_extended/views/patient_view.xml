@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--Inherited Form view of Patient -->
+
+    <record id="view_patient_form_inherit" model="ir.ui.view">
+        <field name="name">view.patient.form.inherit</field>
+        <field name="model">hospital.patient</field>
+        <!-- TO Inherit a view we need to add inherit_id -->
+        <!-- The ref has to be an xml id of the view prefixed by the module in which the view is defined -->
+        <field name="inherit_id" ref="hospital_management.view_patient_form"/>
+        <field name="arch" type="xml">
+            <!-- xpath is used to inherit the view part -->
+            <!-- expr will be the expression to the reference tag -->
+            <!-- Position can have one of the following options -->
+            <!-- before, after, replace, inside, attributes -->
+
+            <xpath expr="//field[@name='phone_number']"
+                   position="before">
+                <field name="weight"/>
+            </xpath>
+
+            <xpath expr="//field[@name='checkup_date']"
+                   position="after">
+                <field name="height"/>
+            </xpath>
+
+            <xpath expr="//field[@name='patient_code']"
+                   position="replace">
+                <field name="patient_code" required="1"/>
+            </xpath>
+
+
+            <xpath expr="//notebook[1]"
+                   position="inside">
+                <page name="pg_extra_notes" string="Extra Notes">
+                    <field name="extra_notes"/>
+                </page>
+            </xpath>
+
+            <xpath expr="//field[@name='birthdate']"
+                   position="attributes">
+                <attribute name="required">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
+
+
