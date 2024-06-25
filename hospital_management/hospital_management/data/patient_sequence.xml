@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- We add data tag with no update so that it does not update the seq with every update back to 1 -->
+    <data noupdate="1">
+
+        <record id="seq_hospital_patient" model="ir.sequence">
+           <field name="name">Patient Sequence</field>
+
+            <field name="code">hospital.patient</field>
+            <field name="prefix">HP</field>
+            <field name="padding">5</field>
+
+            <field name="number_next">1</field>
+
+            <!-- The Increment after every use -->
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>
+

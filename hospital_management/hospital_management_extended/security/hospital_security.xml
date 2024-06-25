@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--  Group for hospital Doctor -->
+    <record id="group_hospital_doctor" model="res.groups">
+        <field name="name">Hospital Doctor</field>
+    </record>
+</odoo>

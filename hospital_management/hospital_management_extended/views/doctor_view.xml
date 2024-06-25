@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Form view of Doctor-->
+    <record id="view_doctor_form" model="ir.ui.view">
+        <field name="name">view.doctor.form</field>
+        <field name="model">hospital.doctor</field>
+        <field name="arch" type="xml">
+            <form>
+
+                <sheet>
+
+                    <label for="doctor_name"/>
+                    <h1>
+                        <field name="doctor_name"/>
+                    </h1>
+
+                    <group name="grp_main">
+                        <field name="code"/>
+                        <field name="gender"/>
+                        <field name="active" widget="boolean_toggle"/>
+                        <field name="currency_id"/>
+                        <field name="charges"/>
+                        <!--                        class="color_red"-->
+
+                        <field name="qualification"/>
+                    </group>
+
+                    <notebook>
+                        <page name="pg_disease" string="Diseases">
+                            <field name="disease_ids" widget="many2many_tags" placeholder="Select Diseases"/>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree view of Doctor -->
+    <record id="view_doctor_tree" model="ir.ui.view">
+        <field name="name">view.doctor.tree</field>
+        <field name="model">hospital.doctor</field>
+        <field name="arch" type="xml">
+            <tree>
+
+                <field name="doctor_name"/>
+                <field name="code" string="Code"/>
+                <field name="active" widget="boolean_toggle"/>
+                <field name="gender"/>
+                <field name="qualification"/>
+                <field name="disease_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action of Doctors-->
+
+    <record id="action_doctor" model="ir.actions.act_window">
+        <field name="name">Doctor</field>
+        <field name="res_model">hospital.doctor</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu of Doctor -->
+    <menuitem id="menu_doctor" action="action_doctor" parent="hospital_management.menu_configuration"/>
+</odoo>
