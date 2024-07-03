@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="report_patient">
+        <t t-call="web.html_container">
+                       <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+
+                    <div class="page">
+                        <span t-field="doc.patient_name"/>
+                        <div class="row">
+                                <div class="col-12">
+
+                                    <table class="table table-bordered" style="table-layout: fixed" id="hash_config_table">
+                                        <thead style="display: table-row-group">
+                                            <tr>
+                                                <th><span>Medicines</span></th>
+                                                <th>gst</th>
+                                                <th>sgst</th>
+                                                <th>total_tax</th>
+                                                <th>other_tax</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <t t-foreach="doc.medicines_ids" t-as="medicines">
+                                                <tr>
+                                                    <td><span t-field="medicines.medicines_id.medicines_name"/></td>
+                                                    <td><span t-field="medicines.gst"/></td>
+                                                    <td><span t-field="medicines.sgst"/></td>
+                                                    <td><span t-field="medicines.total_tax"/></td>
+                                                    <td><span t-field="medicines.other_tax"/></td>
+                                                </tr>
+                                            </t>
+
+                                            <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>Total Price:<span t-esc="get_total_price(doc.medicines_ids)"/></td>
+                                                    <td></td>
+                                                </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                        </div>
+
+                        <div>
+                            <span t-esc="get_total_price(doc.medicines_ids)"/>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

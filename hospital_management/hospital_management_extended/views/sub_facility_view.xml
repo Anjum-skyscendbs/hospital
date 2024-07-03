@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Form view of Sub Facility -->
+    <record id="view_sub_facility_form" model="ir.ui.view">
+        <field name="name">view.sub.facility.form</field>
+        <field name="model">hospital_management.sub.facility</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="facility_id"/>
+                    <field name="color" widget="color_picker"/>
+                    <field name="sub_faci_name"/>
+                    <field name="sub_faci_code"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree view of Sub Facility -->
+
+    <record id="view_sub_facility_tree" model="ir.ui.view">
+        <field name="name">view.sub.facility.tree</field>
+        <field name="model">hospital_management.sub.facility</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="facility_id"/>
+                <field name="color" widget="color_picker"/>
+                <field name="sub_faci_name"/>
+                <field name="sub_faci_code"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action of Sub Facility -->
+
+    <record id="action_sub_facility" model="ir.actions.act_window">
+        <field name="name">Sub Facility</field>
+        <field name="res_model">hospital_management.sub.facility</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu of Sub Facility -->
+    <menuitem id="sub_facility" action="action_sub_facility" parent="hospital_management.menu_configuration"/>
+
+    <!-- Form view of Sub Facility 2 -->
+    <record id="view_sub_facility2_form" model="ir.ui.view">
+        <field name="name">view.sub.facility2.form</field>
+        <field name="model">hospital_management.sub.facility2</field>
+        <field name="arch" type="xml">
+            <form>
+
+                <group>
+                    <field name="facility_id"/>
+                    <field name="color" widget="color_picker"/>
+                    <field name="sub_faci_name"/>
+                    <field name="sub_faci_code"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree view of Sub Facility -->
+    <record id="view_sub_facility2_tree" model="ir.ui.view">
+        <field name="name">view.sub.facility2.tree</field>
+        <field name="model">hospital_management.sub.facility2</field>
+        <field name="arch" type="xml">
+
+            <tree>
+                <field name="facility_id"/>
+                <field name="color" widget="color_picker"/>
+                <field name="sub_faci_name"/>
+                <field name="sub_faci_code"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action of Sub Facility2 -->
+    <record id="action_sub_facility2" model="ir.actions.act_window">
+        <field name="name">Sub Facility2</field>
+        <field name="res_model">hospital_management.sub.facility2</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu of Sub facility2 -->
+    <menuitem id="menu_sub_facility2" action="action_sub_facility2" parent="hospital_management.menu_configuration"/>
+
+</odoo>

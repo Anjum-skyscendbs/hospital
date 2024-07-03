@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Form view of the Wizard -->
+    <record id="view_update_charges_wiz_form" model="ir.ui.view">
+        <field name="name">view.update.charges.wiz.form</field>
+        <field name="model">update.charges.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="patient_id" required="1"/>
+                    <field name="charges"/>
+                </group>
+
+                <footer>
+                    <button name="update_charges" string="Update" type="object"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+    <!-- Action of the Wizard -->
+    <record id="action_update_charges_wiz" model="ir.actions.act_window">
+        <field name="name">Update Charges Wiz</field>
+        <field name="res_model">update.charges.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu of Wizard -->
+    <menuitem id="menu_update_charges_wiz" action="action_update_charges_wiz" parent="menu_patient" sequence="6"/>
+
+    <record id="view_update_charges_wiz_form2" model="ir.ui.view">
+        <field name="name">view.update.charges.wiz.form</field>
+        <field name="model">update.charges.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+
+                <group>
+                    <field name="charges"/>
+                </group>
+
+                <footer>
+                    <button name="update_charges" string="Update" type="object"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+    <!-- Action of Wizard to be called from button-->
+    <record id="action_update_charges_wiz2" model="ir.actions.act_window">
+        <field name="name">Update Charges Wiz</field>
+        <field name="res_model">update.charges.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'form_view_ref':'hospital_management.view_update_charges_wiz_form2'}</field>
+    </record>
+
+    <!-- Action of Wizard to be called from Action Toolbar -->
+    <record id="action_update_charges_wiz3" model="ir.actions.act_window">
+        <field name="name">Update Charges Wiz</field>
+        <field name="res_model">update.charges.wizard</field>
+        <field name="binding_model_id" ref="hospital_management.model_hospital_patient"/>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'form_view_ref':'hospital_management.view_update_charges_wiz_form2'}</field>
+    </record>
+
+</odoo>
