@@ -24,8 +24,9 @@
                         <!--                        <field name="Diseases" placeholder="select the Diseases" widget="checkbox"/>-->
 
                         <!--Exercise-5 Q-43.Use created stylesheet on your form view. class="color_red" -->
-                        <field name="charges" class="color_red"/>
                         <field name="currency_id"/>
+                        <field name="charges" class="color_red"/>
+
                         <field name="phone_number"/>
                         <field name="address"/>
                         <field name="checkup_date"/>
@@ -40,7 +41,7 @@
     </record>
 
 
-         <!-- Kanban view of Appointment-->
+    <!-- Kanban view of Appointment-->
 
     <record id="hospital_appointment_kanban_view" model="ir.ui.view">
         <field name="name">hospital.appointment.kanban.view</field>
@@ -120,7 +121,7 @@
         <field name="arch" type="xml">
 
 
-             <!-- <tree editable="top">-->
+            <!-- <tree editable="top">-->
             <!-- editable is used in a tree view when we have less fields -->
             <!-- It is more convenient to directly enter the value in tree view rather than opening a form and then enter -->
             <!-- create="0" will remove create feature from tree view -->
@@ -131,14 +132,17 @@
 
             <!--Exercise-5 Q-3 Create an editable tree view for a model. -->
             <!--Exercise-5 Q-4. Make a tree view and make sure that the records can not be created or deleted -->
-             <tree>
+            <tree>
 
-                 <!-- editable="bottom"  default_order="patient_name" -->
-                 <!--create="0" delete="0" -->
+                <!-- editable="bottom"  default_order="patient_name" -->
+                <!--create="0" delete="0" -->
 
                 <field name="sequence" widget="handle"/>
                 <field name="patient_name" placeholder="Enter your name"/>
-                <!--                <field name="patient_id"/>-->
+                <field name="patient_id"/>
+                <field name="currency_id"/>
+                <field name="charges" class="color_red"/>
+
                 <field name="checkup_date"/>
                 <!--                <field name="seq_num"/>-->
 
@@ -181,7 +185,7 @@
         <!--        <p class="o_view_nocontent_smiling_face"></p>-->
     </record>
 
-<!--     Menu of appointment-->
+    <!--     Menu of appointment-->
 
     <menuitem id="menu_appointment" action="action_appointment" parent="menu_configuration"/>
 

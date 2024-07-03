@@ -20,3 +20,10 @@ access_hospital_diseases_user,access.hospital.diseases.user,model_hospital_disea
 
 access_hospital_medicines_manager,access.hospital.medicines.manager,model_hospital_medicines,group_hospital_admin,1,1,1,1
 access_hospital_medicines_user,access.hospital.medicines.user,model_hospital_medicines,group_hospital_user,1,1,1,1
+
+access_update_charges_wiz_user,access.update.charges.user,model_update_charges_wizard,group_hospital_user,1,1,1,0
+access_update_charges_wiz_admin,access.update.charges.admin,model_update_charges_wizard,group_hospital_admin,1,1,1,0
+
+access_patient_analysis_user,access.patient.analysis.user,model_patient_analysis,group_hospital_user,1,1,1,0
+access_patient_analysis_admin,access.patient.analysis.admin,model_patient_analysis,group_hospital_admin,1,1,1,1
+

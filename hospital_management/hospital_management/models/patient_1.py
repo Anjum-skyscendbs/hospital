@@ -193,6 +193,9 @@ class Patient(models.Model):
     photo = fields.Image('Photo')
     # In Image field you can upload an image.
 
+    currency_id = fields.Many2one('res.currency','Currency')
+    charges = fields.Monetary(currency_fields='currency_id', string='Charges')
+
     color = fields.Integer('Color')
     # This field is used for Color on Kanban
 
@@ -333,7 +336,7 @@ class Patient(models.Model):
             # Relational fields will always give you a recordset.
             # M2O/Ref field will give you single record recordset
             # O2M/M2M will give you multiple records recordset.
-            print("M2O FIELD", patient.department_id.patient_name)
+            print("M2O FIELD", patient.department_id)
             # IF there's a single record you can access the field with multiple '.' referecnes.
             # print("O2M FIELD", patient.appointment_ids)
             # If there are multiple records you can not access the field directly.
@@ -396,11 +399,11 @@ class Patient(models.Model):
         search_var = self.env.ref('hospital_management.view_patient_form').id
         print("search_var.............", search_var)
 
-    #.................... Create Method...................
-
+    # .................... Create Method...................
+    #
     # Create Method is Use to Create a Record in backend side when you click on the Check ORM,it will create a record
     # In this method we use dictionary and also use .id to showing a id of the new record.
-
+    #
     # Exercise-3 Q-26 Add a button on the form view when you click on this button it will create a
     # record on a new model which does not have a relation with the current model. CREATE METHOD
     def check_orm(self):
@@ -631,8 +634,8 @@ class Patient(models.Model):
     # def unlink(self):
     #             res = self.unlink()
     #             print("RES Records will be delete but keep in table", res)
-        # 4 to link the records
-        # (4,<id>)
+    #     # 4 to link the records
+    #     (4,<id>)
         # 'facility_ids': [(4, 2), (4, 5)],
 
 
@@ -695,13 +698,13 @@ class Patient(models.Model):
         print("FEMALE PATIENT", no_of_female_patient_name)
 
         ### search_read
-        # patient_name_lst = self.search_read(
-        #     fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'])
-        # print("SEARCH READ Patient", patient_name_lst)
-        # patient_name_lst_2 = self.search_read(
-        #     fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'],
-        #     order='patient_name')  # Exercise-3 Q-35 without using search method.len(patient_name_lst_2)
-        # print("SEARCH READ PATIENT", patient_name_lst_2, "no of record", len(patient_name_lst_2))
+        patient_name_lst = self.search_read(
+            fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'])
+        print("SEARCH READ Patient", patient_name_lst)
+        patient_name_lst_2 = self.search_read(
+            fields=['patient_name', 'age', 'department_id', 'appointment_ids', 'facility_ids'],
+            order='patient_name')  # Exercise-3 Q-35 without using search method.len(patient_name_lst_2)
+        print("SEARCH READ PATIENT", patient_name_lst_2, "no of record", len(patient_name_lst_2))
 
 
     # Exercise-4 Q-1 Override create method to create a record in another model.
@@ -746,7 +749,7 @@ class Patient(models.Model):
         if vals.get('patient_name'):
             vals['patient_code'] = vals['patient_name'][:4].upper()
         return super().write(vals)
-
+    #
     @api.model
     def search(self, args, offset=0, limit=None, order=None, count=False):
         """
@@ -811,7 +814,7 @@ class Patient(models.Model):
             res = super().default_get(fields_list=fields_list)
             # print("___________________RES", res)
             res.update({'url': 'www.skyscendbs.com'})
-            print("_________________UPDATE RES", res)
+            print("______________UPDATE RES", res)
             res['age'] = 22
             res['phone_number'] = 123456890
 
@@ -821,9 +824,9 @@ class Patient(models.Model):
             print('________Default Value of Age, phone no,URL', res)
             return res
 
-    # Exercise-4 Q-26 Add an SQL constraint to check a field’s value is not greater than a specific
-    # number.
-
+    # # Exercise-4 Q-26 Add an SQL constraint to check a field’s value is not greater than a specific
+    # # number.
+    #
     @api.constrains('age', 'gender')
     def check_patient_age(self):
             """
@@ -835,8 +838,8 @@ class Patient(models.Model):
                     raise ValidationError('Males should be 12 years old to get admitted!')
                 if patient.gender == 'female' and patient.age < 12:
                     raise ValidationError('Females should be 12 or more to get admitted!')
-
-    # Exercise-4 25.Create a sequence and assign it’s value on a button click.
+    #
+    # # Exercise-4 25.Create a sequence and assign it’s value on a button click.
     def assign_sequence(self):
         sequence_obj = self.env['ir.sequence']
         self.reg_no = sequence_obj.next_by_code('hospital.patient') or _('New')

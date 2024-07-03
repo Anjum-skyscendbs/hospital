@@ -4,21 +4,16 @@ from odoo import fields, models, api
 class Prescription(models.Model):
     _name = 'hospital.prescription'
     _description = 'Prescription'
-    _rec_name = 'patient_name'
+    # _rec_name = 'patient_name'
 
-    patient_name=fields.Char(string='Patient Name',required=True, help='This field is used to take patient name')
-    #
-    # patient_id = fields.Integer(string='Patient ID',help='This field is used to take patient id')
-    #
     # disease=fields.Selection(selection=[('high blood pressure','High Blood Pressure'),
     #                                     ('diabetes','Diabetes'),
     #                                     ('cholera','Cholera'),
     #                                     ('fever','Fever'),
     #                                     ('headaches','Headaches')])
-
+    patient_id = fields.Many2one('hospital.patient', 'Patient Name')
     medicines_id = fields.Many2one('hospital.medicines', 'Medicines')
     quantity = fields.Integer("Quantity/Dose")
-    patient_id = fields.Many2one('hospital.patient', 'Patient Name')
 
     # Exercise-2 Q-18 Add minimum 3 float ifelds in the one2many field’s model. These 3 fields are manually entered.
     gst = fields.Float(string='GST')
@@ -35,7 +30,7 @@ class Prescription(models.Model):
 
     # Exercise-2 Q-20 Add another Integer field in the model of one2many which will calculate the
     # percentage from the above two fields.
-    tax_perc = fields.Integer(string='Tax Percentage',compute='_calc_tax_perc')
+    tax_perc = fields.Integer(string='Tax Percentage(%)',compute='_calc_tax_perc')
 
     # This is the Method of Medicines_id to fetch the data from Medicine Model and Multiply with the Quantity
     # Total Price Calculate

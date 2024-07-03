@@ -6,7 +6,8 @@
         <field name="name">view.patient.form</field>
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
-            <form string="patient" editable="0" create="0">
+            <form string="patient" >
+<!--                editable="0" create="0"-->
                 <header>
 
                     <button name="print_patient" string="Print" type="object"/>
@@ -83,6 +84,9 @@
 <!--                                <field name="height" placeholder="Enter Height"/>-->
                                 <field name="ref"/>
                                 <field name="photo" widget="image"/>
+                                <field name="currency_id"/>
+                                <field name="charges"/>
+
 
 
                                 <!-- Prevent creation and opening of the department record from the field -->
@@ -255,8 +259,6 @@
                 <field name="facility_ids" widget="many2many_tags"
                        options="{'color_field': 'color'}"/> <!--optional="hide" -->
 
-
-                <field name="total_tax" sum="Total_tax"/>
                 <!--Exercise-5 Q-9 Display the total of numerical fields at the bottom of the list view-->
                 <field name="without_other_tax" sum="without_other_tax"/>
 
@@ -269,116 +271,116 @@
     <!--     Kanban view of Patient-->
     <!--    Exercise-5 Q-27 Create a kanban view to display only fields of a record. -->
 
-    <record id="view_patient_kanban" model="ir.ui.view">
-        <field name="name">view.patient.kanban</field>
-        <field name="model">hospital.patient</field>
-        <field name="arch" type="xml">
+<!--    <record id="view_patient_kanban" model="ir.ui.view">-->
+<!--        <field name="name">view.patient.kanban</field>-->
+<!--        <field name="model">hospital.patient</field>-->
+<!--        <field name="arch" type="xml">-->
 
-            <kanban class="o_kanban_mobile">
-                <field name="id"/>
-                <field name="color"/>
+<!--            <kanban class="o_kanban_mobile">-->
+<!--                <field name="id"/>-->
+<!--                <field name="color"/>-->
 
-                                <field name="medicines_ids"/>
+<!--                                <field name="medicines_ids"/>-->
 
-                <templates>
-                    <t t-name="kanban-box">
+<!--                <templates>-->
+<!--                    <t t-name="kanban-box">-->
 
-                        <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_card oe_kanban_color oe_kanban_global_click">
+<!--                        <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_card oe_kanban_color oe_kanban_global_click">-->
 
-                            <!-- Exercise-5 Q-28 Add an image on the kanban view.-->
-                            <div class="o_kanban_image">
-                                <img t-att-src="kanban_image('hospital.patient', 'photo', record.id.raw_value)" alt=""/>
-                            </div>
+<!--                            &lt;!&ndash; Exercise-5 Q-28 Add an image on the kanban view.&ndash;&gt;-->
+<!--                            <div class="o_kanban_image">-->
+<!--                                <img t-att-src="kanban_image('hospital.patient', 'photo', record.id.raw_value)" alt=""/>-->
+<!--                            </div>-->
 
-                            <div class="o_kanban_card_header">
-                                <div class="o_kanban_card_header_title mb-3">
-                                    <h3>
-                                        <field name="patient_name"/>
-                                    </h3>
-                                    <br/>
-                                    <field name="email" widget="email"/>
-                                    <br/>
-                                    <field name="age" widget="age"/>
-                                    <br/>
-                                    <field name="Marital_status" widget="Marital_status"/>
-                                    <br/>
-                                    <field name="url" widget="url"/>
-                                    <br/>
+<!--                            <div class="o_kanban_card_header">-->
+<!--                                <div class="o_kanban_card_header_title mb-3">-->
+<!--                                    <h3>-->
+<!--                                        <field name="patient_name"/>-->
+<!--                                    </h3>-->
+<!--                                    <br/>-->
+<!--                                    <field name="email" widget="email"/>-->
+<!--                                    <br/>-->
+<!--                                    <field name="age" widget="age"/>-->
+<!--                                    <br/>-->
+<!--                                    <field name="Marital_status" widget="Marital_status"/>-->
+<!--                                    <br/>-->
+<!--                                    <field name="url" widget="url"/>-->
+<!--                                    <br/>-->
 
 
-                                    <field name="gender"/>
-                                    <br/>
-                                    <field name="priority" widget="priority"/>
-                                    <br/>
-                                    <field name="facility_ids" widget="many2many_tags"
-                                           options="{'color_field': 'color'}"/>
-                                </div>
-                            </div>
-                            <!-- Exercise-5 Q-30. Add a dropdown on the kanban view. This should open the current record in edit
-                                mode. -->
-                            <div class="o_dropdown_kanban o_dropdown">
+<!--                                    <field name="gender"/>-->
+<!--                                    <br/>-->
+<!--                                    <field name="priority" widget="priority"/>-->
+<!--                                    <br/>-->
+<!--                                    <field name="facility_ids" widget="many2many_tags"-->
+<!--                                           options="{'color_field': 'color'}"/>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; Exercise-5 Q-30. Add a dropdown on the kanban view. This should open the current record in edit-->
+<!--                                mode. &ndash;&gt;-->
+<!--                            <div class="o_dropdown_kanban o_dropdown">-->
 
-                                <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown"
-                                   data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
-                                    <span class="fa fa-ellipsis-v"/>
-                                </a>
+<!--                                <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown"-->
+<!--                                   data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">-->
+<!--                                    <span class="fa fa-ellipsis-v"/>-->
+<!--                                </a>-->
 
-                                <!--Exercise-31. Add a dropdown on the kanban view.For Open -->
-                                <div class="dropdown-menu" role="menu">
-                                    <!-- type="open" is used to open the form view in non editable mode -->
-                                    <a role="menuitem" type="open" class="dropdown-item">Open</a>
+<!--                                &lt;!&ndash;Exercise-31. Add a dropdown on the kanban view.For Open &ndash;&gt;-->
+<!--                                <div class="dropdown-menu" role="menu">-->
+<!--                                    &lt;!&ndash; type="open" is used to open the form view in non editable mode &ndash;&gt;-->
+<!--                                    <a role="menuitem" type="open" class="dropdown-item">Open</a>-->
 
-                                    <!-- type="edit" is used to open the form view in editable mdoe -->
-                                    <t t-if="widget.editable">
-                                        <a role="menuitem" type="edit" class="dropdown-item">Edit
-                                        </a> <!--Exercise-5 Q-30-->
-                                    </t>
+<!--                                    &lt;!&ndash; type="edit" is used to open the form view in editable mdoe &ndash;&gt;-->
+<!--                                    <t t-if="widget.editable">-->
+<!--                                        <a role="menuitem" type="edit" class="dropdown-item">Edit-->
+<!--                                        </a> &lt;!&ndash;Exercise-5 Q-30&ndash;&gt;-->
+<!--                                    </t>-->
 
-                                    <!-- type="delete" is used to delete the record -->
-                                    <!--Exercise-5 Q-32. Add a dropdown on the kanban view. This should delete the current record -->
-                                    <t t-if="widget.deletable">
-                                        <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
-                                    </t>
+<!--                                    &lt;!&ndash; type="delete" is used to delete the record &ndash;&gt;-->
+<!--                                    &lt;!&ndash;Exercise-5 Q-32. Add a dropdown on the kanban view. This should delete the current record &ndash;&gt;-->
+<!--                                    <t t-if="widget.deletable">-->
+<!--                                        <a role="menuitem" type="delete" class="dropdown-item">Delete</a>-->
+<!--                                    </t>-->
 
-                                    <!-- Adding separator -->
-                                    <div role="separator" class="dropdown-divider"/>
+<!--                                    &lt;!&ndash; Adding separator &ndash;&gt;-->
+<!--                                    <div role="separator" class="dropdown-divider"/>-->
 
-                                    <!-- Using Object Button's Method -->
-                                    <a role="menuitem" type="object" name="browse_rec" class="dropdown-item">Browse</a>
+<!--                                    &lt;!&ndash; Using Object Button's Method &ndash;&gt;-->
+<!--                                    <a role="menuitem" type="object" name="browse_rec" class="dropdown-item">Browse</a>-->
 
-                                    <div role="separator" class="dropdown-divider"/>
+<!--                                    <div role="separator" class="dropdown-divider"/>-->
 
-                                    <!--Exercise-5 Q-34 Add a dropdown on the kanban to call a method of the model which will update
-                                     the value of a field in the record -->
-                                    <a role="menuitem" type="object" name="action_confirm" class="dropdown-item">
-                                        Confirm
-                                    </a>
-                                    <div role="separator" class="dropdown-divider"/>
+<!--                                    &lt;!&ndash;Exercise-5 Q-34 Add a dropdown on the kanban to call a method of the model which will update-->
+<!--                                     the value of a field in the record &ndash;&gt;-->
+<!--                                    <a role="menuitem" type="object" name="action_confirm" class="dropdown-item">-->
+<!--                                        Confirm-->
+<!--                                    </a>-->
+<!--                                    <div role="separator" class="dropdown-divider"/>-->
 
-                                    <!--Exercise-5 Q-33. Add a dropdown on the kanban view it will open the records of the one2many
-                                    field-->
-                                    <a role="menuitem" type="object" name="open_one2many" class="dropdown-item">
-                                        one2many
-                                    </a>
-                                    <!--                                    <div role="separator" class="dropdown-divider"/>-->
+<!--                                    &lt;!&ndash;Exercise-5 Q-33. Add a dropdown on the kanban view it will open the records of the one2many-->
+<!--                                    field&ndash;&gt;-->
+<!--                                    <a role="menuitem" type="object" name="open_one2many" class="dropdown-item">-->
+<!--                                        one2many-->
+<!--                                    </a>-->
+<!--                                    &lt;!&ndash;                                    <div role="separator" class="dropdown-divider"/>&ndash;&gt;-->
 
-                                    <!--                                    &lt;!&ndash; Using Action Button &ndash;&gt;-->
-                                    <!--                                    <a role="menuitem" type="action" name="%(action_facility)d" class="dropdown-item">-->
-                                    <!--                                    </a>-->
-                                    <div role="separator" class="dropdown-divider"/>
-                                    <!-- Adding Colorpicker to select the color -->
-                                    <!--Exercise-5 Q-29 -->
-                                    <ul class="oe_kanban_colorpicker" data-field="color">
+<!--                                    &lt;!&ndash;                                    &lt;!&ndash; Using Action Button &ndash;&gt;&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                    <a role="menuitem" type="action" name="%(action_facility)d" class="dropdown-item">&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                    </a>&ndash;&gt;-->
+<!--                                    <div role="separator" class="dropdown-divider"/>-->
+<!--                                    &lt;!&ndash; Adding Colorpicker to select the color &ndash;&gt;-->
+<!--                                    &lt;!&ndash;Exercise-5 Q-29 &ndash;&gt;-->
+<!--                                    <ul class="oe_kanban_colorpicker" data-field="color">-->
 
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </t>
-                </templates>
-            </kanban>
-        </field>
-    </record>
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </t>-->
+<!--                </templates>-->
+<!--            </kanban>-->
+<!--        </field>-->
+<!--    </record>-->
 
 
     <!-- calendar tag will be used to create a calendar view -->
@@ -578,6 +580,8 @@
     <menuitem id="menu_patient" name="Patient" parent="menu_hospital"/>
 
     <!-- Menu of patient -->
+        <menuitem id="menu_reporting" name="Reporting" sequence="80" parent="menu_hospital"/>
+
     <menuitem id="menu_configuration" name="Configuration" sequence="100" parent="menu_hospital"/>
 
     <!-- Menu of All Patients -->

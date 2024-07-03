@@ -17,6 +17,9 @@
         'views/prescription_view.xml',
         'views/diseases_view.xml',
         'views/medicines_view.xml',
+        'wizard/update_charges_wiz_view.xml',
+        'report/patient_analysis_view.xml',
+
     ],
     'assets': {
         'web.assets_backend': [

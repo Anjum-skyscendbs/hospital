@@ -2,7 +2,7 @@ from odoo import models, fields, api
 
 
 class Doctor(models.Model):
-    _inherit = 'hospital.diseases'
+    _inherit = 'hospital.diseases',
     _name = 'hospital.doctor'
 
     # department_id = fields.Many2one('hospital.department', 'Department')

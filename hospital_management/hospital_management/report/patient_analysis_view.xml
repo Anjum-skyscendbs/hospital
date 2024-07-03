@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="view_patient_analysis_tree" model="ir.ui.view">
+            <field name="name">patient.analysis.tree</field>
+            <field name="model">patient.analysis</field>
+            <field name="arch" type="xml">
+                <tree string="Patient Analysis">
+                    <field name="patient_name"/>
+                    <field name="age"/>
+                    <field name="medicines_id"/>
+                    <field name="gst"/>
+                    <field name="sgst"/>
+<!--                    <field name="tax_perc"/>-->
+                </tree>
+            </field>
+        </record>
+
+
+        <!-- Pivot view of Patient Analysis -->
+        <record id="view_patient_analysis_pivot" model="ir.ui.view">
+            <field name="name">view.patient.analysis.pivot</field>
+            <field name="model">patient.analysis</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <field name="patient_name"/>
+                    <field name="age"/>
+                    <field name="medicines_id"/>
+                    <field name="gst"/>
+                    <field name="sgst"/>
+<!--                    <field name="tax_perc"/>-->
+                </pivot>
+            </field>
+        </record>
+
+        <!-- Graph view of Patient Analysis -->
+        <record id="view_patient_analysis_graph" model="ir.ui.view">
+            <field name="name">view.patient.analysis.graph</field>
+            <field name="model">patient.analysis</field>
+            <field name="arch" type="xml">
+                <graph>
+                    <field name="patient_name" type="row"/>
+                    <field name="age" type="col"/>
+                    <field name="medicines_id" type="measure"/>
+                    <field name="gst" type="measure"/>
+                    <field name="sgst"/>
+<!--                    <field name="tax_perc"/>-->
+                </graph>
+            </field>
+        </record>
+
+        <!-- Action of the Patient Analysis -->
+        <record id="action_patient_analysis" model="ir.actions.act_window">
+            <field name="name">Patient Analysis</field>
+            <field name="res_model">patient.analysis</field>
+            <field name="view_mode">tree,pivot,graph</field>
+        </record>
+
+        <!-- Menu of Patient Analysis -->
+        <menuitem id="menu_patient_analysis" action="action_patient_analysis"
+                  parent="hospital_management.menu_reporting"/>
+    </data>
+</odoo>
+

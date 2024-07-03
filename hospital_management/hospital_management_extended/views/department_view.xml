@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Inherited form view of Department -->
+    <record id="view_department_form_inherit" model="ir.ui.view">
+        <field name="name">view.department.form.inherit</field>
+        <field name="model">hospital.department</field>
+        <field name="inherit_id" ref="hospital_management.view_department_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='department']" position="after">
+                <field name="color" widget="color_picker"/>
+            </xpath>
+
+            <xpath expr="/form/sheet" position="after">
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="message_ids"/>
+                    <field name="activity_ids"/>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Inherited tree view of department -->
+    <record id="view_department_tree_inherit" model="ir.ui.view">
+        <field name="name">view.department.tree.inherit</field>
+        <field name="model">hospital.department</field>
+        <field name="inherit_id" ref="hospital_management.view_department_tree"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='department']" position="after">
+                <field name="color" widget="color_picker"/>
+                <field name="activity_ids" widget="list_activity"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Activity View of department -->
+    <record id="view_department_activity" model="ir.ui.view">
+            <field name="name">view.department.activity</field>
+            <field name="model">hospital.department</field>
+            <field name="arch" type="xml">
+
+                <activity string="Department">
+
+                    <templates>
+                        <div t-name="activity-box" class="d-block">
+                            <div class="d-flex justify-content-between">
+                                <field name="gender" string="Gender" class="o_text_block o_text_bold"/>
+                            </div>
+                        </div>
+                    </templates>
+                </activity>
+            </field>
+    </record>
+
+    <!-- Inherited Action of department to add activity view -->
+    <record id="hospital_management.action_department" model="ir.actions.act_window">
+        <field name="view_mode">tree,form,activity</field>
+    </record>
+
+</odoo>
