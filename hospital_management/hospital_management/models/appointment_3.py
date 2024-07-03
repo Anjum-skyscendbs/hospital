@@ -23,10 +23,10 @@ class Appointment(models.Model):
     #                                      ('high blood pressure','High Blood Pressure'),
     #                                      ('headaches','Headaches')],help='This field show the list of diseases')
 
-    charges = fields.Monetary(currency_field='currency_id',string='Charges')
 
     # Exercise-2 Q-11 Add an amount field which shows the currency in Canadian Dollar.
     currency_id = fields.Many2one('res.currency', 'Currency')
+    charges = fields.Monetary(currency_field='currency_id',string='Charges')
 
     sequence=fields.Integer(string="Sequence")
 

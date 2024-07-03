@@ -38,7 +38,6 @@
         <field name="model">hospital.prescription</field>
         <field name="arch" type="xml">
             <tree>
-                <!--                <field name="patient_name"/>-->
                 <!--                <field name="patient_id"/>-->
                 <field name="medicines_id" placeholder="Enter your name"/>
                 <field name="quantity"/>
@@ -64,10 +63,6 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <!-- Menu of Prescription-->
-
-    <menuitem id="menu_hospital_prescription" action="action_prescription"
-              parent="hospital_management.menu_configuration"/>
 </odoo>
 
 

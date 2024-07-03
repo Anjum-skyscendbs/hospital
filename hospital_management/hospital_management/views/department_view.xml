@@ -30,7 +30,7 @@
                                 type="action"
                                 name="%(action_department_patient)d"
                                 context="{'default_department_id':active_id,'search_default_department_id':active_id}"
-                                string="Departments"
+                                string="Department"
                                 icon="fa-users"/>
                     </div>
 
@@ -38,11 +38,15 @@
                     <group>
 
                         <field name="department"/>
-                        <field name="patient_name" placeholder="Enter your name"/>
+                        <!--                        <field name="patient_name" placeholder="Enter your name"/>-->
+<!--                        <field name="doctor_id"/>-->
+<!--                        options="{'no_create': True, 'no_edit': True}"-->
+<!--                               attrs="{'readonly': [('is_doctor', '=', True)]}"/>-->
+<!--                        <field name="department_id"/>-->
                         <field name="age"/>
-                        <field name="gender"/>
-                        <field name="is_admitted"/>
+                        <field name="is_doctor"/>
 
+                        <field name="gender"/>
                     </group>
                 </sheet>
             </form>
@@ -56,9 +60,12 @@
         <field name="arch" type="xml">
             <tree> <!--  multi_edit="1"-->
                 <field name="department"/>
-                <field name="patient_name" placeholder="Enter your name"/>
-                <field name="age"/>
-                <field name="gender"/>
+                <!--                <field name="patient_name" placeholder="Enter your name"/>-->
+<!--                <field name="doctor_id"/>-->
+<!--                <field name="department_id"/>-->
+
+                <field name="is_doctor"/>
+
             </tree>
         </field>
     </record>
@@ -84,10 +91,10 @@
 
                         <div>
                             <ul style="list-style-type:none;">
-                                <li>
-                                    <b>Name:</b>
-                                    <field name="patient_name"/>
-                                </li>
+                                <!--                                <li>-->
+                                <!--                                    <b>Name:</b>-->
+                                <!--                                    <field name="patient_name"/>-->
+                                <!--                                </li>-->
 
                                 <li>
                                     <b>Age:</b>

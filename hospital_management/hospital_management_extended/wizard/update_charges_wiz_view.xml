@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- Inherited form view of wizard for menu-->
+     <record id="view_update_charges_wiz_form_inherit" model="ir.ui.view">
+         <field name="name">view.update.charges.wiz.form.inherit</field>
+         <field name="model">update.charges.wizard</field>
+         <field name="inherit_id" ref="hospital_management.view_update_charges_wiz_form"/>
+
+         <field name="arch" type="xml">
+             <xpath expr="//field[@name='charges']" position="after">
+                 <field name="height"/>
+                 <field name="weight"/>
+             </xpath>
+         </field>
+     </record>
+
+    <!-- Inherited form view of wizard for button && action toolbar-->
+     <record id="view_update_charges_wiz_form2_inherit" model="ir.ui.view">
+         <field name="name">view.update.charges.wiz.form2.inherit</field>
+         <field name="model">update.charges.wizard</field>
+         <field name="inherit_id" ref="hospital_management.view_update_charges_wiz_form2"/>
+         <field name="arch" type="xml">
+
+             <xpath expr="//field[@name='charges']" position="after">
+                 <field name="height"/>
+                 <field name="weight"/>
+             </xpath>
+
+         </field>
+     </record>
+</odoo>
