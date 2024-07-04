@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- Inherited view of Hr Employee to add fields -->
+    <record id="view_hr_employee_form_inherit" model="ir.ui.view">
+        <field name="name">view.hr.employee.form.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+
+            <!-- E-6 Q-13 -->
+            <xpath expr="//field[@name='work_phone']" position="after">
+                <field name="aadhaar_no"/>
+            </xpath>
+
+              <xpath expr="//field[@name='department_id']" position="after">
+                <field name="pan_card_no"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
