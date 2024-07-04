@@ -5,8 +5,10 @@ class Doctor(models.Model):
     _inherit = 'hospital.diseases',
     _name = 'hospital.doctor'
 
-    # department_id = fields.Many2one('hospital.department', 'Department')
     doctor_name = fields.Char(string='Doctor Name')
+
+    #Exercise-6 Q-1 Inherit an existing model to add new fields. Add atleast 5 fields one of them must
+    # be a relational field(O2M/M2M) and one notes field.
 
     qualification = fields.Char('Qualification')
     active = fields.Boolean('Active', help='This field is used to activate or deactivate a record', default=True)
