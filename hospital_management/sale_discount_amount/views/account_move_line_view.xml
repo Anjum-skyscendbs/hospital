@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- Inherited view of Account Move to add fields -->
+    <record id="view_account_move_form_inherit" model="ir.ui.view">
+        <field name="name">view.account.move.form.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+
+            <!-- E-6 Q-11 -->
+            <xpath expr="//page[@id='invoice_tab']/field[@name='invoice_line_ids']/tree/field[@name='tax_ids']"
+                   position="before">
+                <field name="discount_amount"/>
+            </xpath>
+
+            <!-- E-6 Q-11 -->
+            <xpath expr="//page[@id='invoice_tab']/field[@name='invoice_line_ids']/form/sheet/group[2]/field[@name='tax_ids']"
+                   position="after">
+                <field name="discount_amount"/>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

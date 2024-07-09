@@ -12,6 +12,7 @@
         'views/department_view.xml',
         'views/doctor_view.xml',
         'views/patient_view.xml',
+        'views/sub_facility_view.xml',
         'wizard/update_charges_wiz_view.xml',
     ],
     'auto_install': False,

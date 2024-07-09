@@ -14,6 +14,9 @@
             <!-- Position can have one of the following options -->
             <!-- before, after, replace, inside, attributes -->
 
+
+            <!--Exercise-6 Q-Add these 5 fields in the form view and except the two fields add them before and
+                after a field-->
             <xpath expr="//field[@name='phone_number']"
                    position="before">
                 <field name="weight"/>

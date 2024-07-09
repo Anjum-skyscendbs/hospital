@@ -13,7 +13,6 @@
     </record>
 
     <!-- Form view of department-->
-
     <record id="view_department_form" model="ir.ui.view">
         <field name="name">view.department.form</field>
         <field name="model">hospital.department</field>
@@ -71,7 +70,6 @@
     </record>
 
     <!-- Kanban view of Department-->
-
     <record id="hospital_department_kanban_view" model="ir.ui.view">
         <field name="name">hospital.department.kanban.view</field>
         <field name="model">hospital.department</field>
@@ -116,7 +114,6 @@
     </record>
 
     <!-- Graph view of Department -->
-
     <record id="view_department_graph" model="ir.ui.view">
         <field name="name">view.department.graph</field>
         <field name="model">hospital.patient</field>
@@ -132,7 +129,6 @@
     </record>
 
     <!-- Pivot view of Department -->
-
     <record id="view_department_pivot" model="ir.ui.view">
 
         <field name="name">view.department.pivot</field>
@@ -147,7 +143,6 @@
 
 
     <!-- Action of department-->
-
     <record id="action_department" model="ir.actions.act_window">
         <field name="name">Department</field>
         <field name="res_model">hospital.department</field>

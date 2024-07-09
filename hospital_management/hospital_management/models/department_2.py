@@ -13,13 +13,6 @@ class Department(models.Model):
     #                                                ('nursing','Nursing'),
     #                                                ('medicines','Medicines'),
     #                                                ('physician','Physician'),])
-    # department_id = fields.Many2one(string='Department',
-    #                                 help='Department of the doctor')
-                                    # related='doctor_id.department_id')
-
-    # doctor_id = fields.Many2one('hospital.doctor', string="Doctor",
-    #                             help='Name of the doctor')
-    #                             domain=[('job_id.name', '=', 'Doctor')])
 
     is_doctor = fields.Boolean(string='Is Doctor', help='True for doctors')
 
