@@ -17,7 +17,6 @@
             </field>
         </record>
 
-
         <!-- Pivot view of Patient Analysis -->
         <record id="view_patient_analysis_pivot" model="ir.ui.view">
             <field name="name">view.patient.analysis.pivot</field>
@@ -58,8 +57,7 @@
         </record>
 
         <!-- Menu of Patient Analysis -->
-        <menuitem id="menu_patient_analysis" action="action_patient_analysis"
-                  parent="hospital_management.menu_reporting"/>
+        <menuitem id="menu_patient_analysis" action="action_patient_analysis" parent="hospital_management.menu_reporting"/>
     </data>
 </odoo>
 

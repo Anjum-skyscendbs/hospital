@@ -29,19 +29,3 @@ class PatientAnalysis(models.Model):
                     pt.id = hp.patient_id
             )
         """)
-
-# () AS total_tax,                     hp.tax_perc
-#                     0 AS tax_perc  -- Placeholder for tax_perc
-
-#         # ,hospital.prescription per,     per.tax_perc
-#         # per.gst,WHERE pt.id = per.patient_id
-#         # per.sgst,
-#         # per.other_tax,
-#         # per.tax_percentage  # Update with the correct field name
-#         # per.medicines_id,
-#         # per.gst,
-#         # per.sgst,
-#         # pt.total_tax,
-#         # per.tax_perc
-#         # hospital_prescription
-#         # per, per.id, where pt_id = per.patient_id),  # Alias diseases_id to patient_name

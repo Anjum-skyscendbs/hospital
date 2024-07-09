@@ -115,6 +115,9 @@ class Patient(models.Model):
                               ], 'State', default='admit')
 
     # Method of Changing the mode of Statubar while click on different buttons
+
+    # Exercise-6 Q-8. Add a new state in the existing list of states. Add a new button in the existing view
+    # to change the state to this state. Make sure the remaining flow is also followed.
     def action_confirm(self):
         self.state = 'waiting'
         # print("clicked on button")
@@ -137,7 +140,6 @@ class Patient(models.Model):
     # This comodel is the name of another model with which you're trying to create a relationship.
 
     # This is also a Relational field of Using Many2one in diseases model.
-
     # Exercise-3 Q-1,Q-6 Having 'it' in substring in their name to select it’ as a substring in their name
     # should be allowed to select.
 
@@ -347,7 +349,7 @@ class Patient(models.Model):
         #     print("O@M APPOINTMENT PATIENT", patient.appointment_ids[0].patient_name)
 
         # # ensure_one() is used to validate a single record
-        patient.ensure_one()  # NO ERROR
+        # patient.ensure_one()  # NO ERROR
         #patient.appointment_ids.ensure_one() # ERROR
 
         for patient in self:

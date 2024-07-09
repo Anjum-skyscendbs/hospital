@@ -19,6 +19,8 @@
         'views/medicines_view.xml',
         'wizard/update_charges_wiz_view.xml',
         'report/patient_analysis_view.xml',
+        'views/report_patient_template.xml',
+        'report/reports.xml',
 
     ],
     'assets': {
