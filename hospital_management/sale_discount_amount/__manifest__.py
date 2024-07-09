@@ -8,6 +8,7 @@
     'depends': ['sale','stock'],
     'data': [
         'views/sale_order_line_view.xml',
+        'views/account_move_line_view.xml',
 
     ],
     'auto_install': False,

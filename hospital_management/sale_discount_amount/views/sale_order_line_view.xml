@@ -20,7 +20,11 @@
                 <field name="discount_amount"/>
             </xpath>
 
+<!--             <xpath expr="//page[@name='order_lines']/field[@name='order_line']/tree/field[@name='tax_id']"-->
+<!--                    position="after">-->
+<!--            <field name="discount_percentage"/>-->
+<!--             </xpath>-->
+
         </field>
     </record>
-
 </odoo>
