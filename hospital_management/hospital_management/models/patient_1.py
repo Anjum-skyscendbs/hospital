@@ -196,7 +196,7 @@ class Patient(models.Model):
     # In Image field you can upload an image.
 
     currency_id = fields.Many2one('res.currency','Currency')
-    charges = fields.Monetary(currency_fields='currency_id', string='Charges')
+    charges = fields.Monetary(currency_field='currency_id', string='Charges')
 
     color = fields.Integer('Color')
     # This field is used for Color on Kanban

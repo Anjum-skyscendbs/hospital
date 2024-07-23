@@ -8,6 +8,7 @@ class SubFacility(models.Model):
     # The value will be an M2O field for the same model in current model.
     _inherits= {'hospital.facility': 'facility_id'}
     _name = 'hospital_management.sub.facility'
+    _description = 'Hospital Management Sub Facility'
     _rec_name = 'sub_faci_name'
 
     # The M2O field for the parent model for delegation.
@@ -20,6 +21,7 @@ class SubFacility(models.Model):
 class SubFacility2(models.Model):
     # For Delegate Inheritance delegate=True can also be used.
     _name = 'hospital_management.sub.facility2'
+    _description = 'Hospital Management Sub Facility2'
     _rec_name = 'sub_faci_name'
 
     # The M2O field for the parent model for delegation.

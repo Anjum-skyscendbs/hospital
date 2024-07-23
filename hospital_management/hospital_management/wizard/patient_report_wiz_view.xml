@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--Form View oF Patient REPORT Wizard  -->
+    <record id="view_patient_report_wiz_form" model="ir.ui.view">
+        <field name="name">view.patient.report.wiz.form</field>
+        <field name="model">patient.report.wiz</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="diseases_id"/>
+                </group>
+
+                <footer>
+                    <button name="print_report" string="Print" type="object" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+    <!--Action Wizard of Patient-->
+    <record id="action_patient_report_wiz" model="ir.actions.act_window">
+        <field name="name">Patient Report </field>
+        <field name="res_model">patient.report.wiz</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!--Menu of Patient Wizard-->
+    <menuitem id="menu_patient_report_wiz" action="action_patient_report_wiz" parent="hospital_management.menu_reporting"/>
+</odoo>
+
+
+
+

@@ -7,15 +7,22 @@
         <field name="inherit_id" ref="hospital_management.view_department_form"/>
         <field name="arch" type="xml">
 
+
             <xpath expr="//field[@name='department']" position="after">
                 <field name="color" widget="color_picker"/>
             </xpath>
 
+            <xpath expr="//field[@name='gender']" position="after">
+                <field name="contact_number"/>
+            </xpath>
+
+            <!--Exercise-6 Q-15. Add the Chatter functionality in your existing module. Add features like
+            messaging, log, activity, followers and attachments. (using mixin models)-->
             <xpath expr="/form/sheet" position="after">
                 <div class="oe_chatter">
                     <field name="message_follower_ids" groups="base.group_user"/>
                     <field name="message_ids"/>
-                    <field name="activity_ids"/>
+                    <field name="activity_ids" widget="list_activity" optional="show"/>
                 </div>
             </xpath>
 
@@ -31,29 +38,31 @@
 
             <xpath expr="//field[@name='department']" position="after">
                 <field name="color" widget="color_picker"/>
-                <field name="activity_ids" widget="list_activity"/>
+                <!--Exercise-6 Q-17 Add activitiy’s widget on the tree view-->
+                <field name="activity_ids" widget="list_activity" optional="show"/>
             </xpath>
 
         </field>
     </record>
 
+
+    <!--Exercise-6 Q-19. Add activity view for the model. Modify an existing action to add activity view for it-->
     <!-- Activity View of department -->
     <record id="view_department_activity" model="ir.ui.view">
-            <field name="name">view.department.activity</field>
-            <field name="model">hospital.department</field>
-            <field name="arch" type="xml">
+        <field name="name">view.department.activity</field>
+        <field name="model">hospital.department</field>
+        <field name="arch" type="xml">
 
-                <activity string="Department">
-
-                    <templates>
-                        <div t-name="activity-box" class="d-block">
-                            <div class="d-flex justify-content-between">
-                                <field name="gender" string="Gender" class="o_text_block o_text_bold"/>
-                            </div>
+            <activity string="Department">
+                <templates>
+                    <div t-name="activity-box" class="d-block">
+                        <div class="d-flex justify-content-between">
+                            <field name="gender" string="Gender" class="o_text_block o_text_bold"/>
                         </div>
-                    </templates>
-                </activity>
-            </field>
+                    </div>
+                </templates>
+            </activity>
+        </field>
     </record>
 
     <!-- Inherited Action of department to add activity view -->
