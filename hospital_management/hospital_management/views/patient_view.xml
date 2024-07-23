@@ -301,8 +301,6 @@
 
     <!-- Kanban view of Patient-->
     <!--Exercise-5 Q-27 Create a kanban view to display only fields of a record. -->
-
-
     <!-- Kanban view -->
     <record id="view_patient_kanban" model="ir.ui.view">
         <field name="name">view.patient.kanban</field>
@@ -314,10 +312,8 @@
                 <field name="medicines_ids"/>
                 <templates>
                     <t t-name="kanban-menu">
-
-
                         <t t-if="widget.editable">
-                            <!--                                         <a role="menuitem" type="edit" class="dropdown-item border-top-0">Edit</a>-->
+                            <!--<a role="menuitem" type="edit" class="dropdown-item border-top-0">Edit</a>-->
                             <a type="edit" class="dropdown-item">Edit</a>
                         </t>
                         <!-- type="delete" is used to delete the record -->
@@ -560,7 +556,7 @@
     <menuitem id="menu_configuration" name="Configuration" sequence="100" parent="menu_hospital"/>
 
     <!--Menu of Reporting -->
-    <menuitem id="menu_reporting" name="Reporting" parent="menu_hospital" sequence="110"/>
+    <menuitem id="menu_reporting" name="Reporting" parent="menu_hospital"/>
 
     <!-- Menu of All Patients -->
     <menuitem id="menu_patient_patient" action="action_patient" sequence="1" parent="menu_patient"/>

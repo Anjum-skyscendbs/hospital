@@ -12,11 +12,10 @@
                     <field name="medicines_id"/>
                     <field name="gst"/>
                     <field name="sgst"/>
-<!--                    <field name="tax_perc"/>-->
+                    <!--<field name="tax_perc"/>-->
                 </tree>
             </field>
         </record>
-
 
         <!-- Pivot view of Patient Analysis -->
         <record id="view_patient_analysis_pivot" model="ir.ui.view">

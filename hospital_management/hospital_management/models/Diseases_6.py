@@ -1,5 +1,4 @@
 from odoo import models,fields, api
-
 class Diseases(models.Model):
     _name='hospital.diseases'
     _description='diseases'
@@ -10,19 +9,19 @@ class Diseases(models.Model):
     code = fields.Char(string='Code', size=5)
 
    # Exercise-4 9. Override name_get method and display two fields rather than just name in the many2one field
-   #  def name_get(self):
-   #
-   #      diseases_list = []
-   #      for diseases in self:
-   #          dis = ''
-   #          if diseases.code:
-   #              dis += '[' + diseases.code + '] '
-   #          dis += diseases.diseases_name
-   #
-   #          print("_____________________",diseases.id)
-   #          print("________",diseases)
-   #          diseases_list.append((diseases.id, dis))
-   #      return diseases_list
+    def name_get(self):
+
+        diseases_list = []
+        for diseases in self:
+            dis = ''
+            if diseases.code:
+                dis += '[' + diseases.code + '] '
+            dis += diseases.diseases_name
+
+            print("_____________________",diseases.id)
+            print("________",diseases)
+            diseases_list.append((diseases.id, dis))
+        return diseases_list
 
     # Exercise-4 11.Override name_create method to add additional fields for creating records.
     @api.model
