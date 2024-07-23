@@ -20,3 +20,5 @@ Reporting : In this you can see data in the report format.
 
 Medicine : You can see the various medicines names and their prices.
 
+
+<img src="https://t.bkit.co/w_669f5800cb30c.gif" />
