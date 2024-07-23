@@ -21,6 +21,7 @@
         'report/patient_analysis_view.xml',
         'views/report_patient_template.xml',
         'report/reports.xml',
+        'wizard/patient_report_wiz_view.xml',
 
     ],
     'assets': {

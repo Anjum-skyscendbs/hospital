@@ -1,6 +1,7 @@
 from odoo import models, fields, api
 class PatientAnalysis(models.Model):
     _name = 'patient.analysis'
+    _description = 'Patient Analaysis'
     _auto = False
 
     patient_name = fields.Char('Patient Name', translate=True)
