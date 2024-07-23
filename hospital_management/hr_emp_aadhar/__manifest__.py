@@ -1,6 +1,7 @@
 {
     'name': 'Hr Employee Aadhaar No',
-    'version': '0.1',
+    'version': '1.0',
+
     'description': "This Module is used to change the functionalities of hr module",
     'author': 'Skyscend Business Solutions',
     'sequence': -60,
