@@ -1,6 +1,6 @@
 {
     'name': 'Sale Discount Amount',
-    'version': '0.1',
+    'version': '1.0',
     'description': 'Adds discount amount field to sale order lines',
     'sequence': -70,
     'author':'Skyscend Business Solutions',
