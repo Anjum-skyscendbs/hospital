@@ -14,6 +14,8 @@
             <!-- Position can have one of the following options -->
             <!-- before, after, replace, inside, attributes -->
 
+<!--            <button name="update_patient" string="Update Patient"-->
+<!--                    type="object" class="oe_highlight"/>-->
 
             <!--Exercise-6 Q-Add these 5 fields in the form view and except the two fields add them before and
                 after a field-->
@@ -44,6 +46,13 @@
                    position="attributes">
                 <attribute name="required">1</attribute>
             </xpath>
+
+            <xpath expr="//field[@name='checkup_date']"
+            position="after">
+                <field name="bmi"/>
+            </xpath>
+
+
 
         </field>
     </record>
