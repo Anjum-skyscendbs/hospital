@@ -25,7 +25,7 @@
         <field name="name">Patient Report </field>
         <field name="res_model">patient.report.wiz</field>
         <field name="view_mode">form</field>
-        <field name="target">new</field>
+        <field name="target">current</field>
     </record>
 
     <!--Menu of Patient Wizard-->

@@ -1,0 +1,47 @@
+<?xml version= "1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="res_config_settings_hospital_management_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.hospital.management.view.form.inherit</field>
+        <field name="model">res.config.settings</field>
+        <!--            <field name="priority" eval="35"/>-->
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="hospital_management" string="Hospital Management"
+                     data-key="hospital_management">
+                    <h2>Settings</h2>
+                </div>
+            </xpath>
+
+
+<!--            <div class="row mt16 o_settings_container" name="employees_setting_container">-->
+<!--            <div class="col-12 col-lg-6 o_setting_box" id="presence_control_setting" title="Presence of employees">-->
+                <div class="o_setting_right_pane">
+
+                    <span class="o_form_label">Checkup Date</span>
+                    <div class="text-menu">
+                        Here you can add a Checkup Date
+                    </div>
+
+                    <label for="sign_in"/>
+                    <field name="sign_in"/>
+                </div>
+
+        </field>
+    </record>
+
+
+    <record id="action_hospital_management_configuration" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'hospital_management', 'bin_size': False}</field>
+    </record>
+
+    <menuitem id="menu_hospital_settings" action="action_hospital_management_configuration"
+              sequence="0" parent="menu_configuration"/>
+
+</odoo>
