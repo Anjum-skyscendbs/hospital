@@ -9,10 +9,11 @@
                 <tree string="Patient Analysis">
                     <field name="patient_name"/>
                     <field name="age"/>
+                    <field name="department_id"/>
                     <field name="medicines_id"/>
                     <field name="gst"/>
                     <field name="sgst"/>
-<!--                    <field name="tax_perc"/>-->
+                    <field name="other_tax"/>
                 </tree>
             </field>
         </record>
@@ -23,12 +24,13 @@
             <field name="model">patient.analysis</field>
             <field name="arch" type="xml">
                 <pivot>
-                    <field name="patient_name"/>
-                    <field name="age"/>
-                    <field name="medicines_id"/>
-                    <field name="gst"/>
-                    <field name="sgst"/>
-<!--                    <field name="tax_perc"/>-->
+                    <field name="department_id" type="row"/>
+                    <field name="patient_name" type="row"/>
+                    <field name="medicines_id" type="col"/>
+                    <field name="age" type="measure"/>
+                    <field name="gst" type="measure"/>
+                    <field name="sgst" type="measure"/>
+                    <!--                    <field name="other_tax" type="measure"/>-->
                 </pivot>
             </field>
         </record>
@@ -39,12 +41,13 @@
             <field name="model">patient.analysis</field>
             <field name="arch" type="xml">
                 <graph>
-                    <field name="patient_name" type="row"/>
-                    <field name="age" type="col"/>
-                    <field name="medicines_id" type="measure"/>
+                    <!--                    <field name="patient_name" type=""/>-->
+                    <!--                    <field name="age" type="col"/>-->
+<!--                    <field name="department_id" type="row"/>-->
+<!--                    <field name="medicines_id" type="row"/>-->
                     <field name="gst" type="measure"/>
-                    <field name="sgst"/>
-<!--                    <field name="tax_perc"/>-->
+                    <field name="sgst" type="measure"/>
+<!--                    <field name="other_tax" type="measure"/>-->
                 </graph>
             </field>
         </record>
@@ -57,7 +60,8 @@
         </record>
 
         <!-- Menu of Patient Analysis -->
-        <menuitem id="menu_patient_analysis" action="action_patient_analysis" parent="hospital_management.menu_reporting"/>
+        <menuitem id="menu_patient_analysis" action="action_patient_analysis"
+                  parent="hospital_management.menu_reporting"/>
     </data>
 </odoo>
 

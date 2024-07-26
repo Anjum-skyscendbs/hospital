@@ -18,16 +18,41 @@ class HospitalReport(models.AbstractModel):
             'data': data,
             'docs': docs,
             'test': 'TEST VARIABLE',
+            'get_gst': self._get_gst,
+            'get_sgst': self._get_sgst,
+            'get_other_tax': self._get_other_tax,
+            'get_total_tax': self.get_total_tax,
+            'get_without_other_tax': self._get_without_other_tax,
             'get_total_price': self._get_total_price,
         }
 
+
+    ### Here is the Method for Printing a report in the Template.
+    ### Method for gst, sgst, other tax,total price,without other tax and total tax.
+    ### You can see in the below code.
+
     @api.model
-    def _get_total_price(self, price):
-        total_price = 0.0
-        for dtl in price:
-            total_price += dtl.gst + dtl.sgst + dtl.other_tax
-        return total_price
+    def _get_gst(self, medicines_id):
+        return sum(medicine.gst for medicine in medicines_id)
 
+    @api.model
+    def _get_sgst(self, medicines_id):
+        return sum(medicine.sgst for medicine in medicines_id)
 
+    @api.model
+    def _get_other_tax(self, medicines_id):
+        return sum(medicine.other_tax for medicine in medicines_id)
 
+    @api.model
+    def _get_total_price(self,medicines_id):
+        return sum(medicine.total_price for medicine in medicines_id)
+
+    @api.model
+    def _get_without_other_tax(self,medicines_id):
+        return sum(medicine.without_other_tax for medicine in medicines_id)
+
+    @api.model
+    def get_total_tax(self, medicines_id):
+        total_tax = sum(medicines.total_tax for medicines in medicines_id)
+        return total_tax
 
