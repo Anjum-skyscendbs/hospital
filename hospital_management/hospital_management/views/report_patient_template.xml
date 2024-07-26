@@ -3,57 +3,121 @@
 
     <template id="report_patient">
         <t t-call="web.html_container">
-                       <t t-foreach="docs" t-as="doc">
+            <t t-foreach="docs" t-as="doc">
                 <t t-call="web.external_layout">
 
                     <div class="page">
-                        <span t-field="doc.patient_name"/>
                         <div class="row">
-                                <div class="col-12">
+                            <div class="col">
+                                Name :
+                                <span t-field="doc.patient_name"/>
+                                <br/>
+                                Parser Attribute :
+                                <span t-esc="anjum"/>
+                                <br/>
+                                <t t-if="'form' in data">
+                                    Wizard/Data Attribute/Field :
+                                    <span t-esc="data['form']['department_id'][1]"/>
+                                </t>
+                            </div>
+                            <div class="col">
+                                Medicines Bill
+                                <span t-field="doc.department_id.department"/>
+                                <br/>
+                                <!--                            Facility:-->
+                                <!--                            <t t-foreach="doc.fact_ids" t-as="facility">-->
+                                <!--                                <span t-field="facility.name"/>-->
+                                <!--                            </t>-->
+                            </div>
+                        </div>
 
-                                    <table class="table table-bordered" style="table-layout: fixed" id="hash_config_table">
-                                        <thead style="display: table-row-group">
+                        <div class="row">
+                            <div class="col-12">
+
+                                <table class="table table-bordered" style="table-layout: fixed" id="hash_config_table">
+                                    <thead style="display: table-row-group">
+                                        <tr>
+                                            <th>
+                                                <span>Medicines Name</span>
+                                            </th>
+                                            <th>GST</th>
+                                            <th>SGST</th>
+                                            <th>Other Tax</th>
+                                            <th>Total Tax</th>
+                                            <th>Without Other Tax</th>
+                                            <th>Total Price</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <t t-foreach="doc.medicines_ids" t-as="medicines">
                                             <tr>
-                                                <th><span>Medicines</span></th>
-                                                <th>gst</th>
-                                                <th>sgst</th>
-                                                <th>total_tax</th>
-                                                <th>other_tax</th>
+                                                <td>
+                                                    <span t-field="medicines.medicines_id.medicines_name"/>
+                                                </td>
+
+                                                <td>
+                                                    <span t-field="medicines.gst"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="medicines.sgst"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="medicines.total_tax"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="medicines.other_tax"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="medicines.without_other_tax"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="medicines.total_price"/>
+                                                </td>
                                             </tr>
-                                        </thead>
+                                        </t>
 
-                                        <tbody>
-                                            <t t-foreach="doc.medicines_ids" t-as="medicines">
-                                                <tr>
-                                                    <td><span t-field="medicines.medicines_id.medicines_name"/></td>
-                                                    <td><span t-field="medicines.gst"/></td>
-                                                    <td><span t-field="medicines.sgst"/></td>
-                                                    <td><span t-field="medicines.total_tax"/></td>
-                                                    <td><span t-field="medicines.other_tax"/></td>
-                                                </tr>
-                                            </t>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <span t-esc="get_gst(doc.medicines_ids)"/>
+                                            </td>
 
-                                            <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>Total Price:<span t-esc="get_total_price(doc.medicines_ids)"/></td>
-                                                    <td></td>
-                                                </tr>
+                                            <td>
+                                                <span t-esc="get_sgst(doc.medicines_ids)"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="get_total_tax(doc.medicines_ids)"/>
 
-                                        </tbody>
-                                    </table>
-                                </div>
+                                            </td>
+                                            <td>
+                                                <span t-esc="get_other_tax(doc.medicines_ids)"/>
+
+                                            </td>
+                                            <td>
+                                                <span t-esc="get_without_other_tax(doc.medicines_ids)"/>
+                                            </td>
+
+
+                                            <td>
+                                                <span t-esc="get_total_price(doc.medicines_ids)"/>
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                         <div>
-                            <span t-esc="get_total_price(doc.medicines_ids)"/>
-                        </div>
-
+                            Total Price :<span t-esc="get_total_price(doc.medicines_ids)"/>
+                           </div>
                     </div>
+
                 </t>
             </t>
         </t>
-    </template>
 
+    </template>
 </odoo>
