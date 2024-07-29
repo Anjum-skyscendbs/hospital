@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+<!-- Inherited Report For Patient-->
+<template id="report_patient" inherit_id="hospital_management.report_patient">
+    <xpath expr="//div[@class='col']" position="after">
+        <br/>
+        Gender<span t-field="doc.gender"/>
+
+        <br/>
+        Company:<span t-esc="Name"/>
+        <br/>
+        Intern:<span t-esc="Position"/>
+        <br/>
+        <br/>
+
+    </xpath>
+</template>
+</odoo>
+
+
