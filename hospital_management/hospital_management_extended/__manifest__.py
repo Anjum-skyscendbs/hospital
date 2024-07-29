@@ -14,6 +14,8 @@
         'views/patient_view.xml',
         'views/sub_facility_view.xml',
         'wizard/update_charges_wiz_view.xml',
+        'views/report_patient_template.xml',
+
     ],
     'auto_install': False,
     'installable':True,
