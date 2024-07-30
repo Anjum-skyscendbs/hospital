@@ -11,7 +11,11 @@ class Prescription(models.Model):
     #                                     ('cholera','Cholera'),
     #                                     ('fever','Fever'),
     #                                     ('headaches','Headaches')])
+
     patient_id = fields.Many2one('hospital.patient', 'Patient Name')
+    # patient_id is the inverse field for O2M field medicines_ids in Patient
+
+
     medicines_id = fields.Many2one('hospital.medicines', 'Medicines')
     quantity = fields.Integer("Quantity/Dose")
 

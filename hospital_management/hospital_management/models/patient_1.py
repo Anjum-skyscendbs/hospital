@@ -259,6 +259,9 @@ class Patient(models.Model):
     # To calculate this medicines calc total price is function is used for this.
     total_price = fields.Float(compute='_calc_total_price', string='TOTAL PRICE')
 
+    user_id = fields.Many2one('res.users','User')
+    # Adding the user id fields to use Record Rules.
+
     @api.depends('medicines_ids')
     def _calc_total_price(self):
         """

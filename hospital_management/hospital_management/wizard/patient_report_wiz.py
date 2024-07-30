@@ -8,11 +8,7 @@ class PatientReportWizard(models.TransientModel):
     diseases_id = fields.Many2one('hospital.diseases','Diseases')
 
     def print_report(self):
-        """
-        This method is used to print the report for diseases's of a Patient
-        ----------------------------------------------------
-        @param self:object pointer
-        """
+
         patient_obj = self.env['hospital.patient']
         patient = patient_obj.search([('diseases_id','=',self.diseases_id.id)])
         data = {}

@@ -9,6 +9,47 @@
     <record id="group_hospital_user" model="res.groups">
         <field name="name">Hospital User</field>
     </record>
+
+
+    <!-- Record Rule For User to see its Own Patients-->
+    <!-- Record rules are basically used to filter the records by Group(s)  -->
+    <!-- We can divide the records as per the groups -->
+    <!-- For e.g. One Sales Person can see only his/her records -->
+    <!-- The Sales Manager can see all records -->
+    <!-- To create a record rule we use ir.rule model -->
+
+    <record id="rule_user_own_patient" model="ir.rule">
+
+        <!-- Name will be the description of the model -->
+        <field name="name">User:See own Patients</field>
+
+        <!-- model_id will be the model for which we are creating this rule -->
+        <!-- we will pass the xml id (External ID) of the model prefixed by module name -->
+        <field name="model_id" ref="hospital_management.model_hospital_patient"/>
+
+        <!-- This will be the domain used to filter the records -->
+        <field name="domain_force">[('user_id','=',user.id)]</field>
+
+        <!-- This will be the groups on which we will apply this rule -->
+        <field name="groups" eval="[(ref('hospital_management.group_hospital_user'))]"/>
+
+        <!-- CRUD Permissions -->
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Record rule for Admin can see all records -->
+    <record id="rule_admin_all_patients" model="ir.rule">
+        <field name="name">Admin:All Patients</field>
+        <field name="model_id" ref="hospital_management.model_hospital_patient"/>
+
+        <!-- When you want to view all records we give this condition -->
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(ref('hospital_management.group_hospital_admin'))]"/>
+    </record>
+
 </odoo>
 
 

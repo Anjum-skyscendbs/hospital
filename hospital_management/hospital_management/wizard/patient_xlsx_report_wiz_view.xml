@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Form View of the Patient XLSX Report-->
+    <record id="view_patient_xlsx_report_form" model="ir.ui.view">
+        <field name="name">view.patient.xlsx.report.form</field>
+        <field name="model">patient.report.xlsx</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="patient_ids" widget="many2many_tags"/>
+                </group>
+
+                <footer>
+                    <button name="print_xlsx" type="object" class="btn-primary" string="Print"/>
+                    <buttin special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+  <!--Action of the Patient XLSX Report -->
+    <record id="action_patient_report_xlsx" model="ir.actions.act_window">
+    <field name="name">Patient XLSX Report</field>
+    <field name="res_model">patient.report.xlsx</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+    </record>
+
+    <!-- Menu of Wizard-->
+
+    <menuitem id="menu_patient_report_xlsx_wiz"
+              action="action_patient_report_xlsx"
+              parent="hospital_management.menu_reporting"/>
+
+</odoo>

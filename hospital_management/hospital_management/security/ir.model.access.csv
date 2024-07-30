@@ -30,3 +30,6 @@ access_patient_analysis_admin,access.patient.analysis.admin,model_patient_analys
 access_patient_report_wiz_user,access.patient.report.wiz.user,model_patient_report_wiz,group_hospital_user,1,1,1,0
 access_patient_report_wiz_admin,access.patient.report.wiz.admin,model_patient_report_wiz,group_hospital_admin,1,1,1,0
 
+access_patient_xlsx_report_user,access.patient.xlsx.report.user,model_patient_report_xlsx,group_hospital_user,1,1,1,0
+access_patient_xlsx_report_admin,access.patient.xlsx.report.admin,model_patient_report_xlsx,group_hospital_admin,1,1,1,0
+

@@ -23,6 +23,7 @@
         'report/reports.xml',
         'views/res_config_settings.xml',
         'wizard/patient_report_wiz_view.xml',
+        'wizard/patient_xlsx_report_wiz_view.xml',
 
     ],
     'assets': {
